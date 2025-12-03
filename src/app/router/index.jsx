@@ -1,13 +1,14 @@
 import { useRoutes } from "react-router-dom";
+import FeedPage from "@/pages/feed/FeedPage";
 
 const RootRouter = [
   {
     path: "/",
-    element: <h1>Home Page</h1>,
+    element: <FeedPage />,
   },
   {
     path: "/users/:id",
-    element: <h1>User Page</h1>,
+    element: <h1>User Profile Page</h1>,
   },
 ];
 

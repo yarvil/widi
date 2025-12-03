@@ -1,10 +1,11 @@
 import "styles/App.css";
-import { AppRouter } from "@/router";
+import { AppRouter } from "@/app/router";
+import Header from "@/shared/ui/Header";
 
 function App() {
   return (
     <>
-      <h2>Пу пу пу...</h2>
+      <Header />
       <AppRouter />
     </>
   );

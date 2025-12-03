@@ -41,4 +41,16 @@ export default [
       ],
     },
   },
+
+  {
+    files: ["**/*.test.{js,jsx,ts,tsx}"],
+    languageOptions: {
+      globals: {
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        vi: "readonly",
+      },
+    },
+  },
 ];

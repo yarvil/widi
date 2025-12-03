@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["vitest/globals"],
     "paths": {
       "@/*": ["./src/*"],
-      "styles/*": ["./src/styles/*"],
-      "components/*": ["./src/components/*"],
+      "styles/*": ["./src/app/styles/*"],
       "pages/*": ["./src/pages/*"]
     }
-  }
+  },
+  "include": ["src"]
 }
