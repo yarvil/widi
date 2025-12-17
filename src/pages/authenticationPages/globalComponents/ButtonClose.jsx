@@ -1,0 +1,45 @@
+import React from "react";
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+const ButtonStyled = styled(NavLink)`
+  border: 0;
+  border-radius: 10px;
+  padding: 5px 14px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  &:hover {
+    border-radius: 100%;
+    color: rgba(255, 254, 254, 0.589);
+  }
+
+  &:active {
+    border-radius: 100%;
+    color: rgba(255, 255, 255, 0.198);
+  }
+
+  &:focus {
+    border-radius: 100%;
+  }
+
+  ${({ $style }) => $style};
+`;
+
+export default function ButtonClose({
+  children,
+  type = "button",
+  $style = "",
+  to,
+  ...props
+}) {
+  return (
+    <ButtonStyled type={type} to={to} $style={$style} {...props}>
+      {children}
+    </ButtonStyled>
+  );
+}

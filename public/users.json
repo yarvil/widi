@@ -1,0 +1,12 @@
+[
+    {
+        "token": "token1",
+        "email": "test1@test.com",
+        "password": "12345678"
+    },
+    {
+        "token": "token2",
+        "email": "test2@test.com",
+        "password": "11111111"
+    }
+]
