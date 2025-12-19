@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Sidebar = styled.div`
-  width: 350px;
+  width: 20rem;
   background: white;
   border-right: 1px solid #e4e6eb;
   display: flex;
@@ -111,14 +111,27 @@ export const ConversationDetails = styled.div`
 
 export const ConversationOptions = styled.button`
   display: flex;
+  justify-content: center;
+  margin-inline: 5px;
   background: none;
   border: none;
+  width: 15px;
   cursor: pointer;
+  border: 1px solid rgba(24, 119, 242, 0);
 
   &:hover {
     border: 1px solid black;
     border-radius: 20px;
   }
+`;
+
+export const ConversationOptionsMenu = styled.div`
+  position: absolute;
+  margin-top: 40px;
+  left: 205px;
+  /* width: 200px; */
+  border: 2px solid black;
+  border-radius: 10px;
 `;
 
 export const Timestamp = styled.span`
