@@ -172,8 +172,23 @@ const chatSlice = createSlice({
         conv.timestamp = newMessage.timestamp;
       }
     },
+
+    deleteConversation: (state, action) => {
+      const convId = action.payload;
+
+      state.conversations = state.conversations.filter(
+        (conv) => conv.id !== convId
+      );
+
+      delete state.messages[convId];
+
+      if (state.activeConversationId === convId) {
+        state.activeConversationId = null;
+      }
+    },
   },
 });
 
-export const { setActiveConversation, sendMessage } = chatSlice.actions;
+export const { setActiveConversation, sendMessage, deleteConversation } =
+  chatSlice.actions;
 export default chatSlice.reducer;
