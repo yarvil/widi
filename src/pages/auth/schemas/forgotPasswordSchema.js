@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
+const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Required!")
@@ -12,4 +12,4 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-export default validationSchema;
+export default forgotPasswordSchema;

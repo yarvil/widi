@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ContainerForm, Button, Legend } from "../globalComponents";
+import { ContainerForm, Button, Legend } from "../ui";
 import { useDispatch } from "react-redux";
 import { login } from "@/app/store/authentication/authSlice";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";

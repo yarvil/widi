@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import validationSchema from "./validationSchema";
+import signinSchema from "../schemas/signinSchema";
 import {
   ContainerForm,
   Form,
@@ -10,9 +10,9 @@ import {
   Button,
   ButtonClose,
   Legend,
-} from "../globalComponents";
+} from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { fetchGet } from "../sendRecvest";
+import { fetchGet } from "../sendRequest";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login,
@@ -59,7 +59,7 @@ export default function SigninPage() {
       password: "",
       remember: remember || false,
     },
-    validationSchema,
+    validationSchema: signinSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
         const data = await fetchGet();

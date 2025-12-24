@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import validationSchema from "./validationSchema";
+import signupSchema from "../schemas/signupSchema";
 import {
   ContainerForm,
   Form,
@@ -10,7 +10,7 @@ import {
   Button,
   ButtonClose,
   Legend,
-} from "../globalComponents";
+} from "../ui";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "@/app/store/authentication/authSlice";
@@ -36,7 +36,7 @@ export default function SignupPage() {
       password: "",
       confirmPassword: "",
     },
-    validationSchema,
+    validationSchema: signupSchema,
     onSubmit: (values) => {
       try {
         const { confirmPassword, ...user } = values;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import validationSchema from "./validationSchema";
+import resetPasswordSchema from "../schemas/resetPasswordSchema.js";
 import {
   ContainerForm,
   Form,
@@ -11,7 +11,7 @@ import {
   Button,
   ButtonClose,
   Legend,
-} from "../globalComponents";
+} from "../ui";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
@@ -23,7 +23,7 @@ export default function ResetPasswordPage() {
       password: "",
       confirmPassword: "",
     },
-    validationSchema,
+    validationSchema: resetPasswordSchema,
     onSubmit: (values, { resetForm }) => {
       const { confirmPassword, ...user } = values;
       if (confirmPassword !== user.password) {

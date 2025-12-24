@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const validationSchema = Yup.object().shape({
+const signinSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
     .required("Required!")
@@ -16,4 +16,4 @@ const validationSchema = Yup.object().shape({
     .max(50, "Too Long! 50 symbols maximum"),
 });
 
-export default validationSchema;
+export default signinSchema;

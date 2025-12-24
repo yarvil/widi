@@ -8,7 +8,7 @@ import {
   SigninPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-} from "@/pages/authenticationPages";
+} from "@/pages/auth";
 import NotFoundPage from "@/pages/notFound/NotFoundPage";
 
 const RootRouter = [
