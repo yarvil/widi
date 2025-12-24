@@ -9,11 +9,21 @@ import {
   Label,
   Button,
   ButtonClose,
+  Legend,
 } from "../globalComponents";
 import { NavLink, useNavigate } from "react-router-dom";
 import { fetchGet } from "../sendRecvest";
-import { useDispatch } from "react-redux";
-import { login } from "@/app/store/authentication/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login,
+  setRemember,
+  setUserEmail,
+} from "@/app/store/authentication/authSlice";
+import {
+  selectUserEmail,
+  selectRemember,
+} from "@/app/store/authentication/authSelectors";
+import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
   display: block;
@@ -31,13 +41,26 @@ export default function SigninPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { errors, touched, handleSubmit, getFieldProps } = useFormik({
+  const email = useSelector(selectUserEmail);
+  const remember = useSelector(selectRemember);
+
+  console.log(remember);
+
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue,
+    values,
+  } = useFormik({
     initialValues: {
-      email: "",
+      email: email || "",
       password: "",
+      remember: remember || false,
     },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
         const data = await fetchGet();
 
@@ -46,12 +69,36 @@ export default function SigninPage() {
             user.email === values.email && user.password === values.password
         );
         if (!currentUser) {
-          alert("Invalid email or password!");
+          dispatch(
+            showStatusMessage({
+              message: "Invalid email or password",
+              type: "error",
+            })
+          );
+          resetForm();
           return;
         }
 
+        if (values.remember === true) {
+          localStorage.setItem("userEmail", values.email);
+          localStorage.setItem("remember", "true");
+          dispatch(setUserEmail(values.email));
+          dispatch(setRemember(true));
+        } else {
+          localStorage.removeItem("userEmail");
+          localStorage.removeItem("remember");
+          dispatch(setUserEmail(""));
+          dispatch(setRemember(false));
+        }
+
         localStorage.setItem("token", JSON.stringify(currentUser.token));
-        // console.log("Дані користувача:", currentUser);
+
+        dispatch(
+          showStatusMessage({
+            message: "Login successful",
+            type: "success",
+          })
+        );
 
         dispatch(login());
         navigate("/");
@@ -64,8 +111,8 @@ export default function SigninPage() {
   return (
     <>
       <ContainerForm>
-        <ButtonClose to="/login">X</ButtonClose>
-        <h1>Sign in</h1>
+        <ButtonClose to="/login" />
+        <Legend>Sign in</Legend>
         <Form onSubmit={handleSubmit}>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -90,7 +137,10 @@ export default function SigninPage() {
               type="checkbox"
               name="remember"
               id="remember"
-              $style="margin: 0;"
+              $style="margin: 0; 
+              "
+              checked={values.remember}
+              onChange={(e) => setFieldValue("remember", e.target.checked)}
             />
             <Label htmlFor="remember" $style="flex-direction: row; ">
               Remember me

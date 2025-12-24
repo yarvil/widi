@@ -16,6 +16,7 @@ const ButtonStyled = styled(NavLink)`
   &:hover {
     border-radius: 100%;
     color: rgba(255, 254, 254, 0.589);
+    background-color: #8282822e;
   }
 
   &:active {
@@ -31,7 +32,6 @@ const ButtonStyled = styled(NavLink)`
 `;
 
 export default function ButtonClose({
-  children,
   type = "button",
   $style = "",
   to,
@@ -39,7 +39,7 @@ export default function ButtonClose({
 }) {
   return (
     <ButtonStyled type={type} to={to} $style={$style} {...props}>
-      {children}
+      X
     </ButtonStyled>
   );
 }

@@ -8,5 +8,10 @@
         "token": "token2",
         "email": "test2@test.com",
         "password": "11111111"
+    },
+    {
+        "token": "token3",
+        "email": "test3@test.com",
+        "password": "test3@test.com"
     }
 ]

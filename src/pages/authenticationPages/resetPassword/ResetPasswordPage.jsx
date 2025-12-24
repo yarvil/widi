@@ -10,23 +10,40 @@ import {
   Label,
   Button,
   ButtonClose,
+  Legend,
 } from "../globalComponents";
+import { useDispatch } from "react-redux";
+import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 export default function ResetPasswordPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { errors, touched, handleSubmit, getFieldProps } = useFormik({
     initialValues: {
       password: "",
       confirmPassword: "",
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       const { confirmPassword, ...user } = values;
       if (confirmPassword !== user.password) {
-        alert("Passwords do not match!");
+        dispatch(
+          showStatusMessage({
+            message: "Passwords do not match!",
+            type: "error",
+          })
+        );
+        resetForm();
         return;
       }
-      alert("Password reset successfully!");
+
+      dispatch(
+        showStatusMessage({
+          message: "Password reset successfully!",
+          type: "success",
+        })
+      );
+
       return navigate("/signin");
     },
   });
@@ -35,7 +52,7 @@ export default function ResetPasswordPage() {
     <>
       <ContainerForm>
         <ButtonClose to="/forgot-password">X</ButtonClose>
-        <h1>Reset password</h1>
+        <Legend>Reset password</Legend>
         <Form onSubmit={handleSubmit}>
           <Label htmlFor="password">New password</Label>
           <Input

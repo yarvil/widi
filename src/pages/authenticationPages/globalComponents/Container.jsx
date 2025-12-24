@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: center;
   position: relative;
   padding: 20px;
   border: 1px solid #ccc;

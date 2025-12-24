@@ -10,27 +10,48 @@ import {
   Label,
   Button,
   ButtonClose,
+  Legend,
 } from "../globalComponents";
+import { fetchGet } from "../sendRecvest";
+import { useDispatch } from "react-redux";
+import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
-  const { errors, touched, handleSubmit, getFieldProps } = useFormik({
-    initialValues: {
-      email: "",
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      console.log("Email:", values.email);
-      console.log("Дані користувача:", values);
-      return navigate("/forgot-password/reset");
-    },
-  });
+  const dispatch = useDispatch();
+  const { errors, touched, handleSubmit, getFieldProps, resetForm } = useFormik(
+    {
+      initialValues: {
+        email: "",
+      },
+      validationSchema,
+      onSubmit: async (values) => {
+        try {
+          const data = await fetchGet();
+
+          const currentUser = data.find((user) => user.email === values.email);
+          if (!currentUser) {
+            dispatch(
+              showStatusMessage({ message: "Invalid email", type: "error" })
+            );
+            resetForm();
+            return;
+          }
+          console.log("Дані користувача:", values);
+          return navigate("/forgot-password/reset");
+        } catch (error) {
+          console.error("Error fetchGet:", error);
+          throw error;
+        }
+      },
+    }
+  );
 
   return (
     <>
       <ContainerForm>
-        <ButtonClose to="/signin">X</ButtonClose>
-        <h1>Forgot password</h1>
+        <ButtonClose to="/signin" />
+        <Legend>Forgot password</Legend>
         <Form onSubmit={handleSubmit}>
           <Label
             htmlFor="email"

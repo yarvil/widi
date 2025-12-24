@@ -9,10 +9,25 @@ import {
   Label,
   Button,
   ButtonClose,
+  Legend,
 } from "../globalComponents";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "@/app/store/authentication/authSlice";
+import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 export default function SignupPage() {
-  const { errors, touched, handleSubmit, getFieldProps } = useFormik({
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue,
+    values,
+  } = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -23,20 +38,42 @@ export default function SignupPage() {
     },
     validationSchema,
     onSubmit: (values) => {
-      const { confirmPassword, ...user } = values;
-      if (confirmPassword !== user.password) {
-        alert("Passwords do not match!");
-        return;
+      try {
+        const { confirmPassword, ...user } = values;
+        if (confirmPassword !== user.password) {
+          dispatch(
+            showStatusMessage({
+              message: "Passwords do not match!",
+              type: "error",
+            })
+          );
+          setFieldValue("confirmPassword", "");
+          setFieldValue("password", "");
+          return;
+        }
+
+        console.log("Дані користувача:", user);
+        dispatch(
+          showStatusMessage({
+            message: "Account created successfully!",
+            type: "success",
+          })
+        );
+
+        localStorage.setItem("token", JSON.stringify("token"));
+        dispatch(login());
+        navigate("/");
+      } catch (error) {
+        console.error("Error fetchGet:", error);
+        throw error;
       }
-      console.log("Дані користувача:", user);
-      alert("Account created successfully!");
     },
   });
   return (
     <>
       <ContainerForm>
-        <ButtonClose to="/login">X</ButtonClose>
-        <h1>Registration</h1>
+        <ButtonClose to="/login" />
+        <Legend>Registration</Legend>
         <Form onSubmit={handleSubmit}>
           <Label htmlFor="firstName"> First name </Label>
           <Input

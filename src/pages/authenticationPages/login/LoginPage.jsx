@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { ContainerForm, Button } from "../globalComponents";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ContainerForm, Button, Legend } from "../globalComponents";
+import { useDispatch } from "react-redux";
+import { login } from "@/app/store/authentication/authSlice";
+import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
   display: inline-block;
@@ -30,10 +33,25 @@ const Img = styled.img`
 `;
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  function googleLogin() {
+    localStorage.setItem("token", JSON.stringify("token"));
+    dispatch(
+      showStatusMessage({ message: "Login successful!", type: "success" })
+    );
+
+    dispatch(login());
+    navigate("/");
+  }
+
   return (
     <ContainerForm>
-      <h1>Login Page</h1>
-      <Button $style="display: flex; justify-content: center; align-items: center">
+      <Legend>Login Page</Legend>
+      <Button
+        onClick={googleLogin}
+        $style="display: flex; justify-content: center; align-items: center"
+      >
         <Img
           src="https://developers.google.com/identity/images/g-logo.png"
           alt="Google logo"
