@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Wrapper = styled.div`
   margin-top: 20px;
@@ -15,12 +16,25 @@ const Container = styled.div`
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  width: 450px;
+  width: 380px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  @media (max-width: 768px) {
+    max-height: 350px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+    }
+  }
 
   ${({ $styleContainer }) => $styleContainer};
 `;
-
-export default function ContainerForm({
+function ContainerForm({
   children,
   $styleWrapper = "",
   $styleContainer = "",
@@ -32,3 +46,11 @@ export default function ContainerForm({
     </Wrapper>
   );
 }
+
+ContainerForm.propTypes = {
+  children: PropTypes.node,
+  $styleWrapper: PropTypes.string,
+  $styleContainer: PropTypes.string,
+};
+
+export default ContainerForm;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 
 const ButtonStyled = styled(NavLink)`
@@ -11,7 +12,7 @@ const ButtonStyled = styled(NavLink)`
   font-size: 20px;
   position: absolute;
   top: 10px;
-  right: 10px;
+  left: 10px;
 
   &:hover {
     border-radius: 100%;
@@ -20,26 +21,24 @@ const ButtonStyled = styled(NavLink)`
   }
 
   &:active {
-    border-radius: 100%;
     color: rgba(255, 255, 255, 0.198);
-  }
-
-  &:focus {
-    border-radius: 100%;
   }
 
   ${({ $style }) => $style};
 `;
 
-export default function ButtonClose({
-  type = "button",
-  $style = "",
-  to,
-  ...props
-}) {
+function ButtonClose({ type = "button", $style = "", to, ...props }) {
   return (
     <ButtonStyled type={type} to={to} $style={$style} {...props}>
       X
     </ButtonStyled>
   );
 }
+
+ButtonClose.propTypes = {
+  type: PropTypes.string,
+  $style: PropTypes.string,
+  to: PropTypes.string,
+};
+
+export default ButtonClose;

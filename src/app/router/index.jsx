@@ -3,9 +3,9 @@ import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import FeedPage from "@/pages/feed/FeedPage";
 import {
+  AuthPage,
   LoginPage,
-  SignupPage,
-  SigninPage,
+  RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
 } from "@/pages/auth";
@@ -25,6 +25,14 @@ const RootRouter = [
     ),
   },
   {
+    path: "/auth",
+    element: (
+      <PublicRoute>
+        <AuthPage />
+      </PublicRoute>
+    ),
+  },
+  {
     path: "/login",
     element: (
       <PublicRoute>
@@ -33,18 +41,10 @@ const RootRouter = [
     ),
   },
   {
-    path: "/signup",
+    path: "/register",
     element: (
       <PublicRoute>
-        <SignupPage />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: "/signin",
-    element: (
-      <PublicRoute>
-        <SigninPage />
+        <RegisterPage />
       </PublicRoute>
     ),
   },

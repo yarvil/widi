@@ -1,34 +1,39 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const ButtonStyled = styled.button`
   border: 0;
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
+  color: #0f0f0f;
+  background-color: #ffffff;
+  font-weight: 500;
 
   &:hover {
-    background-color: #0f0f0f;
-    filter: drop-shadow(0 0 0.5em #646cffaa);
+    background-color: #fafafaa0;
   }
 
   &:active {
-    background-color: #070606;
-    filter: drop-shadow(0 0 0.5em #1922c8df);
+    background-color: #ffffff79;
   }
 
   ${({ $style }) => $style};
 `;
 
-export default function Button({
-  children,
-  type = "button",
-  $style = "",
-  ...props
-}) {
+function Button({ children, type = "button", $style = "", ...props }) {
   return (
     <ButtonStyled type={type} $style={$style} {...props}>
       {children}
     </ButtonStyled>
   );
 }
+
+Button.propTypes = {
+  children: PropTypes.node,
+  type: PropTypes.string,
+  $style: PropTypes.string,
+};
+
+export default Button;

@@ -1,21 +1,65 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 export const LabelStyled = styled.label`
   display: flex;
   flex-direction: column;
-  margin: 3px;
-  font-size: 20px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  font-size: 16px;
   text-align: start;
-  padding-left: 5px;
+  position: relative;
 
   ${({ $style }) => $style};
+
+  &:focus-within p {
+    color: rgb(29, 155, 240);
+    opacity: 1;
+  }
+
+  ${({ $isError }) =>
+    $isError &&
+    `
+    &:focus-within p {
+      color: red;
+      opacity: 0.9;
+    }
+
+    p {
+      color: red;
+      opacity: 0.9;
+    }
+  `};
 `;
 
-export default function Label({ children, $style = "", ...props }) {
+const InputName = styled.p`
+  padding-left: 5px;
+  font-size: 12px;
+  opacity: 0.5;
+  margin: 0;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: color 0.3s ease;
+`;
+
+function Label(props) {
+  const { text, children, $style = "", isError = false, ...restProps } = props;
+
   return (
-    <LabelStyled $style={$style} {...props}>
+    <LabelStyled $style={$style} $isError={isError} {...restProps}>
+      <InputName $isError={isError}>{text}</InputName>
       {children}
     </LabelStyled>
   );
 }
+
+Label.propTypes = {
+  text: PropTypes.string,
+  children: PropTypes.node,
+  $style: PropTypes.string,
+  isError: PropTypes.bool,
+};
+
+export default Label;

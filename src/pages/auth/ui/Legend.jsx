@@ -1,16 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const LegendStyled = styled.legend`
-  margin-bottom: 10px;
-  font-size: 30px;
+  margin: 0 10px 10px 10px;
+  font-size: 26px;
   font-weight: 500;
-  text-shadow: 0 0 0.5em #646cffaa;
+
   letter-spacing: 1px;
 
   ${({ $style }) => $style};
 `;
 
-export default function Legend({ children, $style }) {
+function Legend({ children, $style }) {
   return <LegendStyled $style={$style}>{children}</LegendStyled>;
 }
+
+Legend.propTypes = {
+  children: PropTypes.node,
+  $style: PropTypes.string,
+};
+
+export default Legend;

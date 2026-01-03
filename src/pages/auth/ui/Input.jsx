@@ -1,20 +1,32 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const InputStyled = styled.input`
-  border: 0;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 10px;
+  outline: none;
+  border: 2px solid #8282822e;
+  background-color: transparent;
   border-radius: 5px;
-  padding: 10px 20px;
+  padding: 20px 20px 8px 14px;
+  transition: all 0.3s ease;
 
-  &:hover {
-    filter: drop-shadow(0 0 0.5em #3039e7aa);
+  &[type="password"] {
+    letter-spacing: 2px;
   }
 
   &:focus {
-    filter: drop-shadow(0 0 1em #646cffaa);
+    border: 2px solid rgb(29, 155, 240);
   }
+
+  ${({ $isError }) =>
+    $isError &&
+    `
+    border: 2px solid red;
+
+    &:focus {
+      border: 2px solid red;
+    }
+  `};
 
   ${({ $style = "" }) => $style};
 `;
@@ -23,12 +35,13 @@ const Error = styled.span`
   color: red;
   font-size: 14px;
   letter-spacing: 1px;
+  padding-left: 6px;
+  transition: all 0.3s ease;
 `;
 
-export default function Input({
+function Input({
   type = "text",
   name = "",
-  // value = "",
   placeholder = "",
   $style = "",
   isError = false,
@@ -40,12 +53,23 @@ export default function Input({
       <InputStyled
         type={type}
         name={name}
-        // value={value}
         placeholder={placeholder}
         $style={$style}
+        $isError={isError}
         {...props}
       />
       {isError && <Error>{errorMessage}</Error>}
     </>
   );
 }
+
+Input.propTypes = {
+  type: PropTypes.string,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  $style: PropTypes.string,
+  isError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+};
+
+export default Input;

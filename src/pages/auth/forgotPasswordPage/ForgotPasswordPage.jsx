@@ -16,7 +16,7 @@ import { fetchGet } from "../sendRequest";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
-export default function ForgotPasswordPage() {
+function ForgotPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { errors, touched, handleSubmit, getFieldProps, resetForm } = useFormik(
@@ -50,28 +50,32 @@ export default function ForgotPasswordPage() {
   return (
     <>
       <ContainerForm>
-        <ButtonClose to="/signin" />
-        <Legend>Forgot password</Legend>
+        <ButtonClose to="/login" />
+        <Legend>Забули пароль?</Legend>
         <Form onSubmit={handleSubmit}>
           <Label
             htmlFor="email"
-            $style="align-items: center; margin-bottom: 8px;"
-          >
-            Email
-          </Label>
-          <Input
-            type="email"
-            name="email"
-            id="email"
+            text="Пошта"
+            $style="margin-bottom: 8px;"
             isError={touched.email && errors.email}
-            errorMessage={errors.email}
-            {...getFieldProps("email")}
-          />
+          >
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              autoComplete="email"
+              isError={touched.email && errors.email}
+              errorMessage={errors.email}
+              {...getFieldProps("email")}
+            />
+          </Label>
           <Button type="submit" $style="margin-top: 5px;">
-            Submit
+            Продовжити
           </Button>
         </Form>
       </ContainerForm>
     </>
   );
 }
+
+export default ForgotPasswordPage;

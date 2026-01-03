@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import {
   selectStatusMessage,
@@ -46,6 +47,11 @@ const StatusMessage = () => {
       <Message>{message}</Message>
     </MessageContainer>
   );
+};
+
+StatusMessage.propTypes = {
+  message: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default StatusMessage;

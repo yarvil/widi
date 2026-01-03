@@ -1,13 +1,13 @@
-import LoginPage from "./login/LoginPage.jsx";
-import SignupPage from "./signup/SignupPage.jsx";
-import SigninPage from "./signin/SigninPage.jsx";
-import ForgotPasswordPage from "./forgotPassword/ForgotPasswordPage.jsx";
-import ResetPasswordPage from "./resetPassword/ResetPasswordPage.jsx";
+import AuthPage from "./authPage/AuthPage.jsx";
+import LoginPage from "./loginPage/LoginPage.jsx";
+import RegisterPage from "./registerPage/RegisterPage.jsx";
+import ForgotPasswordPage from "./forgotPasswordPage/ForgotPasswordPage.jsx";
+import ResetPasswordPage from "./resetPasswordPage/ResetPasswordPage.jsx";
 
 export {
+  AuthPage,
   LoginPage,
-  SignupPage,
-  SigninPage,
+  RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
 };

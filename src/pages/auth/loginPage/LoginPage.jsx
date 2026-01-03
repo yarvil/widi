@@ -1,65 +1,174 @@
 import React from "react";
 import styled from "styled-components";
+import { useFormik } from "formik";
+import loginSchema from "../schemas/loginSchema";
+import {
+  ContainerForm,
+  Form,
+  Input,
+  Label,
+  Button,
+  ButtonClose,
+  Legend,
+} from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { ContainerForm, Button, Legend } from "../ui";
-import { useDispatch } from "react-redux";
-import { login } from "@/app/store/authentication/authSlice";
+import { fetchGet } from "../sendRequest";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login,
+  setRemember,
+  setUserEmail,
+} from "@/app/store/authentication/authSlice";
+import {
+  selectUserEmail,
+  selectRemember,
+} from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
-  display: inline-block;
-  margin-top: 10px;
-  background-color: #181818;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 10px;
+  display: block;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #1e9ee3;
 
   &:hover {
-    color: #fff;
-    background-color: #0f0f0f;
-    filter: drop-shadow(0 0 0.5em #646cffaa);
-  }
-
-  &:active {
-    background-color: #070606;
+    color: #1169c7;
   }
 `;
 
-const Img = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border-radius: 100%;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
-export default function LoginPage() {
+function LoginPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  function googleLogin() {
-    localStorage.setItem("token", JSON.stringify("token"));
-    dispatch(
-      showStatusMessage({ message: "Login successful!", type: "success" })
-    );
 
-    dispatch(login());
-    navigate("/");
-  }
+  const email = useSelector(selectUserEmail);
+  const remember = useSelector(selectRemember);
 
+  console.log(remember);
+
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue,
+    values,
+  } = useFormik({
+    initialValues: {
+      email: email || "",
+      password: "",
+      remember: remember || false,
+    },
+    validationSchema: loginSchema,
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const data = await fetchGet();
+
+        const currentUser = data.find(
+          (user) =>
+            user.email === values.email && user.password === values.password
+        );
+        if (!currentUser) {
+          dispatch(
+            showStatusMessage({
+              message: "Invalid email or password",
+              type: "error",
+            })
+          );
+          resetForm();
+          return;
+        }
+
+        if (values.remember === true) {
+          localStorage.setItem("userEmail", values.email);
+          localStorage.setItem("remember", "true");
+          dispatch(setUserEmail(values.email));
+          dispatch(setRemember(true));
+        } else {
+          localStorage.removeItem("userEmail");
+          localStorage.removeItem("remember");
+          dispatch(setUserEmail(""));
+          dispatch(setRemember(false));
+        }
+
+        localStorage.setItem("token", JSON.stringify(currentUser.token));
+
+        dispatch(
+          showStatusMessage({
+            message: "Login successful",
+            type: "success",
+          })
+        );
+
+        dispatch(login());
+        navigate("/");
+      } catch (error) {
+        console.error("Error fetchGet:", error);
+        throw error;
+      }
+    },
+  });
   return (
-    <ContainerForm>
-      <Legend>Login Page</Legend>
-      <Button
-        onClick={googleLogin}
-        $style="display: flex; justify-content: center; align-items: center"
-      >
-        <Img
-          src="https://developers.google.com/identity/images/g-logo.png"
-          alt="Google logo"
-        ></Img>
-        Sing up Google
-      </Button>
-      <NavLinkStyled to="/signup">Create account</NavLinkStyled>
-      <NavLinkStyled to="/signin">Sign in</NavLinkStyled>
-    </ContainerForm>
+    <>
+      <ContainerForm>
+        <ButtonClose to="/auth" />
+        <Legend>Вхід до "назва"</Legend>
+        <Form onSubmit={handleSubmit}>
+          <Label
+            htmlFor="email"
+            text="Пошта"
+            isError={touched.email && errors.email}
+          >
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              autoComplete="email"
+              isError={touched.email && errors.email}
+              errorMessage={errors.email}
+              {...getFieldProps("email")}
+            />
+          </Label>
+          <Label
+            htmlFor="password"
+            text="Пароль"
+            isError={touched.password && errors.password}
+          >
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              autoComplete="current-password"
+              isError={touched.password && errors.password}
+              errorMessage={errors.password}
+              {...getFieldProps("password")}
+            />
+          </Label>
+          <Wrapper>
+            <Label htmlFor="remember" $style="flex-direction: row; gap: 5px; ">
+              <Input
+                type="checkbox"
+                name="remember"
+                id="remember"
+                $style="margin: 0; accent-color: #0e9f34; 
+              "
+                checked={values.remember}
+                onChange={(e) => setFieldValue("remember", e.target.checked)}
+              />
+              Запам'ятати мене
+            </Label>
+          </Wrapper>
+          <NavLinkStyled to="/forgot-password">Забули пароль?</NavLinkStyled>
+          <Button type="submit">Увійти</Button>
+        </Form>
+      </ContainerForm>
+    </>
   );
 }
+
+export default LoginPage;

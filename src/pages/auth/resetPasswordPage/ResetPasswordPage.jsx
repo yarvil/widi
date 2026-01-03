@@ -15,7 +15,7 @@ import {
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
-export default function ResetPasswordPage() {
+function ResetPasswordPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { errors, touched, handleSubmit, getFieldProps } = useFormik({
@@ -44,7 +44,7 @@ export default function ResetPasswordPage() {
         })
       );
 
-      return navigate("/signin");
+      return navigate("/login");
     },
   });
 
@@ -52,31 +52,45 @@ export default function ResetPasswordPage() {
     <>
       <ContainerForm>
         <ButtonClose to="/forgot-password">X</ButtonClose>
-        <Legend>Reset password</Legend>
+        <Legend>Зміна паролю</Legend>
         <Form onSubmit={handleSubmit}>
-          <Label htmlFor="password">New password</Label>
-          <Input
-            type="password"
-            name="password"
-            id="password"
+          <Label
+            htmlFor="password"
+            text="Пароль"
             isError={touched.password && errors.password}
-            errorMessage={errors.password}
-            {...getFieldProps("password")}
-          />
-          <Label htmlFor="confirmPassword">Confirm password</Label>
-          <Input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
+          >
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              autoComplete="new-password"
+              isError={touched.password && errors.password}
+              errorMessage={errors.password}
+              {...getFieldProps("password")}
+            />
+          </Label>
+          <Label
+            htmlFor="confirmPassword"
+            text="Підтвердження паролю"
             isError={touched.confirmPassword && errors.confirmPassword}
-            errorMessage={errors.confirmPassword}
-            {...getFieldProps("confirmPassword")}
-          />
+          >
+            <Input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              autoComplete="new-password"
+              isError={touched.confirmPassword && errors.confirmPassword}
+              errorMessage={errors.confirmPassword}
+              {...getFieldProps("confirmPassword")}
+            />
+          </Label>
           <Button type="submit" $style="margin-top: 5px;">
-            Submit
+            Змінити пароль
           </Button>
         </Form>
       </ContainerForm>
     </>
   );
 }
+
+export default ResetPasswordPage;
