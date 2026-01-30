@@ -12,10 +12,9 @@ import {
   Legend,
 } from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { fetchGet } from "../sendRequest";
+import { fetchPost } from "../sendRequest";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  login,
   setRemember,
   setUserEmail,
 } from "@/app/store/authentication/authSlice";
@@ -49,8 +48,6 @@ function LoginPage() {
   const email = useSelector(selectUserEmail);
   const remember = useSelector(selectRemember);
 
-  console.log(remember);
-
   const {
     errors,
     touched,
@@ -67,49 +64,37 @@ function LoginPage() {
     validationSchema: loginSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const data = await fetchGet();
+        const data = await fetchPost(values, "api/auth/login");
+        console.log(data);
 
-        const currentUser = data.find(
-          (user) =>
-            user.email === values.email && user.password === values.password
-        );
-        if (!currentUser) {
-          dispatch(
-            showStatusMessage({
-              message: "Invalid email or password",
-              type: "error",
-            })
-          );
-          resetForm();
-          return;
-        }
+        dispatch(setUserEmail(values.email));
+        dispatch(setRemember(values.remember));
 
         if (values.remember === true) {
           localStorage.setItem("userEmail", values.email);
           localStorage.setItem("remember", "true");
-          dispatch(setUserEmail(values.email));
-          dispatch(setRemember(true));
         } else {
           localStorage.removeItem("userEmail");
           localStorage.removeItem("remember");
-          dispatch(setUserEmail(""));
-          dispatch(setRemember(false));
         }
 
-        localStorage.setItem("token", JSON.stringify(currentUser.token));
+        // localStorage.setItem("token", JSON.stringify(currentUser.token));
 
+        // dispatch(
+        //   showStatusMessage({
+        //     message: "Login successful",
+        //     type: "success",
+        //   })
+        // );
+
+        // dispatch(login());
+        // navigate("/");
+      } catch (error) {
         dispatch(
           showStatusMessage({
-            message: "Login successful",
-            type: "success",
-          })
+            error: error,
+          }),
         );
-
-        dispatch(login());
-        navigate("/");
-      } catch (error) {
-        console.error("Error fetchGet:", error);
-        throw error;
       }
     },
   });
@@ -153,7 +138,7 @@ function LoginPage() {
             <Label htmlFor="remember" $style="flex-direction: row; gap: 5px; ">
               <Input
                 type="checkbox"
-                name="remember"
+                name="rememberMe"
                 id="remember"
                 $style="margin: 0; accent-color: #0e9f34; 
               "

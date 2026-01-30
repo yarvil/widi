@@ -40,8 +40,11 @@ function ForgotPasswordPage() {
           console.log("Дані користувача:", values);
           return navigate("/forgot-password/reset");
         } catch (error) {
-          console.error("Error fetchGet:", error);
-          throw error;
+          dispatch(
+            showStatusMessage({
+              error: error,
+            })
+          );
         }
       },
     }

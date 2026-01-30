@@ -25,26 +25,24 @@ function ResetPasswordPage() {
     },
     validationSchema: resetPasswordSchema,
     onSubmit: (values, { resetForm }) => {
-      const { confirmPassword, ...user } = values;
-      if (confirmPassword !== user.password) {
+      try {
+        const { confirmPassword, ...user } = values;
+
         dispatch(
           showStatusMessage({
-            message: "Passwords do not match!",
-            type: "error",
+            message: "Пароль успішно змінено!",
+            type: "success",
           })
         );
-        resetForm();
-        return;
+
+        return navigate("/login");
+      } catch (error) {
+        dispatch(
+          showStatusMessage({
+            error: error,
+          })
+        );
       }
-
-      dispatch(
-        showStatusMessage({
-          message: "Password reset successfully!",
-          type: "success",
-        })
-      );
-
-      return navigate("/login");
     },
   });
 

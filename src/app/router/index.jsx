@@ -8,6 +8,8 @@ import {
   RegisterPage,
   ForgotPasswordPage,
   ResetPasswordPage,
+  VerificationPage,
+  OAuth2Callback,
 } from "@/pages/auth";
 import NotFoundPage from "@/pages/notFound/NotFoundPage";
 
@@ -61,6 +63,22 @@ const RootRouter = [
     element: (
       <PublicRoute>
         <ResetPasswordPage />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/verification",
+    element: (
+      <PublicRoute>
+        <VerificationPage />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/oauth2/callback",
+    element: (
+      <PublicRoute>
+        <OAuth2Callback />
       </PublicRoute>
     ),
   },

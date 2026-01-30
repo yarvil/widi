@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ContainerForm, Button, Legend } from "../ui";
 import { useDispatch } from "react-redux";
-import { login } from "@/app/store/authentication/authSlice";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
@@ -33,13 +32,8 @@ function AuthPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function googleLogin() {
-    localStorage.setItem("token", JSON.stringify("token"));
-    dispatch(
-      showStatusMessage({ message: "Login successful!", type: "success" })
-    );
-
-    dispatch(login());
-    navigate("/");
+    window.location.href =
+      "https://step-project-api.onrender.com/oauth2/authorization/google";
   }
 
   function loginPage() {

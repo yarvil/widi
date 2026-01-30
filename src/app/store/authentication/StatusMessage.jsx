@@ -22,6 +22,8 @@ const MessageContainer = styled.div`
   right: 0;
   z-index: 100;
   transition: all 0.3s ease-in-out;
+  max-width: 220px;
+  border-radius: 4px;
 
   ${({ $type }) => messageVariants[$type]};
 `;
@@ -30,7 +32,8 @@ const Message = styled.p`
   color: #fff;
   font-size: 14px;
   letter-spacing: 1px;
-  padding: 10px 20px;
+  margin: 0;
+  padding: 10px 4px;
   text-align: center;
 `;
 

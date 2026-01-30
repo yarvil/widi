@@ -15,8 +15,6 @@ const resetPasswordSchema = Yup.object().shape({
     ),
   confirmPassword: Yup.string()
     .required("Обов'язкове поле!")
-    .min(8, "Мінімум 8 символів")
-    .max(100, "Максимум 100 символів")
     .oneOf([Yup.ref("password")], "Паролі не співпадають"),
 });
 

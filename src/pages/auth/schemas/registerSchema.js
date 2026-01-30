@@ -24,6 +24,15 @@ const RegisterSchema = Yup.object().shape({
   birthYear: Yup.string().required("Обов'язкове поле!"),
   birthDate: Yup.date()
     .nullable()
+    .transform((value, originalValue) => {
+      if (!originalValue) return null;
+      if (typeof originalValue === "string") {
+        const [day, month, year] = originalValue.split(".");
+
+        if (day && month && year) return new Date(year, month - 1, day);
+      }
+      return value;
+    }, "Введіть всі поля дати народження!")
     .max(new Date(), "Дата народження не може бути в майбутньому!"),
   password: Yup.string()
     .required("Обов'язкове поле!")
@@ -39,8 +48,6 @@ const RegisterSchema = Yup.object().shape({
     ),
   confirmPassword: Yup.string()
     .required("Обов'язкове поле!")
-    .min(8, "Мінімум 8 символів")
-    .max(100, "Максимум 100 символів")
     .oneOf([Yup.ref("password")], "Паролі не співпадають"),
 });
 

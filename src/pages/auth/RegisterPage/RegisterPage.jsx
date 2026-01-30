@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import registerSchema from "../schemas/retisterSchema";
+import registerSchema from "../schemas/registerSchema";
 import {
   ContainerForm,
   Form,
@@ -14,9 +14,9 @@ import {
   Select,
   Option,
 } from "../ui";
+import { fetchPost } from "../sendRequest";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "@/app/store/authentication/authSlice";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 import { DAYS, MONTHS, YEARS } from "./dateConstants";
 
@@ -52,46 +52,43 @@ function RegisterPage() {
       confirmPassword: "",
     },
     validationSchema: registerSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
         const { confirmPassword, birthDay, birthMonth, birthYear, ...user } =
           values;
-        if (confirmPassword !== user.password) {
+
+        const response = await fetchPost(user, "api/auth/register");
+
+        if (response.ok) {
           dispatch(
             showStatusMessage({
-              message: "Passwords do not match!",
-              type: "error",
-            })
+              message:
+                "Реєстрація пройшла успішно! Перевірте свою пошту для активації",
+              type: "success",
+            }),
           );
-          setFieldValue("confirmPassword", "");
-          setFieldValue("password", "");
-          return;
         }
 
-        console.log("Дані користувача:", user);
+        dispatch(setUserEmail(values.email));
+
+        navigate("/verification");
+      } catch (error) {
         dispatch(
           showStatusMessage({
-            message: "Account created successfully!",
-            type: "success",
-          })
+            error: error || "Помилка реєстрації",
+            type: "error",
+          }),
         );
-
-        localStorage.setItem("token", JSON.stringify("token"));
-        dispatch(login());
-        navigate("/");
-      } catch (error) {
-        console.error("Error fetchGet:", error);
-        throw error;
       }
     },
   });
 
   useEffect(() => {
     if (values.birthDay && values.birthMonth && values.birthYear) {
-      const birthDate = `${values.birthYear}-${values.birthMonth.padStart(
-        2,
-        "0"
-      )}-${values.birthDay.padStart(2, "0")}`;
+      const day = values.birthDay.padStart(2, "0");
+      const month = values.birthMonth.padStart(2, "0");
+      const year = values.birthYear;
+      const birthDate = `${day}.${month}.${year}`;
       setFieldValue("birthDate", birthDate);
       setFieldTouched("birthDate", true);
       validateField("birthDate");
