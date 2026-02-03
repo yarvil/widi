@@ -11,6 +11,11 @@ const FeedWrapper = styled(PageWrapper)`
 `;
 
 export default function FeedPage() {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <FeedWrapper>
       <CreatePostForm />
