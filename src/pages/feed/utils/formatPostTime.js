@@ -4,7 +4,9 @@ export function formatPostTime(time) {
     month: "short",
   };
 
-  const sec = Math.floor((Date.now() - time) / 1000);
+  const timestamp = new Date(time).getTime();
+  const sec = Math.floor((Date.now() - timestamp) / 1000);
+
   if (sec < 60) {
     return " · <1m";
   }
@@ -13,13 +15,12 @@ export function formatPostTime(time) {
   if (min < 60) {
     return ` · ${min}m`;
   }
+
   const hours = Math.floor(min / 60);
   if (hours < 24) {
     return ` · ${hours}h`;
   }
 
   const date = new Date(time);
-
-  const fullDate = ` · ${date.toLocaleDateString("en-UA", options)}`;
-  return fullDate;
+  return ` · ${date.toLocaleDateString("en-UA", options)}`;
 }

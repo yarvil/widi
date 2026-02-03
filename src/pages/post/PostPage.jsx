@@ -3,10 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import PageWrapper from "shared/ui/PageWrapper";
-import PostCard from "shared/post/PostCard/PostCard";
 import {
   fetchPostThunk,
-  fetchRepliesThunk,
+  fetchCommentsThunk,
   setCurrentPost,
 } from "@/app/store/posts/postsSlice";
 import FullPost from "./ui/FullPost";
@@ -15,13 +14,13 @@ import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
 import CreatePostForm from "shared/post/CreatePostForm/CreatePostForm";
 import {
   selectCurrentPost,
-  selectReplies,
+  selectComments,
   selectLoading,
   selectFeedPosts,
 } from "@/app/store/posts/postsSelectors";
 import { PageHeader } from "./ui/FullPost.styled";
-import Replies from "./ui/Replies";
 import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
+import CommentCard from "./ui/CommentCard";
 
 export default function PostPage() {
   const { postId } = useParams();
@@ -30,34 +29,21 @@ export default function PostPage() {
 
   const feedPosts = useSelector(selectFeedPosts);
   const post = useSelector(selectCurrentPost);
-  const replies = useSelector(selectReplies);
+  const comments = useSelector(selectComments);
   const loading = useSelector(selectLoading);
 
   useEffect(() => {
-    const postInFeed = feedPosts.find((post) => post.postId === postId);
-
+    const postInFeed = feedPosts.find((p) => p.postId === postId);
     if (postInFeed) {
       dispatch(setCurrentPost(postInFeed));
     } else {
       dispatch(fetchPostThunk(postId));
     }
-    dispatch(fetchRepliesThunk(postId));
-  }, [postId, dispatch]);
+    dispatch(fetchCommentsThunk(postId));
+  }, [postId, dispatch, feedPosts]);
 
-  if (loading) {
-    return <PageWrapper>Loading...</PageWrapper>;
-  }
-
-  if (!post) {
-    return <PageWrapper>Post not found</PageWrapper>;
-  }
-  if (!replies) {
-    return <PostCard>Loading...</PostCard>;
-  }
-
-  const replyToPost = replies.filter(
-    (reply) => String(reply.parentId) === String(postId)
-  );
+  if (loading) return <PageWrapper>Loading...</PageWrapper>;
+  if (!post) return <PageWrapper>Post not found</PageWrapper>;
 
   return (
     <PageWrapper>
@@ -70,14 +56,10 @@ export default function PostPage() {
         <h3>Post</h3>
       </PageHeader>
       <FullPost post={post} />
-      <CreatePostForm
-        parentId={postId}
-        isReply={true}
-        username={post.username}
-      />
-      {replyToPost.map((reply) => (
-        <PostCardWrapper key={reply.postId}>
-          <Replies reply={reply} />
+      <CreatePostForm parentId={postId} isReply={true} username={post.name} />
+      {comments.map((comment) => (
+        <PostCardWrapper key={comment.id}>
+          <CommentCard comment={comment} />
         </PostCardWrapper>
       ))}
     </PageWrapper>

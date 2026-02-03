@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { createPost } from "@/app/store/posts/postsSlice";
+import {
+  createPostThunk,
+  createCommentThunk,
+} from "@/app/store/posts/postsSlice";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
@@ -23,50 +25,43 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
   const dispatch = useDispatch();
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const placeholder = isReply ? "Post your reply" : "What's happening?";
 
   const handleChange = (e) => {
     const element = e.target;
     setText(element.value);
-
     element.style.height = "auto";
     element.style.height = element.scrollHeight + "px";
   };
 
   const handleMediaUpload = (e) => {
     const file = e.target.files[0];
-    if (!file) {
-      return;
-    }
-    setMedia({
-      file,
-      preview: URL.createObjectURL(file),
-    });
+    if (!file) return;
+    setMedia({ file, preview: URL.createObjectURL(file) });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!text.trim()) {
-      return;
+    if (!text.trim() || !currentUser) return;
+
+    if (isReply && parentId) {
+      dispatch(
+        createCommentThunk({
+          postId: parentId,
+          userId: currentUser.id,
+          content: text,
+        }),
+      );
+    } else {
+      dispatch(
+        createPostThunk({
+          content: text,
+          imageUrl: media?.preview || null,
+        }),
+      );
     }
-    const newPost = {
-      postId: Date.now(),
-      parentId: parentId,
-      createdTime: Date.now(),
-      username: "yarles",
-      name: "Ярослав",
-      avatar:
-        "https://pbs.twimg.com/profile_images/1175026726155575296/QLVwDQYh_x96.jpg",
-      text,
-      media: media?.preview || null,
-      replies: 0,
-      likes: 0,
-      reposts: 0,
-      liked: false,
-      reposted: false,
-    };
-    dispatch(createPost(newPost));
 
     setText("");
     setMedia(null);
@@ -86,7 +81,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           }}
         >
           Replying to
-          <span style={{ color: " rgb(29, 155, 240)" }}> @{username}</span>
+          <span style={{ color: "rgb(29, 155, 240)" }}> @{username}</span>
         </p>
       )}
       <FormContainer onSubmit={handleSubmit}>
@@ -97,7 +92,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           style={{ display: "none" }}
           onChange={handleMediaUpload}
         />
-        <Avatar src="https://pbs.twimg.com/profile_images/1175026726155575296/QLVwDQYh_x96.jpg" />
+        <Avatar src={currentUser?.avatarUrl || ""} />
         <Content>
           <TextArea
             ref={textAreaRef}
@@ -139,9 +134,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           <Actions>
             <ActionButton
               type="button"
-              onClick={() => {
-                fileInputRef.current.click();
-              }}
+              onClick={() => fileInputRef.current.click()}
               $action="media"
             >
               <IconWrapper>
@@ -149,7 +142,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
               </IconWrapper>
             </ActionButton>
             <Button type="submit" disabled={!text.trim()}>
-              Post
+              {isReply ? "Reply" : "Post"}
             </Button>
           </Actions>
         </Content>
@@ -159,7 +152,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
 }
 
 CreatePostForm.propTypes = {
-  parentId: PropTypes.number,
+  parentId: PropTypes.string,
   isReply: PropTypes.bool,
   username: PropTypes.string,
 };

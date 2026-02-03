@@ -18,11 +18,12 @@ function TimeAgo({ time }) {
     }, 60000);
     return () => clearInterval(interval);
   }, [time]);
+
   return <SpanText>{text}</SpanText>;
 }
 
 TimeAgo.propTypes = {
-  time: PropTypes.number,
+  time: PropTypes.string,
 };
 
 export default TimeAgo;

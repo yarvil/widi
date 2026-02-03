@@ -18,15 +18,15 @@ import TimeAgo from "pages/feed/ui/TimeAgo";
 import Actions from "shared/post/Actions/Actions";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, username, text, media } = post;
+  const { postId, avatar, createdTime, name, authorId, text, media } = post;
+
   return (
     <PostContainer>
       <AvatarWrapper $withTopLine={withTopLine}>
         {withTopLine && <ReplyLine $topLine={withTopLine} />}
-
         <Link
           style={{ display: "flex", padding: "4px" }}
-          to={`/users/${username}`}
+          to={`/users/${authorId}`}
         >
           <Avatar src={avatar} />
         </Link>
@@ -36,14 +36,14 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
         <Header>
           <Link
             style={{ display: "flex", gap: "4px" }}
-            to={`/users/${username}`}
+            to={`/users/${authorId}`}
           >
             <AuthorName>{name}</AuthorName>
-            <AuthorUsername>@{username}</AuthorUsername>
+            <AuthorUsername>@{authorId}</AuthorUsername>
           </Link>
           <TimeAgo time={createdTime} />
         </Header>
-        <Link to={`/${username}/post/${postId}`}>
+        <Link to={`/post/${postId}`}>
           <Text>{text}</Text>
           {media && (
             <MediaWrapper>
@@ -59,11 +59,11 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
 
 PostCard.propTypes = {
   post: PropTypes.shape({
-    postId: PropTypes.number,
+    postId: PropTypes.string,
     avatar: PropTypes.string,
-    createdTime: PropTypes.number,
+    createdTime: PropTypes.string,
     name: PropTypes.string,
-    username: PropTypes.string,
+    authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
   }),

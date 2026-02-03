@@ -14,7 +14,10 @@ export default function PostList() {
     dispatch(fetchFeedThunk());
   }, [dispatch]);
 
-  const sortedPosts = [...posts].sort((a, b) => b.createdTime - a.createdTime);
+  const sortedPosts = [...posts].sort(
+    (a, b) => new Date(b.createdTime) - new Date(a.createdTime),
+  );
+
   return (
     <>
       {sortedPosts.map((post) => (

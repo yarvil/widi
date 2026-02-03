@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { fetchFeed } from "@/pages/feed/api/fetchFeed";
-import { fetchPost } from "@/pages/post/api/fetchPost";
-import { fetchReplies } from "@/pages/post/api/fetchReplies";
+import { fetchFeed, fetchPost, createPostApi } from "@/api/posts";
+import { fetchComments, createCommentApi } from "@/api/comments";
+import { toggleLikeApi } from "@/api/likes";
 
 export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
   return await fetchFeed();
@@ -12,34 +12,53 @@ export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
   async (postId) => {
     return await fetchPost(postId);
-  }
+  },
 );
 
-export const fetchRepliesThunk = createAsyncThunk(
-  "posts/fetchReplies",
+export const fetchCommentsThunk = createAsyncThunk(
+  "posts/fetchComments",
   async (postId) => {
-    return await fetchReplies(postId);
-  }
+    return await fetchComments(postId);
+  },
 );
 
+export const createPostThunk = createAsyncThunk(
+  "posts/createPost",
+  async ({ content, imageUrl }) => {
+    return await createPostApi(content, imageUrl);
+  },
+);
+
+export const createCommentThunk = createAsyncThunk(
+  "posts/createComment",
+  async ({ postId, userId, content }) => {
+    return await createCommentApi(postId, userId, content);
+  },
+);
+
+export const toggleLikeThunk = createAsyncThunk(
+  "posts/toggleLike",
+  async ({ postId, userId }) => {
+    return await toggleLikeApi(postId, userId);
+  },
+);
+
+// PostDto из API → внутренний формат
 const normalizePost = (post) => {
-  if (!post) {
-    return null;
-  }
+  if (!post) return null;
   return {
-    postId: post.postId,
-    parentId: post.parentId || null,
-    createdTime: post.createdTime,
-    username: post.user.username,
-    name: post.user.name,
-    avatar: post.user.avatar,
-    text: post.text,
-    media: post.media,
-    replies: post.actions.replies,
-    likes: post.actions.likes,
-    reposts: post.actions.reposts,
-    liked: post.actions.liked,
-    reposted: post.actions.reposted,
+    postId: post.id,
+    createdTime: post.createdAt,
+    authorId: post.author.id,
+    name: `${post.author.firstName} ${post.author.lastName}`,
+    avatar: post.author.avatarUrl,
+    text: post.content,
+    media: post.imageUrl,
+    likesCount: post.likesCount,
+    commentsCount: post.commentsCount,
+    repostsCount: post.repostsCount,
+    quotesCount: post.quotesCount,
+    liked: false,
   };
 };
 
@@ -48,126 +67,83 @@ const postsSlice = createSlice({
   initialState: {
     feedPosts: [],
     currentPost: null,
-    replies: [],
+    comments: [],
     loading: false,
     error: null,
   },
   reducers: {
-    createPost: (state, action) => {
-      const newPost = action.payload;
-
-      if (!newPost.parentId) {
-        state.feedPosts.unshift(newPost);
-        state.currentPost = newPost;
-      } else {
-        state.replies.unshift(newPost);
-
-        if (
-          state.currentPost &&
-          Number(state.currentPost.postId) === Number(newPost.parentId)
-        ) {
-          state.currentPost.replies += 1;
-        }
-      }
-    },
-
-    toggleLike: (state, action) => {
-      const postId = action.payload;
-      const post = state.feedPosts.find(
-        (post) => Number(post.postId) === Number(postId)
-      );
-
-      if (post) {
-        if (post.liked) {
-          post.liked = false;
-          post.likes -= 1;
-        } else {
-          post.liked = true;
-          post.likes += 1;
-        }
-
-        if (
-          state.currentPost &&
-          Number(state.currentPost.postId) === Number(postId)
-        ) {
-          state.currentPost = post;
-        }
-        return;
-      }
-
-      if (
-        state.currentPost &&
-        Number(state.currentPost.postId) === Number(postId)
-      ) {
-        if (state.currentPost.liked) {
-          state.currentPost.liked = false;
-          state.currentPost.likes -= 1;
-        } else {
-          state.currentPost.liked = true;
-          state.currentPost.likes += 1;
-        }
-        return;
-      }
-
-      const reply = state.replies.find((reply) => reply.postId === postId);
-      if (reply) {
-        if (reply.liked) {
-          reply.liked = false;
-          reply.likes -= 1;
-        } else {
-          reply.liked = true;
-          reply.likes += 1;
-        }
-        return;
-      }
-    },
     setCurrentPost: (state, action) => {
       state.currentPost = action.payload;
     },
   },
-
   extraReducers: (builder) => {
     builder
+      // --- Feed ---
       .addCase(fetchFeedThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchFeedThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.feedPosts = action.payload.map((post) => normalizePost(post));
+        state.feedPosts = action.payload.map(normalizePost);
       })
       .addCase(fetchFeedThunk.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to load feed";
       })
+      // --- Single post ---
       .addCase(fetchPostThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchPostThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload) {
-          state.currentPost = normalizePost(action.payload);
-        }
+        state.currentPost = normalizePost(action.payload);
       })
       .addCase(fetchPostThunk.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to load post";
       })
-      .addCase(fetchRepliesThunk.pending, (state) => {
+      // --- Comments ---
+      .addCase(fetchCommentsThunk.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
-      .addCase(fetchRepliesThunk.fulfilled, (state, action) => {
+      .addCase(fetchCommentsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.replies = action.payload.map((reply) => normalizePost(reply));
+        state.comments = action.payload;
       })
-      .addCase(fetchRepliesThunk.rejected, (state) => {
+      .addCase(fetchCommentsThunk.rejected, (state) => {
         state.loading = false;
-        state.error = "Failed to load replies";
+        state.error = "Failed to load comments";
+      })
+      // --- Create post ---
+      .addCase(createPostThunk.fulfilled, (state, action) => {
+        state.feedPosts.unshift(normalizePost(action.payload));
+      })
+      // --- Create comment ---
+      .addCase(createCommentThunk.fulfilled, (state, action) => {
+        state.comments.unshift(action.payload);
+        if (state.currentPost) {
+          state.currentPost.commentsCount += 1;
+        }
+      })
+      // --- Toggle like ---
+      .addCase(toggleLikeThunk.fulfilled, (state, action) => {
+        const { postId, liked, totalLikes } = action.payload;
+
+        const inFeed = state.feedPosts.find((p) => p.postId === postId);
+        if (inFeed) {
+          inFeed.liked = liked;
+          inFeed.likesCount = totalLikes;
+        }
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost.liked = liked;
+          state.currentPost.likesCount = totalLikes;
+        }
       });
   },
 });
 
-export const { createPost, toggleLike, setCurrentPost } = postsSlice.actions;
+export const { setCurrentPost } = postsSlice.actions;
 export default postsSlice.reducer;

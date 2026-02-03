@@ -1,3 +1,7 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+
 import {
   ActionsWrapper,
   ActionButton,
@@ -8,30 +12,36 @@ import ReplyIcon from "shared/assets/icons/reply-icon.svg?react";
 import LikeIcon from "shared/assets/icons/like-icon.svg?react";
 import RepostIcon from "shared/assets/icons/repost-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
-import { useDispatch } from "react-redux";
-import { toggleLike } from "@/app/store/posts/postsSlice";
-import PropTypes from "prop-types";
+import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
 
 function Actions({ post, withBorder }) {
-  const { postId, replies, reposts, likes, liked, reposted } = post;
+  const { postId, commentsCount, repostsCount, likesCount, liked } = post;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
+
   const handleLikeClick = () => {
-    dispatch(toggleLike(postId));
+    if (!currentUser) return;
+    dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
+  };
+
+  const handleReplyClick = () => {
+    navigate(`/post/${postId}`);
   };
 
   return (
     <ActionsWrapper $withBorder={withBorder}>
-      <ActionButton type="button" $action="reply">
+      <ActionButton type="button" $action="reply" onClick={handleReplyClick}>
         <IconWrapper>
           <ReplyIcon />
         </IconWrapper>
-        <Count $show={replies}>{replies}</Count>
+        <Count $show={commentsCount}>{commentsCount}</Count>
       </ActionButton>
-      <ActionButton type="button" $action="repost" $active={reposted}>
+      <ActionButton type="button" $action="repost">
         <IconWrapper>
           <RepostIcon />
         </IconWrapper>
-        <Count $show={reposts}>{reposts}</Count>
+        <Count $show={repostsCount}>{repostsCount}</Count>
       </ActionButton>
       <ActionButton
         onClick={handleLikeClick}
@@ -40,7 +50,7 @@ function Actions({ post, withBorder }) {
         $active={liked}
       >
         <IconWrapper>{liked ? <LikeIconFilled /> : <LikeIcon />}</IconWrapper>
-        <Count $show={likes}>{likes}</Count>
+        <Count $show={likesCount}>{likesCount}</Count>
       </ActionButton>
     </ActionsWrapper>
   );
@@ -48,12 +58,11 @@ function Actions({ post, withBorder }) {
 
 Actions.propTypes = {
   post: PropTypes.shape({
-    postId: PropTypes.number,
-    replies: PropTypes.number,
-    reposts: PropTypes.number,
-    likes: PropTypes.number,
+    postId: PropTypes.string,
+    commentsCount: PropTypes.number,
+    repostsCount: PropTypes.number,
+    likesCount: PropTypes.number,
     liked: PropTypes.bool,
-    reposted: PropTypes.bool,
   }),
   withBorder: PropTypes.bool,
 };
