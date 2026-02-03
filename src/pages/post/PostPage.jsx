@@ -1,21 +1,18 @@
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 
-import PageWrapper from "@/shared/ui/PageWrapper";
-import PostCard from "@/shared/post/PostCard/PostCard";
+import PageWrapper from "shared/ui/PageWrapper";
+import PostCard from "shared/post/PostCard/PostCard";
 import {
   fetchPostThunk,
   fetchRepliesThunk,
   setCurrentPost,
 } from "@/app/store/posts/postsSlice";
 import FullPost from "./ui/FullPost";
-import {
-  ActionButton,
-  IconWrapper,
-} from "@/shared/post/Actions/Actions.styled";
+import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
 import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
-import CreatePostForm from "@/shared/post/CreatePostForm/CreatePostForm";
+import CreatePostForm from "shared/post/CreatePostForm/CreatePostForm";
 import {
   selectCurrentPost,
   selectReplies,
@@ -24,7 +21,7 @@ import {
 } from "@/app/store/posts/postsSelectors";
 import { PageHeader } from "./ui/FullPost.styled";
 import Replies from "./ui/Replies";
-import { PostCardWrapper } from "../../shared/post/PostCard/PostCard.styled";
+import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
 
 export default function PostPage() {
   const { postId } = useParams();

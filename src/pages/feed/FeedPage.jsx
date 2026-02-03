@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import CreatePostForm from "shared/post/CreatePostForm/CreatePostForm";
 import PostList from "pages/feed/ui/PostList";
-import PageWrapper from "@/shared/ui/PageWrapper";
+import PageWrapper from "shared/ui/PageWrapper";
 
 const FeedWrapper = styled(PageWrapper)`
   & > :first-child {

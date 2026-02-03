@@ -6,11 +6,11 @@ import {
   Text,
   Media,
   MediaWrapper,
-} from "@/shared/post/PostCard/PostCard.styled";
-import { Avatar } from "@/shared/post/PostCard/PostCard.styled";
+} from "shared/post/PostCard/PostCard.styled";
+import { Avatar } from "shared/post/PostCard/PostCard.styled";
 import { FullPostWrapper, PostHeader, PostAuthor } from "./FullPost.styled";
 import PostDate from "./PostDate";
-import Actions from "@/shared/post/Actions/Actions";
+import Actions from "shared/post/Actions/Actions";
 
 function FullPost({ post }) {
   const { avatar, name, username, text, media, createdTime } = post;
