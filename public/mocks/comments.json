@@ -1,0 +1,27 @@
+{
+  "post-1": [
+    {
+      "id": "comment-1",
+      "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
+      "authorId": "user-2",
+      "postId": "post-1",
+      "createdAt": "2026-02-02T11:00:00"
+    },
+    {
+      "id": "comment-2",
+      "content": "Ещё один комментарий",
+      "authorId": "user-1",
+      "postId": "post-1",
+      "createdAt": "2026-02-02T10:40:00"
+    }
+  ],
+  "post-3": [
+    {
+      "id": "comment-3",
+      "content": "Klass!",
+      "authorId": "user-2",
+      "postId": "post-3",
+      "createdAt": "2026-02-02T12:00:00"
+    }
+  ]
+}

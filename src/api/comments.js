@@ -1,17 +1,28 @@
-const API_BASE = "/api";
+// import { apiRequest } from "@/pages/auth/sendRequest";
+
+// export async function fetchComments(postId) {
+//   return await apiRequest("GET", `api/comments/${postId}`);
+// }
+
+// export async function createCommentApi(postId, userId, content) {
+//   return await apiRequest("POST", `api/comments/${postId}`, {
+//     userId,
+//     content,
+//   });
+// }
 
 export async function fetchComments(postId) {
-  const res = await fetch(`${API_BASE}/comments/${postId}`);
-  if (!res.ok) throw new Error("Failed to fetch comments");
-  return res.json();
+  const res = await fetch("/mocks/comments.json");
+  const data = await res.json();
+  return data[postId] || [];
 }
 
 export async function createCommentApi(postId, userId, content) {
-  const res = await fetch(`${API_BASE}/comments/${postId}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userId, content }),
-  });
-  if (!res.ok) throw new Error("Failed to create comment");
-  return res.json();
+  return {
+    id: `comment-${Date.now()}`,
+    content,
+    authorId: userId,
+    postId,
+    createdAt: new Date().toISOString(),
+  };
 }

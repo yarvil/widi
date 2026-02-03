@@ -25,7 +25,7 @@ function PostDate({ time }) {
 }
 
 PostDate.propTypes = {
-  time: PropTypes.number,
+  time: PropTypes.string,
 };
 
 export default PostDate;

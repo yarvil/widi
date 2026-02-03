@@ -6,6 +6,8 @@ import {
   createPostThunk,
   createCommentThunk,
 } from "@/app/store/posts/postsSlice";
+import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
+import { uploadPostImage } from "@/api/upload";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
@@ -22,10 +24,11 @@ import {
 function CreatePostForm({ parentId = null, isReply = false, username }) {
   const [text, setText] = useState("");
   const [media, setMedia] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const dispatch = useDispatch();
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector(selectCurrentUser);
 
   const placeholder = isReply ? "Post your reply" : "What's happening?";
 
@@ -42,7 +45,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     setMedia({ file, preview: URL.createObjectURL(file) });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!text.trim() || !currentUser) return;
 
@@ -55,12 +58,18 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
         }),
       );
     } else {
-      dispatch(
-        createPostThunk({
-          content: text,
-          imageUrl: media?.preview || null,
-        }),
-      );
+      setUploading(true);
+      try {
+        let imageUrl = null;
+        if (media?.file) {
+          imageUrl = await uploadPostImage(media.file);
+        }
+        dispatch(createPostThunk({ content: text, imageUrl }));
+      } catch (err) {
+        console.error("Upload failed:", err);
+      } finally {
+        setUploading(false);
+      }
     }
 
     setText("");
@@ -92,7 +101,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           style={{ display: "none" }}
           onChange={handleMediaUpload}
         />
-        <Avatar src={currentUser?.avatarUrl || ""} />
+        {currentUser && <Avatar src={currentUser.avatarUrl} />}
         <Content>
           <TextArea
             ref={textAreaRef}
@@ -136,13 +145,14 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
               type="button"
               onClick={() => fileInputRef.current.click()}
               $action="media"
+              disabled={uploading}
             >
               <IconWrapper>
                 <MediaIcon />
               </IconWrapper>
             </ActionButton>
-            <Button type="submit" disabled={!text.trim()}>
-              {isReply ? "Reply" : "Post"}
+            <Button type="submit" disabled={!text.trim() || uploading}>
+              {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
             </Button>
           </Actions>
         </Content>

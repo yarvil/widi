@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import TimeAgo from "pages/feed/ui/TimeAgo";
+import TimeAgo from "@/shared/ui/TimeAgo";
 import useUser from "@/hooks/useUser";
 
 const Wrapper = styled.div`

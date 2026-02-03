@@ -85,12 +85,12 @@ const RootRouter = [
     ),
   },
   {
-    path: "*",
-    element: <NotFoundPage />,
+    path: "/post/:postId",
+    element: <PostPage />,
   },
   {
-    path: "/:username/post/:postId",
-    element: <PostPage />,
+    path: "*",
+    element: <NotFoundPage />,
   },
 ];
 

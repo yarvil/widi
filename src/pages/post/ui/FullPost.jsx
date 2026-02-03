@@ -13,14 +13,14 @@ import PostDate from "./PostDate";
 import Actions from "shared/post/Actions/Actions";
 
 function FullPost({ post }) {
-  const { avatar, name, username, text, media, createdTime } = post;
+  const { avatar, name, authorId, text, media, createdTime } = post;
   return (
     <FullPostWrapper>
       <PostHeader>
         <Avatar src={avatar} />
         <PostAuthor>
           <AuthorName>{name}</AuthorName>
-          <AuthorUsername>@{username}</AuthorUsername>
+          <AuthorUsername>@{authorId}</AuthorUsername>
         </PostAuthor>
       </PostHeader>
       <Text>{text}</Text>
@@ -39,10 +39,10 @@ FullPost.propTypes = {
   post: PropTypes.shape({
     avatar: PropTypes.string,
     name: PropTypes.string,
-    username: PropTypes.string,
+    authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    createdTime: PropTypes.number,
+    createdTime: PropTypes.string,
   }),
 };
 

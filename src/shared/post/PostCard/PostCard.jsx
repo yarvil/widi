@@ -14,7 +14,7 @@ import {
   ReplyLine,
   AvatarWrapper,
 } from "./PostCard.styled";
-import TimeAgo from "pages/feed/ui/TimeAgo";
+import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "shared/post/Actions/Actions";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {

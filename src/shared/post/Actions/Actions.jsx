@@ -13,12 +13,13 @@ import LikeIcon from "shared/assets/icons/like-icon.svg?react";
 import RepostIcon from "shared/assets/icons/repost-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
 import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
+import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 
 function Actions({ post, withBorder }) {
   const { postId, commentsCount, repostsCount, likesCount, liked } = post;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector(selectCurrentUser);
 
   const handleLikeClick = () => {
     if (!currentUser) return;

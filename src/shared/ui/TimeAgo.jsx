@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { formatPostTime } from "pages/feed/utils/formatPostTime";
+import { formatPostTime } from "@/shared/utils/formatPostTime";
 
 const SpanText = styled.span`
   color: #6e767d;
