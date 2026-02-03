@@ -6,6 +6,7 @@ export default function Header() {
     <header className="header">
       <NavLink to="/">Home page</NavLink>
       <NavLink to="/users/:id">User page</NavLink>
+      <NavLink to="/auth">Login page</NavLink>
     </header>
   );
 }

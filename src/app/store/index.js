@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter/counterSlice";
+import postsReducer from "./posts/postsSlice";
+import authSlice from "./authentication/authSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    //місце для вашіх редюсерів :)
+    auth: authSlice,
+    posts: postsReducer,
   },
 });
