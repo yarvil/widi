@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-
 import PageWrapper from "shared/ui/PageWrapper";
 import {
   fetchPostThunk,
@@ -41,7 +40,7 @@ export default function PostPage() {
     }
     dispatch(fetchCommentsThunk(postId));
   }, [postId, dispatch, feedPosts]);
-
+  
   if (loading) return <PageWrapper>Loading...</PageWrapper>;
   if (!post) return <PageWrapper>Post not found</PageWrapper>;
 

@@ -1,0 +1,1 @@
+export const selectorNotifications = (store) => store.notifications.hasNew;

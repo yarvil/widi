@@ -1,0 +1,1 @@
+export const selectorSearch = (store) => store.search.value;

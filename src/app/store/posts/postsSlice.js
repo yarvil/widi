@@ -75,6 +75,11 @@ const postsSlice = createSlice({
     setCurrentPost: (state, action) => {
       state.currentPost = action.payload;
     },
+    deletePost: (state, action) => {
+      state.feedPosts = state.feedPosts.filter(
+        post => post.postId !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -145,5 +150,5 @@ const postsSlice = createSlice({
   },
 });
 
-export const { setCurrentPost } = postsSlice.actions;
+export const { setCurrentPost,deletePost } = postsSlice.actions;
 export default postsSlice.reducer;
