@@ -173,11 +173,31 @@ const chatSlice = createSlice({
       }
     },
 
+    receiveMessage: (state, action) => {
+      // Имитация получения сообщения (для будущего WebSocket)
+      const { conversationId, message } = action.payload;
+
+      if (!state.messages[conversationId]) {
+        state.messages[conversationId] = [];
+      }
+
+      state.messages[conversationId].push(message);
+
+      const conv = state.conversations.find((c) => c.id === conversationId);
+      if (conv) {
+        conv.lastMessage = message.content;
+        conv.timestamp = message.timestamp;
+        if (conversationId !== state.activeConversationId) {
+          conv.unreadCount += 1;
+        }
+      }
+    },
+
     deleteConversation: (state, action) => {
       const convId = action.payload;
 
       state.conversations = state.conversations.filter(
-        (conv) => conv.id !== convId
+        (conv) => conv.id !== convId,
       );
 
       delete state.messages[convId];
