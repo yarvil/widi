@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "@/app/store/chat/slices/chatSlice";
 
 import {
+  EmptyState,
   ChatArea,
   ChatHeader,
   ChatHeaderInfo,
@@ -14,18 +16,21 @@ import {
   InputArea,
   MessageInput,
   SendButton,
+  BackToListButton,
 } from "./styles";
 import { Avatar, OnlineIndicator } from "../sidebar/styles";
 
-const ChatAreaComponent = () => {
+import ArrowLeftIcon from "@/shared/icons/arrow-left.png";
+
+const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
   const { conversations, messages, activeConversationId } = useSelector(
-    (state) => state.chat
+    (state) => state.chat,
   );
   const [inputValue, setInputValue] = useState("");
 
   const activeConversation = conversations.find(
-    (c) => c.id === activeConversationId
+    (c) => c.id === activeConversationId,
   );
   const currentMessages = messages[activeConversationId] || [];
 
@@ -35,7 +40,7 @@ const ChatAreaComponent = () => {
         sendMessage({
           conversationId: activeConversationId,
           content: inputValue,
-        })
+        }),
       );
       setInputValue("");
     }
@@ -51,24 +56,24 @@ const ChatAreaComponent = () => {
   if (!activeConversation) {
     return (
       <ChatArea>
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#65676b",
-          }}
-        >
-          Choose a chat
-        </div>
+        <BackToListButton
+          src={ArrowLeftIcon}
+          onClick={handleChatList}
+          alt="Back to chat list"
+        />
+        <EmptyState>Choose a chat</EmptyState>
       </ChatArea>
     );
   }
 
   return (
-    <ChatArea>
+    <ChatArea $isChatListOpen={isChatListOpen}>
       <ChatHeader>
+        <BackToListButton
+          src={ArrowLeftIcon}
+          onClick={handleChatList}
+          alt="Back to chat list"
+        />
         <Avatar>
           {activeConversation.avatar}
           <OnlineIndicator online={activeConversation.isOnline} />
@@ -81,14 +86,12 @@ const ChatAreaComponent = () => {
 
       <MessagesContainer>
         {currentMessages.map((msg) => (
-          <div key={msg.id}>
-            <MessageWrapper isOwn={msg.isOwn}>
-              <div>
-                <MessageBubble isOwn={msg.isOwn}>{msg.content}</MessageBubble>
-                <MessageTime isOwn={msg.isOwn}>{msg.timestamp}</MessageTime>
-              </div>
-            </MessageWrapper>
-          </div>
+          <MessageWrapper $isOwn={msg.isOwn} key={msg.id}>
+            <div>
+              <MessageBubble $isOwn={msg.isOwn}>{msg.content}</MessageBubble>
+              <MessageTime $isOwn={msg.isOwn}>{msg.timestamp}</MessageTime>
+            </div>
+          </MessageWrapper>
         ))}
       </MessagesContainer>
 
@@ -105,6 +108,11 @@ const ChatAreaComponent = () => {
       </InputArea>
     </ChatArea>
   );
+};
+
+ChatAreaComponent.propTypes = {
+  handleChatList: PropTypes.func.isRequired,
+  isChatListOpen: PropTypes.bool.isRequired,
 };
 
 export default ChatAreaComponent;

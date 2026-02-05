@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveConversation,
   deleteConversation,
 } from "@/app/store/chat/slices/chatSlice";
-
-// import { selectorActiveConversationId } from "../../redux/selectors.js";
 
 import {
   Sidebar,
@@ -24,13 +23,17 @@ import {
   ConversationOptionsMenu,
   Timestamp,
   LastMessage,
+  LastMessageText,
   UnreadBadge,
 } from "./styles";
 
-const ConversationListComponent = () => {
+import SearchIconSvg from "@/shared/icons/search.svg";
+import OptionsIcon from "@/shared/icons/conversation-options.png";
+
+const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
   const { conversations, activeConversationId } = useSelector(
-    (state) => state.chat
+    (state) => state.chat,
   );
 
   const [search, setSearch] = useState("");
@@ -46,16 +49,16 @@ const ConversationListComponent = () => {
     };
 
     if (openMenuId !== null) {
-      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openMenuId]);
 
   const filteredConversations = conversations.filter((conv) =>
-    conv.name.toLowerCase().includes(search.toLowerCase())
+    conv.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   const handleOpenConvOptions = (convId, event) => {
@@ -65,11 +68,11 @@ const ConversationListComponent = () => {
   };
 
   return (
-    <Sidebar>
+    <Sidebar $isChatListOpen={isChatListOpen}>
       <SidebarHeader>
         <h2>Messages</h2>
         <SearchWrapper>
-          <SearchIcon src="./src/shared/icons/search.svg" />
+          <SearchIcon src={SearchIconSvg} />
           <SearchBar
             placeholder="Search Direct Messages"
             value={search}
@@ -83,7 +86,12 @@ const ConversationListComponent = () => {
           <ConversationItem
             key={conv.id}
             active={conv.id === activeConversationId}
-            onClick={() => dispatch(setActiveConversation(conv.id))}
+            onClick={() => {
+              if (window.innerWidth < 768) {
+                handleChatList();
+              }
+              dispatch(setActiveConversation(conv.id));
+            }}
           >
             <Avatar>
               {conv.avatar}
@@ -98,8 +106,8 @@ const ConversationListComponent = () => {
                     onClick={(event) => handleOpenConvOptions(conv.id, event)}
                   >
                     <img
-                      src="./src/shared/icons/conversation-options.png"
-                      alt=""
+                      src={OptionsIcon}
+                      alt="Chat options"
                       width="15"
                       height="15"
                     />
@@ -107,7 +115,7 @@ const ConversationListComponent = () => {
                 </ConversationDetails>
               </ConversationName>
               <LastMessage>
-                <span>{conv.lastMessage}</span>
+                <LastMessageText>{conv.lastMessage}</LastMessageText>
                 {conv.unreadCount > 0 && (
                   <UnreadBadge>{conv.unreadCount}</UnreadBadge>
                 )}
@@ -130,6 +138,11 @@ const ConversationListComponent = () => {
       </ConversationList>
     </Sidebar>
   );
+};
+
+ConversationListComponent.propTypes = {
+  handleChatList: PropTypes.func.isRequired,
+  isChatListOpen: PropTypes.bool.isRequired,
 };
 
 export default ConversationListComponent;
