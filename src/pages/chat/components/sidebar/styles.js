@@ -1,19 +1,28 @@
 import styled from "styled-components";
 
 export const Sidebar = styled.div`
-  width: 20rem;
+  width: clamp(290px, 22vw, 360px);
   background: white;
   border-right: 1px solid #e4e6eb;
   display: flex;
   flex-direction: column;
+  text-align: left;
+  transition: 0.7s ease;
+
+  @media (max-width: 768px) {
+    width: ${({ $isChatListOpen }) => ($isChatListOpen ? "100%" : "0px")};
+    overflow: hidden;
+    transition: 0.7s ease;
+  }
 `;
 
 export const SidebarHeader = styled.div`
-  padding: 20px;
+  padding-block: 20px;
   border-bottom: 1px solid #e4e6eb;
 
   h2 {
     margin: 0;
+    margin-bottom: 20px;
     font-size: 24px;
     font-weight: 700;
   }
@@ -60,6 +69,7 @@ export const ConversationItem = styled.div`
   background: ${(props) => (props.active ? "#e7f3ff" : "white")};
   border-right: ${(props) => (props.active ? "2px solid #3d9effff" : "white")};
   transition: background 0.2s;
+  max-height: 81px;
 
   &:hover {
     background: ${(props) => (props.active ? "#e7f3ff" : "#f5f5f5")};
@@ -102,6 +112,7 @@ export const ConversationName = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: left;
 `;
 
 export const ConversationDetails = styled.div`
@@ -148,6 +159,11 @@ export const LastMessage = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const LastMessageText = styled.span`
+  max-width: 170px;
+  overflow: hidden;
 `;
 
 export const UnreadBadge = styled.span`
