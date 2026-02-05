@@ -1,14 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter/counterSlice";
-
+import postsReducer from "./posts/postsSlice";
+import authSlice from "./authentication/authSlice";
 import chatReducer from "./chat/slices/chatSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    //місце для вашіх редюсерів :)
-
-    // Kostiantyn's chat reducer
+    auth: authSlice,
+    posts: postsReducer,
     chat: chatReducer,
   },
 });

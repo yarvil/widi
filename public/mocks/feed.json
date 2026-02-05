@@ -1,0 +1,66 @@
+[
+  {
+    "id": "post-1",
+    "content": "Пу пу пу...",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQELxz51LbKxSN-3e66p5pvVMD5bY6Wt6sFjw&s",
+    "author": {
+      "id": "user-1",
+      "firstName": "Ярослав",
+      "lastName": "Козак",
+      "avatarUrl": "https://pbs.twimg.com/profile_images/1175026726155575296/QLVwDQYh_x96.jpg"
+    },
+    "createdAt": "2026-02-02T10:30:00",
+    "likesCount": 0,
+    "commentsCount": 2,
+    "repostsCount": 9,
+    "quotesCount": 0
+  },
+  {
+    "id": "post-2",
+    "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+    "imageUrl": null,
+    "author": {
+      "id": "user-2",
+      "firstName": "Іван",
+      "lastName": "Петренко",
+      "avatarUrl": "https://i.pravatar.cc/150?img=3"
+    },
+    "createdAt": "2026-02-01T14:00:00",
+    "likesCount": 130,
+    "commentsCount": 340,
+    "repostsCount": 22,
+    "quotesCount": 5
+  },
+  {
+    "id": "post-3",
+    "content": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas",
+    "imageUrl": "https://www.shutterstock.com/image-vector/simple-business-logo-vector-illustration-260nw-2224622037.jpg",
+    "author": {
+      "id": "user-1",
+      "firstName": "Ярослав",
+      "lastName": "Козак",
+      "avatarUrl": "https://pbs.twimg.com/profile_images/1175026726155575296/QLVwDQYh_x96.jpg"
+    },
+    "createdAt": "2026-02-02T10:35:00",
+    "likesCount": 29,
+    "commentsCount": 1,
+    "repostsCount": 2,
+    "quotesCount": 0
+  },
+  {
+    "id": "post-4",
+    "content": "Nice",
+    "imageUrl": "https://images.pexels.com/photos/640781/pexels-photo-640781.jpeg",
+    "author": {
+      "id": "user-2",
+      "firstName": "Іван",
+      "lastName": "Петренко",
+      "avatarUrl": "https://i.pravatar.cc/150?img=3"
+    },
+    "createdAt": "2026-01-15T09:00:00",
+    "likesCount": 12,
+    "commentsCount": 0,
+    "repostsCount": 2,
+    "quotesCount": 1
+  }
+]

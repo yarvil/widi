@@ -1,0 +1,26 @@
+{
+  "user-1": {
+    "id": "user-1",
+    "firstName": "Ярослав",
+    "lastName": "Козак",
+    "email": "yaroslav@test.com",
+    "avatarUrl": "https://pbs.twimg.com/profile_images/1175026726155575296/QLVwDQYh_x96.jpg",
+    "backgroundImg": null,
+    "followingCount": 42,
+    "followersCount": 128,
+    "postsCount": 4,
+    "isFollowing": false
+  },
+  "user-2": {
+    "id": "user-2",
+    "firstName": "Іван",
+    "lastName": "Петренко",
+    "email": "ivan@test.com",
+    "avatarUrl": "https://i.pravatar.cc/150?img=3",
+    "backgroundImg": null,
+    "followingCount": 10,
+    "followersCount": 55,
+    "postsCount": 12,
+    "isFollowing": true
+  }
+}

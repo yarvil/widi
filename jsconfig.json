@@ -5,7 +5,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "styles/*": ["./src/app/styles/*"],
-      "pages/*": ["./src/pages/*"]
+      "pages/*": ["./src/pages/*"],
+      "shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src"]
