@@ -1,10 +1,27 @@
 import styled from "styled-components";
+
+export const EmptyState = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #65676b;
+  font-size: 16px;
+`;
+
 export const ChatArea = styled.div`
-  width: 40rem;
-  /* flex: 1; */
+  flex: 1;
+  width: 75%;
   display: flex;
   flex-direction: column;
   background: white;
+  padding-bottom: 30px;
+
+  @media (max-width: 768px) {
+    width: ${({ $isChatListOpen }) => ($isChatListOpen ? "0px" : "75%")};
+    overflow: hidden;
+    transition: 0.5s ease;
+  }
 `;
 
 export const ChatHeader = styled.div`
@@ -13,6 +30,21 @@ export const ChatHeader = styled.div`
   padding: 15px 20px;
   border-bottom: 1px solid #e4e6eb;
   background: white;
+`;
+
+export const BackToListButton = styled.img`
+  width: 0;
+  transition: 0.5s ease;
+
+  @media (max-width: 768px) {
+    margin-right: 20px;
+    background-color: #b2b2b2;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: 0.7s ease;
+  }
 `;
 
 export const ChatHeaderInfo = styled.div`
@@ -41,7 +73,7 @@ export const MessagesContainer = styled.div`
 export const MessageWrapper = styled.div`
   display: flex;
   width: 100%;
-  justify-content: ${(props) => (props.isOwn ? "flex-end" : "flex-start")};
+  justify-content: ${({ $isOwn }) => ($isOwn ? "flex-end" : "flex-start")};
   margin-bottom: 12px;
 `;
 
@@ -49,8 +81,8 @@ export const MessageBubble = styled.div`
   /* max-width: 60%; */
   padding: 10px 15px;
   border-radius: 18px;
-  background: ${(props) => (props.isOwn ? "#1877f2" : "#e4e6eb")};
-  color: ${(props) => (props.isOwn ? "white" : "black")};
+  background: ${({ $isOwn }) => ($isOwn ? "#1877f2" : "#e4e6eb")};
+  color: ${({ $isOwn }) => ($isOwn ? "white" : "black")};
   font-size: 14px;
   line-height: 1.4;
   word-wrap: break-word;
@@ -60,7 +92,7 @@ export const MessageTime = styled.div`
   font-size: 11px;
   color: #65676b;
   margin-top: 4px;
-  text-align: ${(props) => (props.isOwn ? "right" : "left")};
+  text-align: ${({ $isOwn }) => ($isOwn ? "right" : "left")};
 `;
 
 export const InputArea = styled.div`
