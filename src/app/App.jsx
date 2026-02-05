@@ -5,7 +5,7 @@ import Header from "@/shared/ui/Header";
 function App() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <AppRouter />
     </>
   );
