@@ -4,6 +4,7 @@ import authSlice from "./authentication/authSlice";
 import headerReducer from "./header/headerSlice"
 import notificationsReducer from './notifications/notificationsSlice'
 import searchSliceReducer from './search/searchSlice'
+import favoriteSliceReducer from './favorite/favoriteSlice'
 
 
 export const store = configureStore({
@@ -13,5 +14,6 @@ export const store = configureStore({
     header: headerReducer ,
     notifications: notificationsReducer,
     search: searchSliceReducer,
+    favorites: favoriteSliceReducer,
   },
 });

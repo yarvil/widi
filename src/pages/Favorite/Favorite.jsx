@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 import PostCard from "@/shared/post/PostCard/PostCard";
-
 export default function Favorite({ post }) {
     const { liked } = post
-
     return (
         <>
             {liked && (
