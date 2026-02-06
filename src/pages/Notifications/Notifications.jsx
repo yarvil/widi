@@ -21,7 +21,7 @@ export default function Notifications({post,onClose}) {
         if (textNf === 'Public a new post') {
             return `/post/${postId}`
         } else {
-            return `/users/:id/chat`
+            return `/chat`
         }
     }
     return (

@@ -25,9 +25,11 @@ function Actions({ post, withBorder }) {
   const handleLikeClick = () => {
     if (!currentUser) return;
     dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
-    dispatch(setNewFavorites())
+    if (!liked) {
+      dispatch(setNewFavorites())
+    }
   };
-  
+
   const handleReplyClick = () => {
     navigate(`/post/${postId}`);
   };

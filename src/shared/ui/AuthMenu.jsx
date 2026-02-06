@@ -33,6 +33,7 @@ import {
 
 } from './HeaderStyled'
 import { setSearchValue } from "@/app/store/search/searchSlice";
+import { logout } from "@/app/store/authentication/authSlice";
 
 export default function AuthMenu() {
     const isShow = useSelector(selectorIsShow)
@@ -45,8 +46,6 @@ export default function AuthMenu() {
     function showBurgerMenu() {
         dispatch(actionMenu())
     }
-
-
     return (
         <>
             {isMobile && (
@@ -113,7 +112,7 @@ export default function AuthMenu() {
                                     )}
                                     Notifications
                                 </NavLink>
-                                <NavLink to='/logout'>
+                                <NavLink to='/logout' onClick={()=>dispatch(logout())}>
                                     <LogOut />
                                     LogOut
                                 </NavLink>
@@ -222,7 +221,7 @@ export default function AuthMenu() {
                                 )}
 
                             </NavLink>
-                            <NavLink to='/logout'>
+                            <NavLink to='/logout' onClick={()=>dispatch(logout())}>
                                 <IconWrapper>
                                     <LogOut />
                                     <Name>
@@ -335,7 +334,7 @@ export default function AuthMenu() {
                                 )}
 
                             </NavLink>
-                            <NavLink to='/logout'>
+                            <NavLink to='/logout' onClick={()=>dispatch(logout())}>
                                 <IconWrapper>
                                     <LogOut />
                                     <Name>

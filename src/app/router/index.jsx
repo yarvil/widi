@@ -88,7 +88,7 @@ const RootRouter = [
   },
   {
     path: "/post/:postId",
-    element: <PrivateRoute><PostPage /></PrivateRoute>,
+    element: <PostPage />,
   },
   {
     path: "*",
