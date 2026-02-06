@@ -14,7 +14,7 @@ import RepostIcon from "shared/assets/icons/repost-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
 import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import { clearFavorites, setNewFavorites } from "@/app/store/favorite/favoriteSlice";
+import { setNewFavorites } from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
   const { postId, commentsCount, repostsCount, likesCount, liked } = post;

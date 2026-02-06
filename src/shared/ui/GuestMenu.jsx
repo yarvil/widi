@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import MainLogoSvg from '../../image/WiDi.svg?react'
 import MenuLogo from '../../image/menu.svg?react'
+import LogIn from '../../image/login.svg?react'
 import SearchLogo from '../../image/search.svg?react'
 import HomeLogo from '../../image/home.svg?react'
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
@@ -52,6 +53,7 @@ export default function GuestMenu() {
                                     Home Page
                                 </NavLink>
                                 <NavLink to='/auth'>
+                                    <LogIn />
                                     Login
                                 </NavLink>
                             </MenuMiddleWrapper>
@@ -79,6 +81,7 @@ export default function GuestMenu() {
                             </NavLink>
                             <NavLink to='/auth'>
                                 <IconWrapper>
+                                    <LogIn/>
                                     <Name>
                                         Login
                                     </Name>
@@ -108,6 +111,7 @@ export default function GuestMenu() {
                             </NavLink>
                             <NavLink to='/auth'>
                                 <IconWrapper>
+                                    <LogIn />
                                     <Name>
                                         Login
                                     </Name>
