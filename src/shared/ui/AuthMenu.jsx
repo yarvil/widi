@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import React from "react";
+import React ,{useState} from "react";
 import { useDispatch } from "react-redux";
 import MainLogoSvg from '../../image/WiDi.svg?react'
 import MenuLogo from '../../image/menu.svg?react'
@@ -20,6 +20,7 @@ import { clearNotifications } from "@/app/store/notifications/notificationsSlice
 import { useMediaQuery } from "./UseMedia";
 import { selectorFavorites } from "@/app/store/favorite/favoriteSelector";
 import { clearFavorites } from "@/app/store/favorite/favoriteSlice";
+import ModalWindow from "./Modal";
 import {
     Heder,
     Name,
@@ -32,12 +33,14 @@ import {
     MenuSideWrapper,
 
 } from './HeaderStyled'
+
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logout } from "@/app/store/authentication/authSlice";
 
 export default function AuthMenu() {
     const isShow = useSelector(selectorIsShow)
     const hasNew = useSelector(selectorNotifications)
+    const [modal, setModal] = useState(false)
     const hasNewFavs = useSelector(selectorFavorites)
     const dispatch = useDispatch()
     const isMobile = useMediaQuery("(max-width: 768px)");
@@ -46,8 +49,15 @@ export default function AuthMenu() {
     function showBurgerMenu() {
         dispatch(actionMenu())
     }
+    function closeModal(){
+        setModal(!modal)
+    }
+    function logOut(){
+        dispatch(logout())
+    }
     return (
         <>
+            <ModalWindow closeModal={closeModal} isOpen={modal} logOut={logOut} />
             {isMobile && (
                 <Heder>
                     <HeaderWrapper>
@@ -112,7 +122,7 @@ export default function AuthMenu() {
                                     )}
                                     Notifications
                                 </NavLink>
-                                <NavLink to='/logout' onClick={()=>dispatch(logout())}>
+                                <NavLink   onClick={()=>closeModal()}>
                                     <LogOut />
                                     LogOut
                                 </NavLink>
@@ -221,7 +231,7 @@ export default function AuthMenu() {
                                 )}
 
                             </NavLink>
-                            <NavLink to='/logout' onClick={()=>dispatch(logout())}>
+                            <NavLink  onClick={()=>closeModal()}>
                                 <IconWrapper>
                                     <LogOut />
                                     <Name>
@@ -334,7 +344,7 @@ export default function AuthMenu() {
                                 )}
 
                             </NavLink>
-                            <NavLink to='/logout' onClick={()=>dispatch(logout())}>
+                            <NavLink  onClick={()=>closeModal()}>
                                 <IconWrapper>
                                     <LogOut />
                                     <Name>
