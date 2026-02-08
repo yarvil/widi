@@ -25,7 +25,6 @@ export default function PostPage() {
   const { postId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const feedPosts = useSelector(selectFeedPosts);
   const post = useSelector(selectCurrentPost);
   const comments = useSelector(selectComments);

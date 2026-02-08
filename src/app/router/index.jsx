@@ -6,6 +6,7 @@ import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import NotificationList from "@/pages/NotificationsList/NotificationsList";
 import FavoriteList from "@/pages/FavoriteList/FavoriteList";
+import PostUserList from "@/pages/postsOfUser/postUserList";
 import {
   AuthPage,
   LoginPage,
@@ -29,6 +30,10 @@ const RootRouter = [
         <h1>User Profile Page</h1>
       </PrivateRoute>
     ),
+  },
+   {
+    path: "/post/:postId",
+    element: <PrivateRoute><PostPage /></PrivateRoute>,
   },
   {
     path: "/auth",
@@ -86,10 +91,7 @@ const RootRouter = [
       </PublicRoute>
     ),
   },
-  {
-    path: "/post/:postId",
-    element: <PostPage />,
-  },
+ 
   {
     path: "*",
     element: <NotFoundPage />,
@@ -99,12 +101,16 @@ const RootRouter = [
     element: <PrivateRoute><h1>Messenger</h1></PrivateRoute>,
   },
   {
-    path: "/posts",
-    element: <PrivateRoute><FeedPage/></PrivateRoute>,
-  },
-  {
     path: "/logout",
     element: <PrivateRoute><h1>LogOut</h1></PrivateRoute>,
+  },
+  {
+    path: "/posts",
+    element: (
+      <PrivateRoute>
+        <PostUserList/>
+      </PrivateRoute>
+    ),
   },
   {
     path: "/notifications",

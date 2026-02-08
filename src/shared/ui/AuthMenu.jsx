@@ -72,8 +72,8 @@ export default function AuthMenu() {
                                     <SmsLogo />
                                     Messenger
                                 </NavLink>
-                                <NavLink to='/post/:postId'>
-                                    <PostLogo />
+                                <NavLink to='/posts'>
+                                    <PostLogo/>
                                     Posts
                                 </NavLink>
                                 <NavLink to='/favorite' onClick={() => dispatch(clearFavorites())}>
@@ -140,7 +140,7 @@ export default function AuthMenu() {
                                     </Name>
                                 </IconWrapper>
                             </NavLink>
-                            <NavLink to='/post/:postId'>
+                            <NavLink to='/posts'>
                                 <IconWrapper>
                                     <PostLogo />
                                     <Name>
@@ -252,7 +252,7 @@ export default function AuthMenu() {
                                     </Name>
                                 </IconWrapper>
                             </NavLink>
-                            <NavLink to='/post/:postId'>
+                            <NavLink to='/posts'>
                                 <IconWrapper>
                                     <PostLogo />
                                     <Name>
