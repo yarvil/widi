@@ -33,7 +33,7 @@ const RootRouter = [
   },
    {
     path: "/post/:postId",
-    element: <PrivateRoute><PostPage /></PrivateRoute>,
+    element: <PostPage />,
   },
   {
     path: "/auth",
@@ -99,10 +99,6 @@ const RootRouter = [
   {
     path: "/chat",
     element: <PrivateRoute><h1>Messenger</h1></PrivateRoute>,
-  },
-  {
-    path: "/logout",
-    element: <PrivateRoute><h1>LogOut</h1></PrivateRoute>,
   },
   {
     path: "/posts",

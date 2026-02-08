@@ -33,6 +33,7 @@ export default function GuestMenu() {
     function showBurgerMenu() {
         dispatch(actionMenu())
     }
+    
 
     return (
         <>
