@@ -14,7 +14,7 @@ import PostDate from "../post/ui/PostDate";
 
 export default function Notifications({post,onClose}) {
     const {postId,avatar,name,createdTime} = post;
-   const textNf = postId
+   const textNf = post
   ? 'Public a new post'
   : 'Send a new message'
     function getHref() {
