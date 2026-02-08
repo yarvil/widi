@@ -22,5 +22,29 @@
     "followersCount": 55,
     "postsCount": 12,
     "isFollowing": true
+  },
+  "user-3": {
+    "id": "456e7890-e89b-12d3-a456-426614174001",
+    "firstName": "Anna",
+    "lastName": "Moroz",
+    "email": "anna.moroz@example.com",
+    "avatarUrl": "https://ui-avatars.com/api/?name=Anna+Moroz&background=764ba2&color=fff",
+    "backgroundImg": "https://picsum.photos/1200/400?random=2",
+    "followingCount": 120,
+    "followersCount": 200,
+    "postsCount": 45,
+    "isFollowing": true
+  },
+  "user-4": {
+    "id": "789e0123-e89b-12d3-a456-426614174002",
+    "firstName": "Igor",
+    "lastName": "Igorovich",
+    "email": "igor.igorovich@example.com",
+    "avatarUrl": "https://ui-avatars.com/api/?name=Igor+Igorovich&background=f093fb&color=fff",
+    "backgroundImg": "https://picsum.photos/1200/400?random=3",
+    "followingCount": 80,
+    "followersCount": 150,
+    "postsCount": 30,
+    "isFollowing": false
   }
 }
