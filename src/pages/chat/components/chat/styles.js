@@ -49,6 +49,7 @@ export const BackToListButton = styled.img`
 
 export const ChatHeaderInfo = styled.div`
   margin-left: 12px;
+  color: black;
 
   h3 {
     margin: 0;

@@ -107,6 +107,7 @@ export const ConversationInfo = styled.div`
 
 export const ConversationName = styled.div`
   font-weight: 600;
+  color: black;
   font-size: 15px;
   margin-bottom: 4px;
   display: flex;
@@ -174,4 +175,87 @@ export const UnreadBadge = styled.span`
   padding: 2px 8px;
   border-radius: 10px;
   margin-left: 8px;
+`;
+
+export const CreateChatConatainer = styled.div`
+  margin: 24px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f9fafb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+`;
+export const CreateChatTitle = styled.h3`
+  margin-bottom: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+`;
+
+export const CreateChatSearch = styled.input`
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+  outline: none;
+  background: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  }
+`;
+export const CreateChatList = styled.ul`
+  padding: 0;
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+
+  /* аккуратный скролл */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #e5e7eb;
+    border-radius: 4px;
+  }
+`;
+
+export const CreateChatElement = styled.li`
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #ffffff;
+  list-style: none;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+  }
+
+  &:active {
+    background: #e5e7eb;
+  }
+`;
+
+export const CreateChatText = styled.p`
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
 `;
