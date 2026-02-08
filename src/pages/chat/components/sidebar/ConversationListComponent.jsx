@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveConversation,
   deleteConversation,
+  createNewConversation,
 } from "@/app/store/chat/slices/chatSlice";
 
 import {
@@ -25,21 +26,38 @@ import {
   LastMessage,
   LastMessageText,
   UnreadBadge,
+  CreateChatConatainer,
+  CreateChatTitle,
+  CreateChatSearch,
+  CreateChatList,
+  CreateChatElement,
+  CreateChatText,
 } from "./styles";
 
 import SearchIconSvg from "@/shared/icons/search.svg";
 import OptionsIcon from "@/shared/icons/conversation-options.png";
+import { loadUsers } from "@/app/store/chat/chatThunks";
 
 const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
-  const { conversations, activeConversationId } = useSelector(
+  const { conversations, activeConversationId, otherUsers } = useSelector(
     (state) => state.chat,
   );
 
+  // const isConversation =
+  //   Array.isArray(conversations) && conversations.length > 0;
+  const isConversation =
+    !Array.isArray(conversations) || conversations.length >= otherUsers.length;
+
   const [search, setSearch] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [searchNewParticipants, setSearchNewParticipants] = useState("");
 
   const chatMenuRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, [dispatch]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,13 +76,36 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
   }, [openMenuId]);
 
   const filteredConversations = conversations.filter((conv) =>
-    conv.name.toLowerCase().includes(search.toLowerCase()),
+    conv.participants[1].firstName.toLowerCase().includes(search.toLowerCase()),
   );
+  const filteredNewParticipants =
+    searchNewParticipants.trim().length > 0
+      ? otherUsers.filter((participant) =>
+          participant.firstName
+            .toLowerCase()
+            .includes(searchNewParticipants.toLowerCase()),
+        )
+      : [];
+
+  console.log(otherUsers, "otherUsers");
+  console.log(filteredNewParticipants, "newPart");
 
   const handleOpenConvOptions = (convId, event) => {
     event.stopPropagation();
 
     setOpenMenuId((prev) => (prev === convId ? null : convId));
+  };
+
+  const handleSelectUser = (userId) => {
+    dispatch(createNewConversation(userId));
+
+    // Очищаем поиск
+    setSearchNewParticipants("");
+
+    // На мобайле закрываем список чатов
+    if (window.innerWidth < 768) {
+      handleChatList();
+    }
   };
 
   return (
@@ -94,12 +135,14 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
             }}
           >
             <Avatar>
-              {conv.avatar}
+              {/* Временная заглушка в виде первых двух букв для аватарки */}
+              {conv.participants[1].firstName.slice(0, 2)}
+              {/* Пока что у бека нет возможности отобразить онлайн человек или нет */}
               <OnlineIndicator online={conv.isOnline} />
             </Avatar>
             <ConversationInfo>
               <ConversationName>
-                {conv.name}
+                {conv.participants[1].firstName}
                 <ConversationDetails>
                   <Timestamp>{conv.timestamp}</Timestamp>
                   <ConversationOptions
@@ -125,7 +168,8 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
             {openMenuId === conv.id && (
               <ConversationOptionsMenu ref={chatMenuRef}>
                 <button
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     dispatch(deleteConversation(conv.id));
                   }}
                 >
@@ -135,6 +179,29 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
             )}
           </ConversationItem>
         ))}
+
+        {!isConversation && (
+          <CreateChatConatainer>
+            <CreateChatTitle>Create a new chat</CreateChatTitle>
+            <CreateChatSearch
+              name="searchNewParticipants"
+              value={searchNewParticipants}
+              onChange={(e) => setSearchNewParticipants(e.target.value)}
+              type="text"
+              placeholder="Search users..."
+            />
+            <CreateChatList>
+              {filteredNewParticipants.map((newParticipant) => (
+                <CreateChatElement
+                  key={newParticipant.id}
+                  onClick={() => handleSelectUser(newParticipant.id)}
+                >
+                  <CreateChatText>{newParticipant.firstName}</CreateChatText>
+                </CreateChatElement>
+              ))}
+            </CreateChatList>
+          </CreateChatConatainer>
+        )}
       </ConversationList>
     </Sidebar>
   );
