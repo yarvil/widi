@@ -1,124 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateUnreadCount } from "@/pages/chat/utils/chatHelper";
-//
 
-//  Мои рандомные фейковые данные
+import {
+  loadConversations,
+  loadMessagesByThreads,
+  loadUsers,
+} from "../chatThunks";
+
 const initialState = {
-  conversations: [
-    {
-      id: "1",
-      name: "Anna Moroz",
-      avatar: "👩",
-      lastMessage: "Hei",
-      timestamp: "10:30",
-      unreadCount: 0,
-      isOnline: true,
-    },
-    {
-      id: "2",
-      name: "Igor Igorovich",
-      avatar: "👨",
-      lastMessage: "Are you good?",
-      timestamp: "Вчера",
-      unreadCount: 1,
-      isOnline: false,
-    },
-    {
-      id: "3",
-      name: "Team's project",
-      avatar: "👥",
-      lastMessage: "Встреча перенесена на 15:00",
-      timestamp: "09:15",
-      unreadCount: 1,
-      isOnline: true,
-    },
-  ],
-  messages: {
-    1: [
-      {
-        id: "m1",
-        senderId: "1",
-        content: "Привет!",
-        timestamp: "10:25",
-        isOwn: false,
-        isRead: false,
-      },
-      {
-        id: "m2",
-        senderId: "me",
-        content: "Привет! Как дела?",
-        timestamp: "10:26",
-        isOwn: true,
-        isRead: true,
-      },
-      {
-        id: "m3",
-        senderId: "1",
-        content: "Отлично! Работаю над проектом",
-        timestamp: "10:30",
-        isOwn: false,
-        isRead: false,
-      },
-    ],
-    2: [
-      {
-        id: "m4",
-        senderId: "2",
-        content: "Привет, как проект?",
-        timestamp: "Вчера, 18:20",
-        isOwn: false,
-        isRead: false,
-      },
-      {
-        id: "m5",
-        senderId: "me",
-        content: "Идёт хорошо, делаю чат",
-        timestamp: "Вчера, 18:25",
-        isOwn: true,
-        isRead: true,
-      },
-      {
-        id: "m6",
-        senderId: "2",
-        content: "Созвонимся завтра?",
-        timestamp: "Вчера, 18:30",
-        isOwn: false,
-        isRead: false,
-      },
-    ],
-    3: [
-      {
-        id: "m7",
-        senderId: "3",
-        content: "Всем привет!",
-        timestamp: "09:00",
-        isOwn: false,
-        isRead: false,
-      },
-      {
-        id: "m8",
-        senderId: "me",
-        content: "Привет команда!",
-        timestamp: "09:05",
-        isOwn: true,
-        isRead: true,
-      },
-      {
-        id: "m9",
-        senderId: "4",
-        content: "Встреча перенесена на 15:00",
-        timestamp: "09:15",
-        isOwn: false,
-        isRead: false,
-      },
-    ],
-  },
-  activeConversationId: "1",
+  conversations: [],
+  messages: {},
+  activeConversationId: null,
   currentUser: {
-    id: "me",
+    id: "user-1",
     name: "Я",
     avatar: "😊",
   },
+  otherUsers: [],
+  loading: false,
 };
 
 const chatSlice = createSlice({
@@ -147,16 +46,21 @@ const chatSlice = createSlice({
 
     sendMessage: (state, action) => {
       const { conversationId, content } = action.payload;
+
       const newMessage = {
         id: `m${Date.now()}`,
-        senderId: "me",
+        threadId: "",
+        senderId: "user-1",
+        senderUsername: "",
         content,
-        timestamp: new Date().toLocaleTimeString("eu-EU", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        isOwn: true,
-        isRead: true,
+        createdAt: new Date().toISOString().slice(0, 19),
+        messageType: "TEXT",
+        // timestamp: new Date().toLocaleTimeString("eu-EU", {
+        //   hour: "2-digit",
+        //   minute: "2-digit",
+        // }),
+        // isOwn: true,
+        // isRead: true,
       };
 
       if (!state.messages[conversationId]) {
@@ -206,9 +110,86 @@ const chatSlice = createSlice({
         state.activeConversationId = null;
       }
     },
+    createNewConversation: (state, action) => {
+      const otherUserId = action.payload;
+
+      // Проверка: чат уже существует?
+      const existingConv = state.conversations.find((conv) =>
+        conv.participants.some((p) => p.id === otherUserId),
+      );
+
+      if (existingConv) {
+        // Уже есть - просто открываем
+        state.activeConversationId = existingConv.id;
+        return;
+      }
+
+      // Находим выбранного юзера
+      const otherUser = state.otherUsers.find((u) => u.id === otherUserId);
+      if (!otherUser) return;
+
+      // Создаём новый чат
+      const newConv = {
+        id: Date.now(), // Генерю уникальный ID
+        participants: [
+          {
+            id: state.currentUser.id,
+            firstName: state.currentUser.name,
+            // ... другие поля currentUser
+          },
+          otherUser, // выбранный юзер
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        unreadCount: 0,
+        lastMessage: null,
+        timestamp: null,
+      };
+
+      // Добавляем в начало списка
+      state.conversations.unshift(newConv);
+
+      // Создаём пустой массив сообщений
+      state.messages[newConv.id] = [];
+
+      // Открываем новый чат
+      state.activeConversationId = newConv.id;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      //users
+      .addCase(loadUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.otherUsers = Object.values(action.payload).filter(
+          (user) => user.id !== "user-1",
+        );
+      })
+
+      // threads/chats
+      .addCase(loadConversations.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadConversations.fulfilled, (state, action) => {
+        state.loading = false;
+        state.conversations = action.payload;
+      })
+
+      // messages
+      .addCase(loadMessagesByThreads.fulfilled, (state, action) => {
+        const { conversationId, messages } = action.payload;
+        state.messages[conversationId] = messages;
+      });
   },
 });
 
-export const { setActiveConversation, sendMessage, deleteConversation } =
-  chatSlice.actions;
+export const {
+  setActiveConversation,
+  sendMessage,
+  deleteConversation,
+  createNewConversation,
+} = chatSlice.actions;
 export default chatSlice.reducer;
