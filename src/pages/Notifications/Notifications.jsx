@@ -25,7 +25,7 @@ export default function Notifications({post,onClose}) {
         }
     }
     return (
-        <NotificationPostLink href={getHref()}>
+        <NotificationPostLink href={getHref()} onClick={(e)=>e.preventDefault()}>
             <NotificationsPost>
                 <UserInfoWrapper>
                     <Avatar src={avatar} />
