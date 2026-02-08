@@ -8,6 +8,7 @@ import {
 } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { uploadPostImage } from "@/api/upload";
+import { setNewNotification } from "@/app/store/notifications/notificationsSlice";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
@@ -65,6 +66,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           imageUrl = await uploadPostImage(media.file);
         }
         dispatch(createPostThunk({ content: text, imageUrl }));
+        dispatch(setNewNotification())
       } catch (err) {
         console.error("Upload failed:", err);
       } finally {

@@ -14,6 +14,7 @@ import RepostIcon from "shared/assets/icons/repost-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
 import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
+import { setNewFavorites } from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
   const { postId, commentsCount, repostsCount, likesCount, liked } = post;
@@ -24,6 +25,9 @@ function Actions({ post, withBorder }) {
   const handleLikeClick = () => {
     if (!currentUser) return;
     dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
+    if (!liked) {
+      dispatch(setNewFavorites())
+    }
   };
 
   const handleReplyClick = () => {
