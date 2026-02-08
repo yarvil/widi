@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import { useDispatch, useSelector } from "react-redux";
+import { loadMessagesByThreads } from "@/app/store/chat/chatThunks";
 import { sendMessage } from "@/app/store/chat/slices/chatSlice";
 
 import {
@@ -24,15 +25,21 @@ import ArrowLeftIcon from "@/shared/icons/arrow-left.png";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
-  const { conversations, messages, activeConversationId } = useSelector(
-    (state) => state.chat,
-  );
+  const { conversations, messages, activeConversationId, currentUser } =
+    useSelector((state) => state.chat);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (!activeConversationId) return;
+
+    dispatch(loadMessagesByThreads(activeConversationId));
+  }, [activeConversationId, dispatch]);
 
   const activeConversation = conversations.find(
     (c) => c.id === activeConversationId,
   );
   const currentMessages = messages[activeConversationId] || [];
+  console.log(currentMessages);
 
   const handleSend = () => {
     if (inputValue.trim()) {
@@ -40,6 +47,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
         sendMessage({
           conversationId: activeConversationId,
           content: inputValue,
+          senderUsername: "",
         }),
       );
       setInputValue("");
@@ -75,21 +83,25 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           alt="Back to chat list"
         />
         <Avatar>
-          {activeConversation.avatar}
+          {activeConversation.participants[0].firstName.slice(0, 2)}
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
-          <h3>{activeConversation.name}</h3>
+          <h3>{activeConversation.participants[0].firstName}</h3>
           <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
         </ChatHeaderInfo>
       </ChatHeader>
 
       <MessagesContainer>
         {currentMessages.map((msg) => (
-          <MessageWrapper $isOwn={msg.isOwn} key={msg.id}>
+          <MessageWrapper $isOwn={msg.senderId === currentUser.id} key={msg.id}>
             <div>
-              <MessageBubble $isOwn={msg.isOwn}>{msg.content}</MessageBubble>
-              <MessageTime $isOwn={msg.isOwn}>{msg.timestamp}</MessageTime>
+              <MessageBubble $isOwn={msg.senderId === currentUser.id}>
+                {msg.content}
+              </MessageBubble>
+              <MessageTime $isOwn={msg.senderId === currentUser.id}>
+                {msg.createdAt.slice(11, 16)}
+              </MessageTime>
             </div>
           </MessageWrapper>
         ))}
