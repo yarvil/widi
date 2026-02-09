@@ -23,7 +23,7 @@ import { DAYS, MONTHS, YEARS } from "./dateConstants";
 const DateContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: clamp(6px, 2vw, 12px);
 `;
 
 function RegisterPage() {

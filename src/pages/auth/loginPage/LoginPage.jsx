@@ -102,7 +102,7 @@ function LoginPage() {
     <>
       <ContainerForm>
         <ButtonClose to="/auth" />
-        <Legend>Вхід до "назва"</Legend>
+        <Legend>Вхід до WiDi</Legend>
         <Form onSubmit={handleSubmit}>
           <Label
             htmlFor="email"

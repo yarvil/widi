@@ -6,12 +6,31 @@ const SelectStyled = styled.select`
   border-radius: 4px;
   border: 1px solid #ccc;
   background-color: transparent;
-  padding: 18px 10px 4px 14px;
+  color: white;
+  width: 100%;
+  flex: 1;
+  padding: clamp(12px, 3vw, 18px) clamp(2px, 1vw, 8px) clamp(4px, 1vw, 8px)
+    clamp(2px, 1vw, 8px);
+  font-size: clamp(12px, 2.5vw, 16px);
   cursor: pointer;
   transition: all 0.3s ease;
-  max-height: 50px;
   overflow-y: scroll;
-  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 4px;
+    border: 2px solid #ffffff;
+  }
 
   &:focus {
     border: 2px solid rgb(29, 155, 240);

@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 const InputStyled = styled.input`
   outline: none;
   border: 2px solid #8282822e;
+  color: white;
   background-color: transparent;
   border-radius: 5px;
-  padding: 20px 20px 8px 14px;
+  padding: clamp(12px, 2.5vw, 20px) clamp(12px, 3vw, 20px) clamp(6px, 1vw, 8px)
+    clamp(10px, 2.5vw, 14px);
   transition: all 0.3s ease;
 
   &[type="password"] {
@@ -21,6 +23,7 @@ const InputStyled = styled.input`
   ${({ $isError }) =>
     $isError &&
     `
+    color: #d20d0d;
     border: 2px solid red;
 
     &:focus {
@@ -33,7 +36,7 @@ const InputStyled = styled.input`
 
 const Error = styled.span`
   color: red;
-  font-size: 14px;
+  font-size: clamp(12px, 3vw, 14px);
   letter-spacing: 1px;
   padding-left: 6px;
   transition: all 0.3s ease;
