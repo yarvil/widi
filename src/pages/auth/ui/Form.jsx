@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 
 const FormStyled = styled.form`
   display: flex;
+  gap: 10px;
   flex-direction: column;
-  padding: 10px 15px;
+  padding-inline: 15px;
+  margin-bottom: 10px;
 `;
 
 function Form({ children, ...props }) {

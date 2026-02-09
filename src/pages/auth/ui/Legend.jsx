@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const LegendStyled = styled.legend`
-  margin: 0 10px 10px 10px;
+  margin-bottom: 20px;
   font-size: 26px;
   font-weight: 500;
 

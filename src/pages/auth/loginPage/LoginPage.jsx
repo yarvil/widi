@@ -25,7 +25,7 @@ import {
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
-  display: block;
+  /* display: block; */
   font-size: 16px;
   margin-top: 5px;
   margin-bottom: 10px;

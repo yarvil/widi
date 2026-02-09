@@ -44,12 +44,12 @@ function AuthPage() {
       <Legend>Вхід до WiDi</Legend>
       <Button
         onClick={googleLogin}
-        $style="display: flex; justify-content: center; align-items: center"
+        $style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px"
       >
         <Img
           src="https://developers.google.com/identity/images/g-logo.png"
           alt="Google logo"
-        ></Img>
+        />
         Увійти через Google
       </Button>
       <Legend $style="width: 100%; display: flex; justify-content: center; align-items: center; margin-inline: 0;  &::before, &::after {content: ''; flex-grow: 1;  border-bottom: 1px solid rgb(83, 100, 113) ; } &::before { margin-right: 10px; } &::after { margin-left: 10px; }">
@@ -58,9 +58,7 @@ function AuthPage() {
       <Button onClick={loginPage}>Увійти</Button>
       <p>
         Ще немає облікового запису?
-        <NavLinkStyled to="/register" $style="margin-left: 5px;">
-          Зареєструватися
-        </NavLinkStyled>
+        <NavLinkStyled to="/register">Зареєструватися</NavLinkStyled>
       </p>
     </ContainerForm>
   );
