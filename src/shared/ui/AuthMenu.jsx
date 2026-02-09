@@ -6,7 +6,6 @@ import MenuLogo from '../../image/menu.svg?react'
 import PostLogo from '../../image/posts.svg?react'
 import FavsLogo from '../../image/favorite.svg?react'
 import LogOut from '../../image/logout.svg?react'
-import SearchLogo from '../../image/search.svg?react'
 import HomeLogo from '../../image/home.svg?react'
 import ProfileLogo from '../../image/profile.svg?react'
 import NotificationLogo from '../../image/notifications.svg?react'
@@ -31,7 +30,6 @@ import {
     IconWrapper,
     HeaderSearch,
     MenuSideWrapper,
-
 } from './HeaderStyled'
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
@@ -64,8 +62,7 @@ export default function AuthMenu() {
                         <LogoWrapper>
                             <MainLogoSvg />
                             <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
+                            <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuLogo onClick={showBurgerMenu} />
                         {isShow && (
@@ -138,8 +135,7 @@ export default function AuthMenu() {
                         <LogoWrapper>
                             <MainLogoSvg />
                             <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
+                            <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuMiddleWrapper>
                             <NavLink to='/'>
@@ -250,8 +246,7 @@ export default function AuthMenu() {
                         <LogoWrapper>
                             <MainLogoSvg />
                             <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
+                            <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuMiddleWrapper>
                             <NavLink to='/'>

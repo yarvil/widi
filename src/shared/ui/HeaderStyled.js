@@ -73,7 +73,23 @@ export const MenuSideWrapper = styled.div`
   gap:5px;
   `
 export const HeaderSearch = styled.input`
-  border-radius:10px;
+::placeholder{
+color: #aaa;
+
+}
+  width: 250px;
+  padding: 8px 35px 8px 12px; 
+  border-radius: 20px;
+  border: none;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  background-image: url(https://cdn-icons-png.flaticon.com/128/17216/17216943.png);
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
   `
 export const MenuMiddleWrapper = styled.div`
   display:flex;
