@@ -33,94 +33,20 @@ export default function GuestMenu() {
     function showBurgerMenu() {
         dispatch(actionMenu())
     }
-    
+
 
     return (
         <>
             {isMobile && (
-                <Heder>
-                    <HeaderWrapper>
-                        <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
-                        </LogoWrapper>
-                        <MenuLogo onClick={showBurgerMenu} />
-                        {isShow && (
-                            <MenuMiddleWrapper>
-                                <NavLink to='/'>
-                                    <HomeLogo />
-                                    Home Page
-                                </NavLink>
-                                <NavLink to='/auth'>
-                                    <LogIn />
-                                    Login
-                                </NavLink>
-                            </MenuMiddleWrapper>
-                        )}
-                    </HeaderWrapper>
-                </Heder>
+                <NavLink to='/auth'> </NavLink>
             )}
             {isTablet && (
-                <Heder>
-                    <HeaderWrapper>
-                        <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
-                        </LogoWrapper>
-                        <MenuMiddleWrapper>
-                            <NavLink to='/'>
-                                <IconWrapper>
-                                    <HomeLogo />
-                                    <Name>
-                                        Home Page
-                                    </Name>
-                                </IconWrapper>
-                            </NavLink>
-                            <NavLink to='/auth'>
-                                <IconWrapper>
-                                    <LogIn/>
-                                    <Name>
-                                        Login
-                                    </Name>
-                                </IconWrapper>
-                            </NavLink>
-                        </MenuMiddleWrapper>
-                    </HeaderWrapper>
-                </Heder>
+
+                <NavLink to='/auth'></NavLink>
+
             )}
             {isDesktop && (
-                <Heder>
-                    <HeaderWrapper>
-                        <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
-                            <SearchLogo />
-                            <HeaderSearch size="10" placeholder="Search" onChange={(e) => dispatch(setSearchValue(e.target.value))} />
-                        </LogoWrapper>
-                        <MenuMiddleWrapper>
-                            <NavLink to='/'>
-                                <IconWrapper>
-                                    <HomeLogo />
-                                    <Name>
-                                        Home Page
-                                    </Name>
-                                </IconWrapper>
-                            </NavLink>
-                            <NavLink to='/auth'>
-                                <IconWrapper>
-                                    <LogIn />
-                                    <Name>
-                                        Login
-                                    </Name>
-                                </IconWrapper>
-                            </NavLink>
-                        </MenuMiddleWrapper>
-                    </HeaderWrapper>
-                </Heder>
+                <NavLink to='/auth'></NavLink>
             )}
         </>
 

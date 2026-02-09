@@ -22,7 +22,7 @@ import ChatPage from "@/pages/chat/ChatPage";
 const RootRouter = [
   {
     path: "/",
-    element: <FeedPage />,
+    element: <PrivateRoute><FeedPage /></PrivateRoute>,
   },
   {
     path: "/users/:id",

@@ -15,9 +15,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  position: relative;
+  position: absolute;
+  transform:translateY(-50%);
   padding: 20px;
   border: 1px solid #ccc;
+  top:50%;
+
   border-radius: 10px;
   width: 380px;
 

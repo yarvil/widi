@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import { ContainerForm, Button, Legend } from "../ui";
 import { useDispatch } from "react-redux";
-import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 const NavLinkStyled = styled(NavLink)`
   display: inline-block;

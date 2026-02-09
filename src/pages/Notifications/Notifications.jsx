@@ -13,7 +13,7 @@ import { CloseButton } from "../Notifications/NotificationsStyled";
 import PostDate from "../post/ui/PostDate";
 export default function Notifications({ post, onClose }) {
     const { postId, avatar, name, createdTime } = post;
-    const textNf = post
+    const textNf = postId
         ? 'Public a new post'
         : 'Send a new message'
     function getHref() {
@@ -24,7 +24,7 @@ export default function Notifications({ post, onClose }) {
         }
     }
     return (
-        <NotificationPostLink href={getHref()} onClick={(e) => e.preventDefault()}>
+        <NotificationPostLink href={getHref()}>
             <NotificationsPost>
                 <UserInfoWrapper>
                     <Avatar src={avatar} />

@@ -62,6 +62,9 @@ export const Heder = styled.header`
   `
 export const HeaderWrapper = styled.div`
   display: flex;
+  max-width:1440px;
+  margin:0 auto;
+  padding:5px;
   align-items:center;
   justify-content:space-between;
   `
