@@ -42,7 +42,7 @@ function AuthPage() {
 
   return (
     <ContainerForm>
-      <Legend>Вхід до "назвва"</Legend>
+      <Legend>Вхід до WiDi</Legend>
       <Button
         onClick={googleLogin}
         $style="display: flex; justify-content: center; align-items: center"

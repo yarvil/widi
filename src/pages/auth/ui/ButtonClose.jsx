@@ -5,17 +5,18 @@ import { NavLink } from "react-router-dom";
 
 const ButtonStyled = styled(NavLink)`
   border: 0;
-  border-radius: 10px;
-  padding: 5px 14px;
+  padding: 5px 11px;
   cursor: pointer;
   color: #fff;
+  border-radius: 50%;
+  border: 1px solid #c1c0c0d6;
   font-size: 20px;
   position: absolute;
   top: 10px;
   left: 10px;
 
   &:hover {
-    border-radius: 100%;
+    border-radius: 50%;
     color: rgba(255, 254, 254, 0.589);
     background-color: #8282822e;
   }

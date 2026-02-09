@@ -10,6 +10,7 @@ export const LabelStyled = styled.label`
   font-size: 16px;
   text-align: start;
   position: relative;
+  flex: 1 1 auto;
 
   ${({ $style }) => $style};
 
@@ -35,7 +36,7 @@ export const LabelStyled = styled.label`
 
 const InputName = styled.p`
   padding-left: 5px;
-  font-size: 12px;
+  font-size: clamp(10px, 2.5vw, 12px);
   opacity: 0.5;
   margin: 0;
   position: absolute;
