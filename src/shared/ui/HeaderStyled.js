@@ -73,11 +73,7 @@ export const MenuSideWrapper = styled.div`
   gap:5px;
   `
 export const HeaderSearch = styled.input`
-::placeholder{
-color: #aaa;
-
-}
-  width: 250px;
+  width: 200px;
   padding: 8px 35px 8px 12px; 
   border-radius: 20px;
   border: none;
@@ -90,6 +86,15 @@ color: #aaa;
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 16px 16px;
+  &:placeholder{
+    color: #aaa;
+    font-size:18px;
+  }
+  &:focus{
+  background-color: #2a2a2a;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  }
+  
   `
 export const MenuMiddleWrapper = styled.div`
   display:flex;

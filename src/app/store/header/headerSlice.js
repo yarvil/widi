@@ -10,13 +10,16 @@ const headerSlice = createSlice({
     reducers:{
         actionMenu:(state)=>{
             state.isShow = !state.isShow
+        },
+        closeMenu:(state,{payload})=>{
+            state.isShow = payload
         }
 
     }
 })
 
 
-export const { actionMenu } = headerSlice.actions;
+export const { actionMenu,closeMenu } = headerSlice.actions;
 
 
 export default headerSlice.reducer;

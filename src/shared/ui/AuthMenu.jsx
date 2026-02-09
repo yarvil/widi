@@ -13,7 +13,7 @@ import SmsLogo from '../../image/sms.svg?react'
 import CircleNotif from '../../image/circle.svg?react'
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
 import { useSelector } from "react-redux";
-import { actionMenu } from "@/app/store/header/headerSlice";
+import { actionMenu , closeMenu} from "@/app/store/header/headerSlice";
 import { selectorNotifications } from "@/app/store/notifications/notificationsSelector";
 import { clearNotifications } from "@/app/store/notifications/notificationsSlice";
 import { useMediaQuery } from "./UseMedia";
@@ -60,30 +60,29 @@ export default function AuthMenu() {
                 <Heder>
                     <HeaderWrapper>
                         <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
+                            <NavLink to='/'><MainLogoSvg /><Title>WiDi</Title></NavLink>
                             <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuLogo onClick={showBurgerMenu} />
                         {isShow && (
                             <MenuMiddleWrapper>
-                                <NavLink to='/'>
+                                <NavLink to='/' onClick={()=>dispatch(closeMenu())}>
                                     <HomeLogo />
                                     Home Page
                                 </NavLink>
-                                <NavLink to='/users/:id'>
-                                    <ProfileLogo />
+                                <NavLink to='/users/:id' onClick={()=>dispatch(closeMenu())}>
+                                    <ProfileLogo  />
                                     Profile
                                 </NavLink>
-                                <NavLink to='/chat'>
+                                <NavLink to='/chat' onClick={()=>dispatch(closeMenu())}>
                                     <SmsLogo />
                                     Messenger
                                 </NavLink>
-                                <NavLink to='/posts'>
+                                <NavLink to='/posts' onClick={()=>dispatch(closeMenu())}>
                                     <PostLogo/>
                                     Posts
                                 </NavLink>
-                                <NavLink to='/favorite' onClick={() => dispatch(clearFavorites())}>
+                                <NavLink to='/favorite' onClick={() =>{dispatch(clearFavorites()), dispatch(closeMenu()) } }>
                                     {(hasNewFavs &&
                                         (
                                             <>
@@ -101,7 +100,7 @@ export default function AuthMenu() {
                                     )}
                                     Favorite
                                 </NavLink>
-                                <NavLink to='/notifications' onClick={() => dispatch(clearNotifications())}>
+                                <NavLink to='/notifications' onClick={() => {dispatch(clearNotifications()),dispatch(closeMenu())}}>
                                     {(hasNew &&
                                         (
                                             <>
@@ -119,7 +118,7 @@ export default function AuthMenu() {
                                     )}
                                     Notifications
                                 </NavLink>
-                                <NavLink   onClick={()=>closeModal()}>
+                                <NavLink   onClick={()=>{closeModal(),dispatch(closeMenu())}}>
                                     <LogOut />
                                     LogOut
                                 </NavLink>
@@ -133,8 +132,7 @@ export default function AuthMenu() {
                 <Heder>
                     <HeaderWrapper>
                         <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
+                           <NavLink to='/'><MainLogoSvg /><Title>WiDi</Title></NavLink>
                             <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuMiddleWrapper>
@@ -244,8 +242,7 @@ export default function AuthMenu() {
                 <Heder>
                     <HeaderWrapper>
                         <LogoWrapper>
-                            <MainLogoSvg />
-                            <Title>WiDi</Title>
+                            <NavLink to='/'><MainLogoSvg /><Title>WiDi</Title></NavLink>
                             <HeaderSearch size="10" placeholder="Search Post..." onChange={(e) => dispatch(setSearchValue(e.target.value))} />
                         </LogoWrapper>
                         <MenuMiddleWrapper>
