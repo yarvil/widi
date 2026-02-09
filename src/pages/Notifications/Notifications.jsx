@@ -11,12 +11,11 @@ import {
 import Close from "../../image/close.svg?react"
 import { CloseButton } from "../Notifications/NotificationsStyled";
 import PostDate from "../post/ui/PostDate";
-
-export default function Notifications({post,onClose}) {
-    const {postId,avatar,name,createdTime} = post;
-   const textNf = post
-  ? 'Public a new post'
-  : 'Send a new message'
+export default function Notifications({ post, onClose }) {
+    const { postId, avatar, name, createdTime } = post;
+    const textNf = post
+        ? 'Public a new post'
+        : 'Send a new message'
     function getHref() {
         if (textNf === 'Public a new post') {
             return `/post/${postId}`
@@ -25,7 +24,7 @@ export default function Notifications({post,onClose}) {
         }
     }
     return (
-        <NotificationPostLink href={getHref()} onClick={(e)=>e.preventDefault()}>
+        <NotificationPostLink href={getHref()} onClick={(e) => e.preventDefault()}>
             <NotificationsPost>
                 <UserInfoWrapper>
                     <Avatar src={avatar} />
@@ -36,25 +35,25 @@ export default function Notifications({post,onClose}) {
                     {textNf}
                 </Content>
                 <CloseButton onClick={
-                    (e)=>{
-                    e.preventDefault()
-                    onClose()
-                    }}><Close/></CloseButton>       
+                    (e) => {
+                        e.preventDefault()
+                        onClose()
+                    }}><Close /></CloseButton>
             </NotificationsPost>
         </NotificationPostLink>
     )
 }
 Notifications.propTypes = {
-  post: PropTypes.shape({
-    avatar: PropTypes.string,
-    name: PropTypes.string,
-    postId: PropTypes.number,
-    textNf:PropTypes.string,
-    firstName:PropTypes.string,
-    lastName : PropTypes.string,
-    text: PropTypes.string,
-    media: PropTypes.string,
-    createdTime: PropTypes.number,
-  }),
-  onClose: PropTypes.func
+    post: PropTypes.shape({
+        avatar: PropTypes.string,
+        name: PropTypes.string,
+        postId: PropTypes.number,
+        textNf: PropTypes.string,
+        firstName: PropTypes.string,
+        lastName: PropTypes.string,
+        text: PropTypes.string,
+        media: PropTypes.string,
+        createdTime: PropTypes.number,
+    }),
+    onClose: PropTypes.func
 };

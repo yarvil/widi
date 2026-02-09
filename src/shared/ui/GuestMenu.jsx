@@ -53,7 +53,7 @@ export default function GuestMenu() {
                                     <HomeLogo />
                                     Home Page
                                 </NavLink>
-                                <NavLink to='/login'>
+                                <NavLink to='/auth'>
                                     <LogIn />
                                     Login
                                 </NavLink>
@@ -80,7 +80,7 @@ export default function GuestMenu() {
                                     </Name>
                                 </IconWrapper>
                             </NavLink>
-                            <NavLink to='/login'>
+                            <NavLink to='/auth'>
                                 <IconWrapper>
                                     <LogIn/>
                                     <Name>
@@ -110,7 +110,7 @@ export default function GuestMenu() {
                                     </Name>
                                 </IconWrapper>
                             </NavLink>
-                            <NavLink to='/login'>
+                            <NavLink to='/auth'>
                                 <IconWrapper>
                                     <LogIn />
                                     <Name>
