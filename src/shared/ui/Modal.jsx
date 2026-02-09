@@ -18,7 +18,7 @@ export default function ModalWindow(props) {
 					<Modal>
 						<CloseButton><Close onClick={closeModal} /></CloseButton>
 						<ModalContent>
-							<p style={{ color: '#000', textAlign: `center` }}>Do you really want to exit WiDi?</p>
+							<p style={{ color: '#fff', textAlign: `center` }}>Do you really want to exit WiDi?</p>
 						</ModalContent>
 						<ButtonWrapper>
 							<SubmitBtn type='submit' onClick={logOut}>Yes</SubmitBtn>
