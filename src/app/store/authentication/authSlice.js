@@ -8,7 +8,7 @@ const getInitialState = () => {
 
   return {
     isAuthenticated: false,
-    token,
+    token: token || null,
     user: null,
     userEmail,
     remember,
@@ -24,27 +24,27 @@ export const checkAuth = createAsyncThunk(
       const state = getState();
       const token = state.auth.token;
 
-      const response = token
-        ? await fetchGet("api/user/me", { token: token })
-        : await fetchGet("api/user/me", { credentials: true });
+      const response = await fetchGet("api/user/me", {
+        ...(token ? { token } : { credentials: true }),
+      });
       console.log(response);
 
       return { isAuthenticated: true, user: response };
     } catch (error) {
       //! ПОКИ БЕКУ НЕМАЄ, ПОТІМ ВИДАЛИТИ
-      if (import.meta.env.DEV) {
-        try {
-          const res = await fetch("/mocks/me.json");
-          const user = await res.json();
-          return { isAuthenticated: true, user };
-        } catch {
-          //
-        }
-      }
+      // if (import.meta.env.DEV) {
+      // try {
+      // const res = await fetch("/mocks/me.json");
+      // const user = await res.json();
+      // return { isAuthenticated: true, user };
+      // } catch {
+
+      // }
+      // }
       //! -------------------------------
       return rejectWithValue({
-        status: error.response.status,
-        message: error.response.data.message,
+        statusMessage: `${error.response.status} ${error.response.data.message}`,
+        messageType: "error",
       });
     }
   },
@@ -84,10 +84,14 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.userEmail = action.payload.user.email;
     });
-    builder.addCase(checkAuth.rejected, (state) => {
+    builder.addCase(checkAuth.rejected, (state, action) => {
       if (!state.token) {
         state.isAuthenticated = false;
         state.user = null;
+      }
+      if (action.payload) {
+        state.statusMessage = action.payload.statusMessage;
+        state.messageType = action.payload.messageType;
       }
     });
   },
