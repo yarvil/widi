@@ -70,8 +70,8 @@ function RegisterPage() {
         }
 
         dispatch(setUserEmail(values.email));
-
-        navigate("/verification");
+        await dispatch(checkAuth());
+        navigate("/");
       } catch (error) {
         dispatch(
           showStatusMessage({

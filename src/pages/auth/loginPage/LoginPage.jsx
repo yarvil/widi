@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setRemember,
   setUserEmail,
+  checkAuth,
 } from "@/app/store/authentication/authSlice";
 import {
   selectUserEmail,
@@ -79,16 +80,16 @@ function LoginPage() {
         }
 
         // localStorage.setItem("token", JSON.stringify(currentUser.token));
+        await dispatch(checkAuth());
 
-        // dispatch(
-        //   showStatusMessage({
-        //     message: "Login successful",
-        //     type: "success",
-        //   })
-        // );
+        dispatch(
+          showStatusMessage({
+            message: "Login successful",
+            type: "success",
+          }),
+        );
 
-        // dispatch(login());
-        // navigate("/");
+        navigate("/");
       } catch (error) {
         dispatch(
           showStatusMessage({
