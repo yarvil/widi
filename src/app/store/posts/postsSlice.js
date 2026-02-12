@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { fetchFeed, fetchPost, createPostApi } from "@/api/posts";
+import { fetchFeed, fetchPost, createPostApi, fetchMyFeed } from "@/api/posts";
 import { fetchComments, createCommentApi } from "@/api/comments";
 import { toggleLikeApi } from "@/api/likes";
 
 export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
   return await fetchFeed();
 });
+export const fetchMyFeedThunk = createAsyncThunk(
+  "posts/fetchMyFeed",
+  async () => {
+    return await fetchMyFeed();
+  },
+);
 
 export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
@@ -43,7 +49,6 @@ export const toggleLikeThunk = createAsyncThunk(
   },
 );
 
-// PostDto из API → внутренний формат
 const normalizePost = (post) => {
   if (!post) return null;
   return {
@@ -66,6 +71,7 @@ const postsSlice = createSlice({
   name: "posts",
   initialState: {
     feedPosts: [],
+    myFeedPosts: [],
     currentPost: null,
     comments: [],
     loading: false,
@@ -77,7 +83,7 @@ const postsSlice = createSlice({
     },
     deletePost: (state, action) => {
       state.feedPosts = state.feedPosts.filter(
-        post => post.postId !== action.payload
+        (post) => post.postId !== action.payload,
       );
     },
   },
@@ -90,11 +96,23 @@ const postsSlice = createSlice({
       })
       .addCase(fetchFeedThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.feedPosts = action.payload.map(normalizePost);
+        state.feedPosts = action.payload.content.map(normalizePost);
       })
       .addCase(fetchFeedThunk.rejected, (state) => {
         state.loading = false;
         state.error = "Failed to load feed";
+      })
+      .addCase(fetchMyFeedThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyFeedThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.feedPosts = action.payload.content.map(normalizePost);
+      })
+      .addCase(fetchMyFeedThunk.rejected, (state) => {
+        state.loading = false;
+        state.error = "Failed to load my feed";
       })
       // --- Single post ---
       .addCase(fetchPostThunk.pending, (state) => {
@@ -150,5 +168,5 @@ const postsSlice = createSlice({
   },
 });
 
-export const { setCurrentPost,deletePost } = postsSlice.actions;
+export const { setCurrentPost, deletePost } = postsSlice.actions;
 export default postsSlice.reducer;

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-const PageWrapper = styled.div`
-  position: relative;
+const FeedWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  margin: 0 auto;
+  flex-shrink: 0;
+  /* margin: 0 auto; */
   border-left: 1px solid #2f3336;
   border-right: 1px solid #2f3336;
 `;
 
-export default PageWrapper;
+export default FeedWrapper;

@@ -6,6 +6,8 @@ import headerReducer from "./header/headerSlice";
 import notificationsReducer from "./notifications/notificationsSlice";
 import searchSliceReducer from "./search/searchSlice";
 import favoriteSliceReducer from "./favorite/favoriteSlice";
+import usersReducer from "./users/usersSlice";
+import followsReducer from "./follows/followsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +18,7 @@ export const store = configureStore({
     notifications: notificationsReducer,
     search: searchSliceReducer,
     favorites: favoriteSliceReducer,
+    users: usersReducer,
+    follows: followsReducer,
   },
 });
