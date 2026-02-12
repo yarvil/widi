@@ -58,6 +58,9 @@ const authSlice = createSlice({
     setRemember: (state, action) => {
       state.remember = action.payload;
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
     setStatusMessage: (state, action) => {
       state.statusMessage = action.payload.message;
       state.messageType = action.payload.type;
