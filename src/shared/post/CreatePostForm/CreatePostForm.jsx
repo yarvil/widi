@@ -20,6 +20,7 @@ import {
   Actions,
   Button,
   FormContainer,
+  AvatarWrapper,
 } from "./CreatePostForm.styled";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
@@ -66,7 +67,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           imageUrl = await uploadPostImage(media.file);
         }
         dispatch(createPostThunk({ content: text, imageUrl }));
-        dispatch(setNewNotification())
+        dispatch(setNewNotification());
       } catch (err) {
         console.error("Upload failed:", err);
       } finally {
@@ -103,7 +104,11 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           style={{ display: "none" }}
           onChange={handleMediaUpload}
         />
-        {currentUser && <Avatar src={currentUser.avatarUrl} />}
+        {currentUser && (
+          <AvatarWrapper>
+            <Avatar src={currentUser.avatarUrl} />
+          </AvatarWrapper>
+        )}
         <Content>
           <TextArea
             ref={textAreaRef}

@@ -18,11 +18,24 @@ import {
 } from "@/pages/auth";
 import NotFoundPage from "@/pages/notFound/NotFoundPage";
 import ChatPage from "@/pages/chat/ChatPage";
+import FollowPage from "@/pages/follow/FollowPage";
 
 const RootRouter = [
   {
     path: "/",
-    element: <PrivateRoute><FeedPage /></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <FeedPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/follow",
+    element: (
+      <PrivateRoute>
+        <FollowPage />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/users/:id",

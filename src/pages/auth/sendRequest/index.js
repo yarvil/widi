@@ -36,7 +36,10 @@ export async function apiRequest(method, url, body = null) {
 
     if (response.status === 204) return null;
 
-    return await response.json();
+    const text = await response.text();
+    if (!text || text.trim() === "") return null;
+
+    return JSON.parse(text);
   } catch (error) {
     if (!error.response) {
       error.response = {
