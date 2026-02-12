@@ -14,6 +14,7 @@ const getInitialState = () => {
     remember,
     statusMessage: null,
     messageType: null,
+    loading: true,
   };
 };
 
@@ -28,17 +29,6 @@ export const checkAuth = createAsyncThunk(
 
       return { isAuthenticated: true, user: response };
     } catch (error) {
-      //! ПОКИ БЕКУ НЕМАЄ, ПОТІМ ВИДАЛИТИ
-      // if (import.meta.env.DEV) {
-      // try {
-      // const res = await fetch("/mocks/me.json");
-      // const user = await res.json();
-      // return { isAuthenticated: true, user };
-      // } catch {
-
-      // }
-      // }
-      //! -------------------------------
       return rejectWithValue({
         statusMessage: `${error.response.status} ${error.response.data.message}`,
         messageType: "error",
@@ -68,6 +58,9 @@ const authSlice = createSlice({
     setRemember: (state, action) => {
       state.remember = action.payload;
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
     setStatusMessage: (state, action) => {
       state.statusMessage = action.payload.message;
       state.messageType = action.payload.type;
@@ -78,21 +71,28 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(checkAuth.fulfilled, (state, action) => {
-      state.isAuthenticated = action.payload.isAuthenticated;
-      state.user = action.payload.user;
-      state.userEmail = action.payload.user.email;
-    });
-    builder.addCase(checkAuth.rejected, (state, action) => {
-      if (!state.token) {
-        state.isAuthenticated = false;
-        state.user = null;
-      }
-      if (action.payload) {
-        state.statusMessage = action.payload.statusMessage;
-        state.messageType = action.payload.messageType;
-      }
-    });
+    builder
+      .addCase(checkAuth.pending, (state) => {
+        state.loading = true;
+      })
+
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = action.payload.isAuthenticated;
+        state.user = action.payload.user;
+        state.userEmail = action.payload.user.email;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.loading = false;
+        if (!state.token) {
+          state.isAuthenticated = false;
+          state.user = null;
+        }
+        if (action.payload) {
+          state.statusMessage = action.payload.statusMessage;
+          state.messageType = action.payload.messageType;
+        }
+      });
   },
 });
 

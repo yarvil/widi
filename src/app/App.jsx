@@ -8,12 +8,10 @@ import { selectIsAuthenticated } from "./store/authentication/authSelectors";
 
 function App() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuthenticated);
+  // const isAuth = useSelector(selectIsAuthenticated);
 
   useEffect(() => {
-    if (!isAuth) {
-      dispatch(checkAuth());
-    }
+    dispatch(checkAuth());
   }, [dispatch]);
 
   return (

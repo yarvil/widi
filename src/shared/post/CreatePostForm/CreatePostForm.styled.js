@@ -3,15 +3,23 @@ import styled from "styled-components";
 export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 16px;
+  /* padding: 10px 16px; */
   gap: 12px;
   border-bottom: 1px solid #2f3336;
 `;
 export const FormContainer = styled.form`
   display: flex;
-  /* padding: 10px 16px; */
+  padding: 10px 16px;
   gap: 12px;
   /* border-bottom: 1px solid #2f3336; */
+`;
+
+export const AvatarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 12px;
+  padding: 4px;
 `;
 
 export const Avatar = styled.img`
@@ -39,6 +47,8 @@ export const TextArea = styled.textarea`
   outline: none;
   font-size: 20px;
   min-height: 40px;
+  margin-top: 10px;
+  /* margin-left: 5px; */
 `;
 
 export const Actions = styled.div`

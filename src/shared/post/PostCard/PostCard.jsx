@@ -6,7 +6,6 @@ import {
   Content,
   Header,
   AuthorName,
-  AuthorUsername,
   Text,
   Media,
   MediaWrapper,
@@ -39,7 +38,6 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
             to={`/users/${authorId}`}
           >
             <AuthorName>{name}</AuthorName>
-            <AuthorUsername>@{authorId}</AuthorUsername>
           </Link>
           <TimeAgo time={createdTime} />
         </Header>
