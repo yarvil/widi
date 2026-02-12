@@ -15,6 +15,7 @@ import {
   Option,
 } from "../ui";
 import { fetchPost } from "../sendRequest";
+import { checkAuth, setUserEmail } from "@/app/store/authentication/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
@@ -62,15 +63,23 @@ function RegisterPage() {
         if (response.ok) {
           dispatch(
             showStatusMessage({
-              message:
-                "Реєстрація пройшла успішно! Перевірте свою пошту для активації",
+              message: "Реєстрація пройшла успішно!",
               type: "success",
+            }),
+          );
+        }
+        const currentUser = await dispatch(checkAuth());
+
+        if (!currentUser.user) {
+          dispatch(
+            showStatusMessage({
+              message: "Помилка при отриманні даних користувача",
+              type: "error",
             }),
           );
         }
 
         dispatch(setUserEmail(values.email));
-        await dispatch(checkAuth());
         navigate("/");
       } catch (error) {
         dispatch(

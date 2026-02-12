@@ -24,10 +24,7 @@ export const checkAuth = createAsyncThunk(
       const state = getState();
       const token = state.auth.token;
 
-      const response = await fetchGet("api/user/me", {
-        ...(token ? { token } : { credentials: true }),
-      });
-      console.log(response);
+      const response = await fetchGet("api/user/me");
 
       return { isAuthenticated: true, user: response };
     } catch (error) {
@@ -62,6 +59,8 @@ const authSlice = createSlice({
       state.userEmail = "";
       state.remember = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("remember");
     },
     setUserEmail: (state, action) => {
       state.userEmail = action.payload;
