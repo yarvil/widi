@@ -14,6 +14,7 @@ const getInitialState = () => {
     remember,
     statusMessage: null,
     messageType: null,
+    isLoading: false,
   };
 };
 
@@ -68,6 +69,9 @@ const authSlice = createSlice({
     setRemember: (state, action) => {
       state.remember = action.payload;
     },
+    setLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
     setStatusMessage: (state, action) => {
       state.statusMessage = action.payload.message;
       state.messageType = action.payload.type;
@@ -78,20 +82,21 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(checkAuth.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(checkAuth.fulfilled, (state, action) => {
       state.isAuthenticated = action.payload.isAuthenticated;
       state.user = action.payload.user;
       state.userEmail = action.payload.user.email;
+      state.isLoading = false;
     });
     builder.addCase(checkAuth.rejected, (state, action) => {
       if (!state.token) {
         state.isAuthenticated = false;
         state.user = null;
       }
-      if (action.payload) {
-        state.statusMessage = action.payload.statusMessage;
-        state.messageType = action.payload.messageType;
-      }
+      state.isLoading = false;
     });
   },
 });
