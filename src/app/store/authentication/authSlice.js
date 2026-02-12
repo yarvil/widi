@@ -29,17 +29,6 @@ export const checkAuth = createAsyncThunk(
 
       return { isAuthenticated: true, user: response };
     } catch (error) {
-      //! ПОКИ БЕКУ НЕМАЄ, ПОТІМ ВИДАЛИТИ
-      // if (import.meta.env.DEV) {
-      // try {
-      // const res = await fetch("/mocks/me.json");
-      // const user = await res.json();
-      // return { isAuthenticated: true, user };
-      // } catch {
-
-      // }
-      // }
-      //! -------------------------------
       return rejectWithValue({
         statusMessage: `${error.response.status} ${error.response.data.message}`,
         messageType: "error",

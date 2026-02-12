@@ -1,7 +1,8 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { fetchUsersThunk } from "@/app/store/users/usersSlice";
 import { selectUsers } from "@/app/store/users/usersSelectors";
-import { useEffect } from "react";
 import UserCard from "../UserCard/UserCard";
 import { selectFollowingStatus } from "@/app/store/follows/followsSelectors";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";

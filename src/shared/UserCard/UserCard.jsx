@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import { Avatar, AvatarWrapper } from "../post/PostCard/PostCard.styled";
 import {
   FollowButton,
@@ -7,8 +10,6 @@ import {
   UserId,
   UserInformation,
 } from "./UserCard.styled";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
 import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
 
@@ -24,15 +25,7 @@ export default function UserCard({
   const followStatusFromStore = useSelector(selectIsFollowing(id));
   const isFollowing = followStatusFromStore ?? initialIsFollowing;
 
-  // console.log("UserCard render:", {
-  //   id,
-  //   followStatusFromStore,
-  //   initialIsFollowing,
-  //   isFollowing,
-  // });
-
   const handleFollowClick = () => {
-    // console.log("Button clicked! Dispatching:", { userId: id, isFollowing });
     dispatch(toggleFollowThunk({ userId: id, isFollowing }));
   };
 
