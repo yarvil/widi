@@ -1,14 +1,13 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import { AppRouter } from "@/app/router";
-import Header from "@/shared/ui/Header";
+import Header from "@/shared/ui/Header/Header";
 import StatusMessage from "./store/authentication/StatusMessage";
 import { checkAuth } from "./store/authentication/authSlice";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthenticated } from "./store/authentication/authSelectors";
 
 function App() {
   const dispatch = useDispatch();
-  // const isAuth = useSelector(selectIsAuthenticated);
 
   useEffect(() => {
     dispatch(checkAuth());

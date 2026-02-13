@@ -23,8 +23,9 @@ export const PageHeader = styled.div`
 
 export const PostHeader = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 16px;
 `;
 
 export const PostAuthor = styled.div`

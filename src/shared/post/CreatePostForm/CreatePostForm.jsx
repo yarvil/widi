@@ -21,12 +21,14 @@ import {
   Button,
   FormContainer,
   AvatarWrapper,
+  ReplyingText,
 } from "./CreatePostForm.styled";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
   const [text, setText] = useState("");
   const [media, setMedia] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const dispatch = useDispatch();
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -45,6 +47,12 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     const file = e.target.files[0];
     if (!file) return;
     setMedia({ file, preview: URL.createObjectURL(file) });
+  };
+
+  const handleFocus = () => {
+    if (!isExpanded) {
+      setIsExpanded(true);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -77,24 +85,18 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
 
     setText("");
     setMedia(null);
+    setIsExpanded(false);
     textAreaRef.current.style.height = "auto";
-    fileInputRef.current.value = null;
+    if (fileInputRef.current) fileInputRef.current.value = null;
   };
 
   return (
     <FormWrapper>
-      {isReply && (
-        <p
-          style={{
-            fontSize: "16px",
-            color: "rgb(113, 118, 123)",
-            marginLeft: "62px",
-            marginBlock: "0",
-          }}
-        >
+      {isReply && isExpanded && (
+        <ReplyingText>
           Replying to
           <span style={{ color: "rgb(29, 155, 240)" }}> @{username}</span>
-        </p>
+        </ReplyingText>
       )}
       <FormContainer onSubmit={handleSubmit}>
         <input
@@ -114,6 +116,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
             ref={textAreaRef}
             value={text}
             onChange={handleChange}
+            onFocus={handleFocus}
             maxLength={280}
             placeholder={placeholder}
           />
@@ -147,21 +150,25 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
               </ActionButton>
             </div>
           )}
-          <Actions>
-            <ActionButton
-              type="button"
-              onClick={() => fileInputRef.current.click()}
-              $action="media"
-              disabled={uploading}
-            >
-              <IconWrapper>
-                <MediaIcon />
-              </IconWrapper>
-            </ActionButton>
-            <Button type="submit" disabled={!text.trim() || uploading}>
-              {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
-            </Button>
-          </Actions>
+          {(isExpanded || !isReply) && (
+            <Actions $isReply={isReply}>
+              {!isReply && (
+                <ActionButton
+                  type="button"
+                  onClick={() => fileInputRef.current.click()}
+                  $action="media"
+                  disabled={uploading}
+                >
+                  <IconWrapper>
+                    <MediaIcon />
+                  </IconWrapper>
+                </ActionButton>
+              )}
+              <Button type="submit" disabled={!text.trim() || uploading}>
+                {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
+              </Button>
+            </Actions>
+          )}
         </Content>
       </FormContainer>
     </FormWrapper>

@@ -3,22 +3,20 @@ import styled from "styled-components";
 export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* padding: 10px 16px; */
+  padding-block: 16px;
   gap: 12px;
   border-bottom: 1px solid #2f3336;
 `;
 export const FormContainer = styled.form`
   display: flex;
-  padding: 10px 16px;
+  padding: 0 16px;
   gap: 12px;
-  /* border-bottom: 1px solid #2f3336; */
 `;
 
 export const AvatarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 12px;
   padding: 4px;
 `;
 
@@ -48,12 +46,12 @@ export const TextArea = styled.textarea`
   font-size: 20px;
   min-height: 40px;
   margin-top: 10px;
-  /* margin-left: 5px; */
 `;
 
 export const Actions = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.$isReply ? "flex-end" : "space-between"};
 `;
 
 export const Button = styled.button`
@@ -74,4 +72,11 @@ export const Button = styled.button`
   &:not(:disabled):hover {
     background-color: rgb(215, 219, 220);
   }
+`;
+
+export const ReplyingText = styled.p`
+  font-size: 16px;
+  color: rgb(113, 118, 123);
+  margin-left: 88px;
+  margin-block: 0;
 `;

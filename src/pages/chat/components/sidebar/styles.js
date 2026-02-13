@@ -131,6 +131,7 @@ export const ConversationOptions = styled.button`
   width: 15px;
   cursor: pointer;
   border: 1px solid rgba(24, 119, 242, 0);
+  padding: 0;
 
   &:hover {
     border: 1px solid black;

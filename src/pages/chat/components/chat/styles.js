@@ -32,17 +32,21 @@ export const ChatHeader = styled.div`
   background: white;
 `;
 
-export const BackToListButton = styled.img`
+export const BackToListButton = styled.button`
   width: 0;
   transition: 0.5s ease;
 
   @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-right: 20px;
     background-color: #b2b2b2;
-    padding: 10px;
+    padding: 0;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    border: 0;
     transition: 0.7s ease;
   }
 `;
