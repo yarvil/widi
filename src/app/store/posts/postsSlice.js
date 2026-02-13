@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { fetchFeed, fetchPost, createPostApi, fetchMyFeed } from "@/api/posts";
+import {
+  fetchFeed,
+  fetchPost,
+  createPostApi,
+  fetchMyFeed,
+  updatePostApi,
+  deletePostApi,
+} from "@/api/posts";
 import { fetchComments, createCommentApi } from "@/api/comments";
 import { toggleLikeApi } from "@/api/likes";
 
@@ -39,6 +46,21 @@ export const createCommentThunk = createAsyncThunk(
   "posts/createComment",
   async ({ postId, userId, content }) => {
     return await createCommentApi(postId, userId, content);
+  },
+);
+
+export const updatePostThunk = createAsyncThunk(
+  "posts/updatePost",
+  async ({ postId, content, imageUrl }) => {
+    return await updatePostApi(postId, content, imageUrl);
+  },
+);
+
+export const deletePostThunk = createAsyncThunk(
+  "posts/deletePost",
+  async (postId) => {
+    await deletePostApi(postId);
+    return postId;
   },
 );
 
@@ -146,8 +168,16 @@ const postsSlice = createSlice({
       // --- Create comment ---
       .addCase(createCommentThunk.fulfilled, (state, action) => {
         state.comments.unshift(action.payload);
-        if (state.currentPost) {
+
+        const postId = action.payload.postId;
+
+        if (state.currentPost && state.currentPost.postId === postId) {
           state.currentPost.commentsCount += 1;
+        }
+
+        const postInFeed = state.feedPosts.find((p) => p.postId === postId);
+        if (postInFeed) {
+          postInFeed.commentsCount += 1;
         }
       })
       // --- Toggle like ---
@@ -164,9 +194,34 @@ const postsSlice = createSlice({
           state.currentPost.liked = liked;
           state.currentPost.likesCount = totalLikes;
         }
+      })
+      // --- Update post ---
+      .addCase(updatePostThunk.fulfilled, (state, action) => {
+        const updatedPost = normalizePost(action.payload);
+
+        const postInFeed = state.feedPosts.find(
+          (p) => p.postId === updatedPost.postId,
+        );
+        if (postInFeed) {
+          Object.assign(postInFeed, updatedPost);
+        }
+
+        if (state.currentPost?.postId === updatedPost.postId) {
+          state.currentPost = updatedPost;
+        }
+      })
+      // --- Delete post ---
+      .addCase(deletePostThunk.fulfilled, (state, action) => {
+        const postId = action.payload;
+
+        state.feedPosts = state.feedPosts.filter((p) => p.postId !== postId);
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost = null;
+        }
       });
   },
 });
 
-export const { setCurrentPost, deletePost } = postsSlice.actions;
+export const { setCurrentPost } = postsSlice.actions;
 export default postsSlice.reducer;

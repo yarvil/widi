@@ -25,7 +25,6 @@ export default function UserList() {
 
   const filteredUsers = users.filter((user) => user.id !== currentUser?.id);
 
-  console.log(users);
   return (
     <>
       {filteredUsers.map((user) => (

@@ -34,8 +34,10 @@ import {
   CreateChatText,
 } from "./styles";
 
-import SearchIconSvg from "@/shared/icons/search.svg";
-import OptionsIcon from "@/shared/icons/conversation-options.png";
+// import OptionsIcon from "@/shared/icons/conversation-options.png";
+import SearchIconSvg from "@/shared/assets/icons/search.svg";
+// import SearchIconSvg from "@/shared/icons/search.svg";
+import OptionsIcon from "@/shared/assets/icons/ellipsis-vertical.svg?react";
 import { loadUsers } from "@/app/store/chat/chatThunks";
 
 const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
@@ -148,12 +150,13 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
                   <ConversationOptions
                     onClick={(event) => handleOpenConvOptions(conv.id, event)}
                   >
-                    <img
+                    <OptionsIcon />
+                    {/* <img
                       src={OptionsIcon}
                       alt="Chat options"
                       width="15"
                       height="15"
-                    />
+                    /> */}
                   </ConversationOptions>
                 </ConversationDetails>
               </ConversationName>
