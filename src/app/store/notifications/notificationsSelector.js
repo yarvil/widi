@@ -1,1 +1,2 @@
-export const selectorNotifications = (store) => store.notifications.hasNew;
+export const selectFeedNotifications = (store) => store.notifications.myFeedNotifications;
+export const selectNotificationsLoading = (state) => state.notifications.loading;

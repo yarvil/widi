@@ -1,14 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { followUser, unfollowUser } from "@/api/follows";
+import { subscribeToUser,unsubscribeToUser } from "@/api/notifications";
 
 export const toggleFollowThunk = createAsyncThunk(
   "follows/toggleFollow",
   async ({ userId, isFollowing }) => {
     if (isFollowing) {
       await unfollowUser(userId);
+      await unsubscribeToUser(userId);
       return { userId, isFollowing: false };
     } else {
       await followUser(userId);
+      await subscribeToUser(userId);
       return { userId, isFollowing: true };
     }
   },

@@ -1,27 +1,27 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Notifications from "../Notifications/Notifications";
 import {
   Notification,
   NotificationsWrapper,
 } from "../NotificationsList/NotificationsListStyle";
 import { useSelector, useDispatch } from "react-redux";
-import { deletePostThunk } from "@/app/store/posts/postsSlice";
-import { selectFeedPosts } from "@/app/store/posts/postsSelectors";
+import { fetchMyNotificationsThunk } from "@/app/store/notifications/notificationsSlice";
+import { selectFeedNotifications } from "@/app/store/notifications/notificationsSelector";
+
 
 export default function NotificationList() {
   const dispatch = useDispatch();
-  const posts = useSelector(selectFeedPosts);
-  const handleDelete = (postId) => {
-    dispatch(deletePostThunk(postId));
-  };
+  const notifications = useSelector(selectFeedNotifications);
+  useEffect(() => {
+      dispatch(fetchMyNotificationsThunk());
+    }, [dispatch]);
   return (
     <Notification>
       <NotificationsWrapper>
-        {posts.map((post) => (
+        {notifications.map((notification) => (
           <Notifications
-            key={post.postId}
-            post={post}
-            onClose={() => handleDelete(post.postId)}
+            key={notification.id}
+            notification={notification}
           />
         ))}
       </NotificationsWrapper>

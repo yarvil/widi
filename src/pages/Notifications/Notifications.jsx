@@ -4,38 +4,22 @@ import {
   NotificationPostLink,
   NotificationsPost,
   UserInfoWrapper,
-  Avatar,
-  Name,
   Content,
 } from "../Notifications/NotificationsStyled";
 import Close from "@/shared/assets/icons/x-icon.svg?react";
 import { CloseButton } from "../Notifications/NotificationsStyled";
 import PostDate from "../post/ui/PostDate";
-export default function Notifications({ post, onClose }) {
-  const { postId, avatar, name, createdTime } = post;
-  const textNf = postId ? "Public a new post" : "Send a new message";
-  function getHref() {
-    if (textNf === "Public a new post") {
-      return `/post/${postId}`;
-    } else {
-      return `/chat`;
-    }
-  }
+
+export default function Notifications({notification}) {
+  const {message,createdAt,link} = notification;
   return (
-    <NotificationPostLink href={getHref()}>
+    <NotificationPostLink to={link}>
       <NotificationsPost>
         <UserInfoWrapper>
-          <Avatar src={avatar} />
-          <Name>{name}</Name>
-          <PostDate time={createdTime} />
+          <PostDate time={createdAt}/>
         </UserInfoWrapper>
-        <Content>{textNf}</Content>
-        <CloseButton
-          onClick={(e) => {
-            e.preventDefault();
-            onClose();
-          }}
-        >
+        <Content>{message}</Content>
+        <CloseButton>
           <Close />
         </CloseButton>
       </NotificationsPost>
@@ -43,16 +27,11 @@ export default function Notifications({ post, onClose }) {
   );
 }
 Notifications.propTypes = {
-  post: PropTypes.shape({
-    avatar: PropTypes.string,
-    name: PropTypes.string,
-    postId: PropTypes.number,
-    textNf: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    text: PropTypes.string,
-    media: PropTypes.string,
-    createdTime: PropTypes.number,
-  }),
-  onClose: PropTypes.func,
+  notification: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.string,
+    type:PropTypes.string,
+    createdAt: PropTypes.string,
+    link: PropTypes.string
+  })
 };

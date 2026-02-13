@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import {
   AuthorName,
   Text,
@@ -96,7 +95,7 @@ FullPost.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    createdTime: PropTypes.string,
+    createdTime: PropTypes.string
   }),
 };
 

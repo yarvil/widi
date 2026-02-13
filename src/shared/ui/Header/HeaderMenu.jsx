@@ -15,8 +15,6 @@ import CircleNotif from "@/shared/assets/icons/circle.svg?react";
 import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
 import { actionMenu, closeMenu } from "@/app/store/header/headerSlice";
-import { selectorNotifications } from "@/app/store/notifications/notificationsSelector";
-import { clearNotifications } from "@/app/store/notifications/notificationsSlice";
 import { useMediaQuery } from "@/hooks/useMedia";
 import { selectorFavorites } from "@/app/store/favorite/favoriteSelector";
 import { clearFavorites } from "@/app/store/favorite/favoriteSlice";
@@ -38,7 +36,6 @@ import { logout } from "@/app/store/authentication/authSlice";
 
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
-  const hasNew = useSelector(selectorNotifications);
   const [modal, setModal] = useState(false);
   const hasNewFavs = useSelector(selectorFavorites);
   const dispatch = useDispatch();
@@ -109,23 +106,17 @@ export default function AuthMenu() {
                   )}
                   Favorite
                 </NavLink>
+                <NavLink to="/follow">
+                  <FollowIcon />
+                  Follow
+                </NavLink>
                 <NavLink
                   to="/notifications"
                   onClick={() => {
-                    (dispatch(clearNotifications()), dispatch(closeMenu()));
+                    (dispatch(closeMenu()));
                   }}
                 >
-                  {hasNew && (
-                    <>
-                      <CircleNotif />
-                      <NotificationLogo />
-                    </>
-                  )}
-                  {!hasNew && (
-                    <>
-                      <NotificationLogo />
-                    </>
-                  )}
+                  <NotificationLogo />
                   Notifications
                 </NavLink>
                 <NavLink
@@ -212,25 +203,11 @@ export default function AuthMenu() {
               </NavLink>
               <NavLink
                 to="/notifications"
-                onClick={() => dispatch(clearNotifications())}
               >
-                {hasNew && (
-                  <>
-                    <IconWrapper>
-                      <NotificationLogo />
-                      <CircleNotif />
-                      <Name>Notifications</Name>
-                    </IconWrapper>
-                  </>
-                )}
-                {!hasNew && (
-                  <>
-                    <IconWrapper>
-                      <NotificationLogo />
-                      <Name>Notifications</Name>
-                    </IconWrapper>
-                  </>
-                )}
+                <IconWrapper>
+                  <NotificationLogo />
+                  <Name>Notifications</Name>
+                </IconWrapper>
               </NavLink>
               <NavLink onClick={() => closeModal()}>
                 <IconWrapper>
@@ -313,25 +290,11 @@ export default function AuthMenu() {
               </NavLink>
               <NavLink
                 to="/notifications"
-                onClick={() => dispatch(clearNotifications())}
               >
-                {hasNew && (
-                  <>
-                    <IconWrapper>
-                      <NotificationLogo />
-                      <CircleNotif />
-                      <Name>Notifications</Name>
-                    </IconWrapper>
-                  </>
-                )}
-                {!hasNew && (
-                  <>
-                    <IconWrapper>
-                      <NotificationLogo />
-                      <Name>Notifications</Name>
-                    </IconWrapper>
-                  </>
-                )}
+                <IconWrapper>
+                  <NotificationLogo />
+                  <Name>Notifications</Name>
+                </IconWrapper>
               </NavLink>
               <NavLink onClick={() => closeModal()}>
                 <IconWrapper>

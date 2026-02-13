@@ -24,15 +24,22 @@ import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import MoreIcon from "@/shared/assets/icons/dots.svg?react";
 import EditPostModal from "./EditPostModal";
+import { toggleSaveThunk } from "@/app/store/posts/postsSlice";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, authorId, text, media } = post;
+  const { postId, avatar, createdTime, name, authorId, text, media,saved } = post;
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
   const isMyPost = currentUser?.id === authorId;
+  const handleSave = () => {
+    dispatch(toggleSaveThunk({
+      postId,
+      saved,
+    }));
+  };
 
   const handleDelete = () => {
     if (window.confirm("Delete this post?")) {
@@ -76,6 +83,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
                 {showMenu && (
                   <DropdownMenu>
                     <MenuItem onClick={handleEdit}>Edit post</MenuItem>
+                    <MenuItem onClick={handleSave}>Save post</MenuItem>
                     <MenuItem $danger onClick={handleDelete}>
                       Delete post
                     </MenuItem>
@@ -112,6 +120,7 @@ PostCard.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
+    saved : PropTypes.bool
   }),
   withTopLine: PropTypes.bool,
   withBottomLine: PropTypes.bool,
