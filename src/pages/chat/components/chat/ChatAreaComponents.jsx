@@ -21,7 +21,8 @@ import {
 } from "./styles";
 import { Avatar, OnlineIndicator } from "../sidebar/styles";
 
-import ArrowLeftIcon from "@/shared/icons/arrow-left.png";
+import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
+// import ArrowLeftIcon from "@/shared/icons/arrow-left.png";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
@@ -78,10 +79,12 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     <ChatArea $isChatListOpen={isChatListOpen}>
       <ChatHeader>
         <BackToListButton
-          src={ArrowLeftIcon}
+          // src={ArrowLeftIcon}
           onClick={handleChatList}
           alt="Back to chat list"
-        />
+        >
+          <ArrowLeftIcon />
+        </BackToListButton>
         <Avatar>
           {activeConversation.participants[0].firstName.slice(0, 2)}
           <OnlineIndicator online={activeConversation.isOnline} />

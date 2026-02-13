@@ -1,26 +1,26 @@
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import MainLogoSvg from "../../image/WiDi.svg?react";
-import MenuLogo from "../../image/menu.svg?react";
-import PostLogo from "../../image/posts.svg?react";
-import FavsLogo from "../../image/favorite.svg?react";
-import LogOut from "../../image/logout.svg?react";
-import HomeLogo from "../../image/home.svg?react";
-import ProfileLogo from "../../image/profile.svg?react";
-import NotificationLogo from "../../image/notifications.svg?react";
-import SmsLogo from "../../image/sms.svg?react";
-import CircleNotif from "../../image/circle.svg?react";
+import { useDispatch, useSelector } from "react-redux";
+
+import MainLogoSvg from "@/shared/assets/logo/WiDi.svg?react";
+import SmsLogo from "@/shared/assets/icons/mail.svg?react";
+import MenuLogo from "@/shared/assets/icons/menu.svg?react";
+import PostLogo from "@/shared/assets/icons/rows-3.svg?react";
+import FavsLogo from "@/shared/assets/icons/heart.svg?react";
+import LogOut from "@/shared/assets/icons/log-out.svg?react";
+import HomeLogo from "@/shared/assets/icons/house.svg?react";
+import ProfileLogo from "@/shared/assets/icons/circle-user-round.svg?react";
+import NotificationLogo from "@/shared/assets/icons/bell.svg?react";
+import CircleNotif from "@/shared/assets/icons/circle.svg?react";
+import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
-import { useSelector } from "react-redux";
 import { actionMenu, closeMenu } from "@/app/store/header/headerSlice";
 import { selectorNotifications } from "@/app/store/notifications/notificationsSelector";
 import { clearNotifications } from "@/app/store/notifications/notificationsSlice";
-import { useMediaQuery } from "./UseMedia";
+import { useMediaQuery } from "@/hooks/useMedia";
 import { selectorFavorites } from "@/app/store/favorite/favoriteSelector";
 import { clearFavorites } from "@/app/store/favorite/favoriteSlice";
-import ModalWindow from "./Modal";
-import FollowIcon from "@/image/icons/user-round-plus.svg?react";
+import ModalWindow from "../Modal/Modal";
 import {
   Heder,
   Name,

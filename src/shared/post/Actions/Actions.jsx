@@ -10,14 +10,13 @@ import {
 } from "./Actions.styled";
 import ReplyIcon from "shared/assets/icons/reply-icon.svg?react";
 import LikeIcon from "shared/assets/icons/like-icon.svg?react";
-import RepostIcon from "shared/assets/icons/repost-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
 import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { setNewFavorites } from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
-  const { postId, commentsCount, repostsCount, likesCount, liked } = post;
+  const { postId, commentsCount, likesCount, liked } = post;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
@@ -26,7 +25,7 @@ function Actions({ post, withBorder }) {
     if (!currentUser) return;
     dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
     if (!liked) {
-      dispatch(setNewFavorites())
+      dispatch(setNewFavorites());
     }
   };
 
@@ -41,12 +40,6 @@ function Actions({ post, withBorder }) {
           <ReplyIcon />
         </IconWrapper>
         <Count $show={commentsCount}>{commentsCount}</Count>
-      </ActionButton>
-      <ActionButton type="button" $action="repost">
-        <IconWrapper>
-          <RepostIcon />
-        </IconWrapper>
-        <Count $show={repostsCount}>{repostsCount}</Count>
       </ActionButton>
       <ActionButton
         onClick={handleLikeClick}
@@ -65,7 +58,6 @@ Actions.propTypes = {
   post: PropTypes.shape({
     postId: PropTypes.string,
     commentsCount: PropTypes.number,
-    repostsCount: PropTypes.number,
     likesCount: PropTypes.number,
     liked: PropTypes.bool,
   }),
