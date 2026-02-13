@@ -1,10 +1,14 @@
 export function formatPostTime(time) {
+  if (!time) {
+    return " · Now";
+  }
   const options = {
     day: "numeric",
     month: "short",
   };
+  const utcTime = time.endsWith("Z") ? time : time + "Z";
 
-  const timestamp = new Date(time).getTime();
+  const timestamp = new Date(utcTime).getTime();
   const sec = Math.floor((Date.now() - timestamp) / 1000);
 
   if (sec < 60) {
@@ -21,6 +25,6 @@ export function formatPostTime(time) {
     return ` · ${hours}h`;
   }
 
-  const date = new Date(time);
+  const date = new Date(utcTime);
   return ` · ${date.toLocaleDateString("en-UA", options)}`;
 }
