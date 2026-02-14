@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
-import errorImage from "./404-error.png";
+import errorImage from "./403-error.svg";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const NavLinkStyled = styled(NavLink)`
   display: block;
-  font-size: clamp(18px, 3vw, 25px);
+  font-size: clamp(16px, 3vw, 25px);
   margin-top: 5px;
   margin-bottom: 10px;
   color: #1e9ee3;
@@ -28,13 +28,14 @@ const NavLinkStyled = styled(NavLink)`
 const Title = styled.h1`
   text-align: center;
   color: #fff;
-  font-size: clamp(20px, 4vw, 30px);
+  font-size: clamp(18px, 4vw, 30px);
   margin-bottom: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  width: 70%;
 `;
 
 const Image = styled.img`
-  width: clamp(150px, 30vw, 300px);
+  width: clamp(200px, 40vw, 500px);
   height: auto;
   font-size: clamp(40px, 8vw, 60px);
   display: flex;
@@ -50,9 +51,9 @@ export default function NotFoundPage() {
     <>
       <Container>
         <Image src={errorImage} alt="404" />
-        <Title>Page not found</Title>
-        <NavLinkStyled to="/" onClick={() => navigate("/")}>
-          Back to main page
+        <Title>You don’t have permission to view this page</Title>
+        <NavLinkStyled to="/auth" onClick={() => navigate("/")}>
+          Go to authentication page
         </NavLinkStyled>
       </Container>
     </>

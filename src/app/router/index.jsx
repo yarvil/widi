@@ -17,6 +17,7 @@ import {
   OAuth2Callback,
 } from "@/pages/auth";
 import NotFoundPage from "@/pages/notFound/NotFoundPage";
+import UnauthorizedPage from "@/pages/unauthorized/UnauthorizedPage";
 import ChatPage from "@/pages/chat/ChatPage";
 import FollowPage from "@/pages/follow/FollowPage";
 
@@ -109,6 +110,10 @@ const RootRouter = [
   {
     path: "*",
     element: <NotFoundPage />,
+  },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
   },
   {
     path: "/chat",
