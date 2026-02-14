@@ -23,7 +23,7 @@ export const PageHeader = styled.div`
 
 export const PostHeader = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: 12px;
   margin-bottom: 16px;
 `;

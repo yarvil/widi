@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
   display: flex;
+  padding-inline: ${(props) => (props.$tabs ? "0px" : "10px")};
   align-items: center;
   gap: 20px;
   position: sticky;
   top: 82px;
   background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid #2f3336;
+  border-bottom: ${(props) => (props.$tabs ? "1px solid #2f3336" : "none")};
   z-index: 50;
 `;
 
@@ -39,7 +40,7 @@ export const Tab = styled.div`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(231, 233, 234, 0.1);
   }
 `;
 

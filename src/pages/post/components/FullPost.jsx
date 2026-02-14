@@ -8,9 +8,7 @@ import {
   Text,
   Media,
   MediaWrapper,
-  MoreButton,
-  DropdownMenu,
-  MenuItem,
+  AuthorCounts,
 } from "shared/post/PostCard/PostCard.styled";
 import { Avatar } from "shared/post/PostCard/PostCard.styled";
 import { FullPostWrapper, PostHeader, PostAuthor } from "./FullPost.styled";
@@ -19,16 +17,17 @@ import Actions from "shared/post/Actions/Actions";
 import { Link } from "react-router-dom";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import MoreIcon from "@/shared/assets/icons/dots.svg?react";
 import EditPostModal from "shared/post/PostCard/EditPostModal";
+import useUser from "@/hooks/useUser";
+import PostMenu from "@/shared/post/PostMenu/PostMenu";
 
 function FullPost({ post }) {
   const { avatar, name, authorId, text, media, createdTime, postId } = post;
-  const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
+  const { user } = useUser(authorId);
 
   const isMyPost = currentUser?.id === authorId;
 
@@ -37,11 +36,9 @@ function FullPost({ post }) {
       await dispatch(deletePostThunk(postId));
       navigate("/");
     }
-    setShowMenu(false);
   };
 
   const handleEdit = () => {
-    setShowMenu(false);
     setShowEditModal(true);
   };
 
@@ -54,22 +51,14 @@ function FullPost({ post }) {
             <Link to={`/users/${authorId}`}>
               <AuthorName>{name}</AuthorName>
             </Link>
+            {user && (
+              <>
+                <AuthorCounts>Followers: {user.followersCount}</AuthorCounts>
+                <AuthorCounts>Posts: {user.postsCount}</AuthorCounts>
+              </>
+            )}
           </PostAuthor>
-          {isMyPost && (
-            <div style={{ marginLeft: "auto", position: "relative" }}>
-              <MoreButton onClick={() => setShowMenu(!showMenu)}>
-                <MoreIcon />
-              </MoreButton>
-              {showMenu && (
-                <DropdownMenu>
-                  <MenuItem onClick={handleEdit}>Edit post</MenuItem>
-                  <MenuItem $danger onClick={handleDelete}>
-                    Delete post
-                  </MenuItem>
-                </DropdownMenu>
-              )}
-            </div>
-          )}
+          {isMyPost && <PostMenu onEdit={handleEdit} onDelete={handleDelete} />}
         </PostHeader>
         <Text>{text}</Text>
         {media && (

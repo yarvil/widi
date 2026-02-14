@@ -59,7 +59,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     e.preventDefault();
     if (!text.trim() || !currentUser) return;
 
-    if (isReply && parentId) {
+    if (parentId) {
       dispatch(
         createCommentThunk({
           postId: parentId,

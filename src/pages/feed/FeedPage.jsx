@@ -1,7 +1,8 @@
+import { useState } from "react";
+
 import CreatePostForm from "@/pages/feed/components/CreatePostForm/CreatePostForm";
 import PostList from "@/pages/feed/components/PostList/PostList";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
-import { useState } from "react";
 import PageWrapper from "shared/ui/PageWrapper";
 
 export default function FeedPage() {
@@ -23,7 +24,6 @@ export default function FeedPage() {
         <CreatePostForm />
         {activeTab === "following" && <PostList />}
         {activeTab === "foryou" && <PostList variant="feed" />}
-        {/* <PostList /> */}
       </PageWrapper>
     </>
   );

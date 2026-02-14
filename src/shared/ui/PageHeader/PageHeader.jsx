@@ -34,7 +34,7 @@ export default function PageHeader({
 
   if (variant === "tabs") {
     return (
-      <Wrapper>
+      <Wrapper $tabs>
         <TabsWrapper>
           {tabs.map((tab) => (
             <Tab
