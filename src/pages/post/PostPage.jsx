@@ -19,6 +19,7 @@ import {
 import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import CommentCard from "./components/CommentCard";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
+import UnauthorizedPage from "../unauthorized/UnauthorizedPage";
 
 export default function PostPage() {
   const { postId } = useParams();
@@ -39,7 +40,7 @@ export default function PostPage() {
   }, [postId, dispatch, feedPosts]);
 
   if (loading) return <PageWrapper>Loading...</PageWrapper>;
-  if (!post) return <PageWrapper>Post not found</PageWrapper>;
+  if (!post) return <UnauthorizedPage />;
 
   return (
     <PageWrapper>
