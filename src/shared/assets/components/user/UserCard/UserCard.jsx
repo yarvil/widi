@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Avatar, AvatarWrapper } from "../post/PostCard/PostCard.styled";
+import { Avatar, AvatarWrapper } from "../../post/PostCard/PostCard.styled";
 import {
   FollowButton,
   UserCardWrapper,

@@ -16,7 +16,7 @@ import {
   selectLoading,
   selectFeedPosts,
 } from "@/app/store/posts/postsSelectors";
-import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
+import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import CommentCard from "./components/CommentCard";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 

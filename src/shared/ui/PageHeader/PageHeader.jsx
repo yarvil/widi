@@ -1,4 +1,7 @@
-import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
+import {
+  ActionButton,
+  IconWrapper,
+} from "@/shared/assets/components/post/Actions/Actions.styled";
 import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";

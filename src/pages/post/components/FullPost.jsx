@@ -9,17 +9,17 @@ import {
   Media,
   MediaWrapper,
   AuthorCounts,
-} from "shared/post/PostCard/PostCard.styled";
-import { Avatar } from "shared/post/PostCard/PostCard.styled";
+} from "@/shared/assets/components/post/PostCard/PostCard.styled";
+import { Avatar } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import { FullPostWrapper, PostHeader, PostAuthor } from "./FullPost.styled";
 import PostDate from "./PostDate";
-import Actions from "shared/post/Actions/Actions";
+import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { Link } from "react-router-dom";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import EditPostModal from "shared/post/PostCard/EditPostModal";
+import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
 import useUser from "@/hooks/useUser";
-import PostMenu from "@/shared/post/PostMenu/PostMenu";
+import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
 
 function FullPost({ post }) {
   const { avatar, name, authorId, text, media, createdTime, postId } = post;

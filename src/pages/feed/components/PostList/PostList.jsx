@@ -7,8 +7,8 @@ import {
   selectFeedPosts,
 } from "@/app/store/posts/postsSelectors";
 import { fetchMyFeedThunk, fetchFeedThunk } from "@/app/store/posts/postsSlice";
-import PostCard from "shared/post/PostCard/PostCard";
-import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
+import PostCard from "@/shared/assets/components/post/PostCard/PostCard";
+import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 
 export default function PostList({ variant = "following" }) {

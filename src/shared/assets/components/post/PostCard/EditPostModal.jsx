@@ -6,7 +6,10 @@ import { updatePostThunk } from "@/app/store/posts/postsSlice";
 import { uploadPostImage } from "@/api/upload";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
-import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
+import {
+  ActionButton,
+  IconWrapper,
+} from "@/shared/assets/components/post/Actions/Actions.styled";
 import {
   CloseButton,
   Content,

@@ -16,7 +16,7 @@ import {
   AvatarWrapper,
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
-import Actions from "shared/post/Actions/Actions";
+import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import EditPostModal from "./EditPostModal";

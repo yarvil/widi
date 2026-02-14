@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import { MoreButton, DropdownMenu, MenuItem } from "./PostMenu.styled";
 import MoreIcon from "@/shared/assets/icons/dots.svg?react";
-import { IconWrapper } from "shared/post/Actions/Actions.styled";
 
 export default function PostMenu({ onEdit, onDelete }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -38,9 +37,7 @@ export default function PostMenu({ onEdit, onDelete }) {
   return (
     <div ref={menuRef} style={{ marginLeft: "auto", position: "relative" }}>
       <MoreButton onClick={() => setShowMenu(!showMenu)}>
-        <IconWrapper>
-          <MoreIcon />
-        </IconWrapper>
+        <MoreIcon />
       </MoreButton>
       {showMenu && (
         <DropdownMenu>

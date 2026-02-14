@@ -5,7 +5,6 @@ export const FullPostWrapper = styled.div`
   flex-direction: column;
   padding: 12px 16px;
   gap: 12px;
-  border-bottom: 1px solid #2f3336;
 `;
 
 export const PageHeader = styled.div`
