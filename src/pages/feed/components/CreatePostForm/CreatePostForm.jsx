@@ -25,6 +25,8 @@ import {
   FormContainer,
   AvatarWrapper,
   ReplyingText,
+  RightAction,
+  CharCounter,
 } from "./CreatePostForm.styled";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
@@ -154,7 +156,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
             </div>
           )}
           {(isExpanded || !isReply) && (
-            <Actions $isReply={isReply}>
+            <Actions $isExpanded={isExpanded} $isReply={isReply}>
               {!isReply && (
                 <ActionButton
                   type="button"
@@ -167,9 +169,16 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
                   </IconWrapper>
                 </ActionButton>
               )}
-              <Button type="submit" disabled={!text.trim() || uploading}>
-                {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
-              </Button>
+              <RightAction>
+                {isExpanded && (
+                  <CharCounter $warning={text.length > 260}>
+                    {text.length > 0 && `${text.length}/280`}
+                  </CharCounter>
+                )}
+                <Button type="submit" disabled={!text.trim() || uploading}>
+                  {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
+                </Button>
+              </RightAction>
             </Actions>
           )}
         </Content>

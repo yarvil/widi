@@ -34,7 +34,7 @@ export default function PostList({ variant = "following" }) {
     .filter((post) =>
       post.text.toLowerCase().includes(searchValue.toLowerCase()),
     )
-    .sort((a, b) => b.createdTime - a.createdTime);
+    .sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
 
   return (
     <>

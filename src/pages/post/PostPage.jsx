@@ -20,6 +20,8 @@ import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCa
 import CommentCard from "./components/CommentCard";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 import UnauthorizedPage from "../unauthorized/UnauthorizedPage";
+import { selectorSearch } from "@/app/store/search/searchSelectors";
+import Loader from "@/app/store/authentication/Loader";
 
 export default function PostPage() {
   const { postId } = useParams();
@@ -28,6 +30,13 @@ export default function PostPage() {
   const post = useSelector(selectCurrentPost);
   const comments = useSelector(selectComments);
   const loading = useSelector(selectLoading);
+  const searchValue = useSelector(selectorSearch);
+
+  const filteredComments = comments
+    .filter((comment) =>
+      comment.content.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
   useEffect(() => {
     const postInFeed = feedPosts.find((p) => p.postId === postId);
@@ -39,7 +48,7 @@ export default function PostPage() {
     dispatch(fetchCommentsThunk(postId));
   }, [postId, dispatch, feedPosts]);
 
-  if (loading) return <PageWrapper>Loading...</PageWrapper>;
+  if (loading) return <Loader />;
   if (!post) return <UnauthorizedPage />;
 
   return (
@@ -47,7 +56,7 @@ export default function PostPage() {
       <PageHeader variant="back" title="Post" />
       <FullPost post={post} />
       <CreatePostForm parentId={postId} isReply={true} username={post.name} />
-      {comments.map((comment) => (
+      {filteredComments.map((comment) => (
         <PostCardWrapper key={comment.id}>
           <CommentCard comment={comment} />
         </PostCardWrapper>
