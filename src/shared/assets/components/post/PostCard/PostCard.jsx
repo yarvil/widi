@@ -14,20 +14,16 @@ import {
   PostContainer,
   ReplyLine,
   AvatarWrapper,
-  MoreButton,
-  DropdownMenu,
-  MenuItem,
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
-import Actions from "shared/post/Actions/Actions";
+import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import MoreIcon from "@/shared/assets/icons/dots.svg?react";
 import EditPostModal from "./EditPostModal";
+import PostMenu from "../PostMenu/PostMenu";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
   const { postId, avatar, createdTime, name, authorId, text, media } = post;
-  const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
@@ -38,11 +34,9 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
     if (window.confirm("Delete this post?")) {
       dispatch(deletePostThunk(postId));
     }
-    setShowMenu(false);
   };
 
   const handleEdit = () => {
-    setShowMenu(false);
     setShowEditModal(true);
   };
 
@@ -69,19 +63,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
             </Link>
             <TimeAgo time={createdTime} />
             {isMyPost && (
-              <div style={{ marginLeft: "auto", position: "relative" }}>
-                <MoreButton onClick={() => setShowMenu(!showMenu)}>
-                  <MoreIcon />
-                </MoreButton>
-                {showMenu && (
-                  <DropdownMenu>
-                    <MenuItem onClick={handleEdit}>Edit post</MenuItem>
-                    <MenuItem $danger onClick={handleDelete}>
-                      Delete post
-                    </MenuItem>
-                  </DropdownMenu>
-                )}
-              </div>
+              <PostMenu onEdit={handleEdit} onDelete={handleDelete} />
             )}
           </Header>
           <Link to={`/post/${postId}`}>

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-block: 16px;
+  padding-block: ${(props) => (props.$isReply ? "0 16px" : "16px")};
   gap: 12px;
   border-bottom: 1px solid #2f3336;
 `;

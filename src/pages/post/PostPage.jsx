@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import PageWrapper from "shared/ui/PageWrapper";
@@ -8,24 +8,22 @@ import {
   fetchCommentsThunk,
   setCurrentPost,
 } from "@/app/store/posts/postsSlice";
-import FullPost from "./ui/FullPost";
-import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
-import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
-import CreatePostForm from "shared/post/CreatePostForm/CreatePostForm";
+import FullPost from "./components/FullPost";
+import CreatePostForm from "@/pages/feed/components/CreatePostForm/CreatePostForm";
 import {
   selectCurrentPost,
   selectComments,
   selectLoading,
   selectFeedPosts,
 } from "@/app/store/posts/postsSelectors";
-import { PageHeader } from "./ui/FullPost.styled";
-import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
-import CommentCard from "./ui/CommentCard";
+import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
+import CommentCard from "./components/CommentCard";
+import PageHeader from "@/shared/ui/PageHeader/PageHeader";
+import UnauthorizedPage from "../unauthorized/UnauthorizedPage";
 
 export default function PostPage() {
   const { postId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const feedPosts = useSelector(selectFeedPosts);
   const post = useSelector(selectCurrentPost);
   const comments = useSelector(selectComments);
@@ -42,18 +40,11 @@ export default function PostPage() {
   }, [postId, dispatch, feedPosts]);
 
   if (loading) return <PageWrapper>Loading...</PageWrapper>;
-  if (!post) return <PageWrapper>Post not found</PageWrapper>;
+  if (!post) return <UnauthorizedPage />;
 
   return (
     <PageWrapper>
-      <PageHeader>
-        <ActionButton onClick={() => navigate(-1)}>
-          <IconWrapper>
-            <ArrowBack />
-          </IconWrapper>
-        </ActionButton>
-        <h3>Post</h3>
-      </PageHeader>
+      <PageHeader variant="back" title="Post" />
       <FullPost post={post} />
       <CreatePostForm parentId={postId} isReply={true} username={post.name} />
       {comments.map((comment) => (

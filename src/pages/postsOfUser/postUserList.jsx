@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { selectFeedPosts } from "@/app/store/posts/postsSelectors";
 import { fetchFeedThunk } from "@/app/store/posts/postsSlice";
-import PostCard from "@/shared/post/PostCard/PostCard";
+import PostCard from "@/shared/assets/components/post/PostCard/PostCard";
 import PageWrapper from "@/shared/ui/PageWrapper";
-import { PostCardWrapper } from "@/shared/post/PostCard/PostCard.styled";
+import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 // import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 
