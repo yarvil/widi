@@ -35,7 +35,7 @@ const Title = styled.h1`
 `;
 
 const Image = styled.img`
-  width: clamp(200px, 40vw, 500px);
+  width: clamp(250px, 60vw, 600px);
   height: auto;
   font-size: clamp(40px, 8vw, 60px);
   display: flex;
@@ -44,7 +44,7 @@ const Image = styled.img`
   text-align: center;
 `;
 
-export default function NotFoundPage() {
+export default function UnauthorizedPage() {
   const navigate = useNavigate();
 
   return (
