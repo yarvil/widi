@@ -225,6 +225,12 @@ const postsSlice = createSlice({
           inFeed.likesCount = totalLikes;
         }
 
+        const inMyFeed = state.myFeedPosts.find((p) => p.postId === postId);
+        if (inMyFeed) {
+          inMyFeed.liked = liked;
+          inMyFeed.likesCount = totalLikes;
+        }
+
         if (state.currentPost?.postId === postId) {
           state.currentPost.liked = liked;
           state.currentPost.likesCount = totalLikes;

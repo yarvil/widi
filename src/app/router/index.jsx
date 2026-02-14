@@ -6,7 +6,6 @@ import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import NotificationList from "@/pages/NotificationsList/NotificationsList";
 import FavoriteList from "@/pages/FavoriteList/FavoriteList";
-import PostUserList from "@/pages/postsOfUser/postUserList";
 import {
   AuthPage,
   LoginPage,
@@ -124,14 +123,6 @@ const RootRouter = [
     ),
   },
   {
-    path: "/posts",
-    element: (
-      <PrivateRoute>
-        <PostUserList />
-      </PrivateRoute>
-    ),
-  },
-  {
     path: "/notifications",
     element: (
       <PrivateRoute>
@@ -139,7 +130,6 @@ const RootRouter = [
       </PrivateRoute>
     ),
   },
-  //
   {
     path: "/favorite",
     element: (

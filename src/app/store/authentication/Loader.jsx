@@ -18,8 +18,8 @@ const Spinner = styled.div`
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 4px solid #cccccc;
-  border-top-color: #bc3d16;
+  border: 4px solid rgba(29, 156, 240, 0.3);
+  border-top-color: rgb(29, 155, 240);
   animation: spin 1s ease-in-out infinite;
   @keyframes spin {
     to {
