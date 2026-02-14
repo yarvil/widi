@@ -130,7 +130,7 @@ const postsSlice = createSlice({
       })
       .addCase(fetchMyFeedThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.feedPosts = action.payload.content.map(normalizePost);
+        state.myFeedPosts = action.payload.content.map(normalizePost);
       })
       .addCase(fetchMyFeedThunk.rejected, (state) => {
         state.loading = false;
@@ -164,6 +164,41 @@ const postsSlice = createSlice({
       // --- Create post ---
       .addCase(createPostThunk.fulfilled, (state, action) => {
         state.feedPosts.unshift(normalizePost(action.payload));
+        state.myFeedPosts.unshift(normalizePost(action.payload));
+      })
+      // --- Update post ---
+      .addCase(updatePostThunk.fulfilled, (state, action) => {
+        const updatedPost = normalizePost(action.payload);
+
+        const postInFeed = state.feedPosts.find(
+          (p) => p.postId === updatedPost.postId,
+        );
+        if (postInFeed) {
+          Object.assign(postInFeed, updatedPost);
+        }
+        const postInMyFeed = state.myFeedPosts.find(
+          (p) => p.postId === updatedPost.postId,
+        );
+        if (postInFeed) {
+          Object.assign(postInMyFeed, updatedPost);
+        }
+
+        if (state.currentPost?.postId === updatedPost.postId) {
+          state.currentPost = updatedPost;
+        }
+      })
+      // --- Delete post ---
+      .addCase(deletePostThunk.fulfilled, (state, action) => {
+        const postId = action.payload;
+
+        state.feedPosts = state.feedPosts.filter((p) => p.postId !== postId);
+        state.myFeedPosts = state.myFeedPosts.filter(
+          (p) => p.postId !== postId,
+        );
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost = null;
+        }
       })
       // --- Create comment ---
       .addCase(createCommentThunk.fulfilled, (state, action) => {
@@ -193,31 +228,6 @@ const postsSlice = createSlice({
         if (state.currentPost?.postId === postId) {
           state.currentPost.liked = liked;
           state.currentPost.likesCount = totalLikes;
-        }
-      })
-      // --- Update post ---
-      .addCase(updatePostThunk.fulfilled, (state, action) => {
-        const updatedPost = normalizePost(action.payload);
-
-        const postInFeed = state.feedPosts.find(
-          (p) => p.postId === updatedPost.postId,
-        );
-        if (postInFeed) {
-          Object.assign(postInFeed, updatedPost);
-        }
-
-        if (state.currentPost?.postId === updatedPost.postId) {
-          state.currentPost = updatedPost;
-        }
-      })
-      // --- Delete post ---
-      .addCase(deletePostThunk.fulfilled, (state, action) => {
-        const postId = action.payload;
-
-        state.feedPosts = state.feedPosts.filter((p) => p.postId !== postId);
-
-        if (state.currentPost?.postId === postId) {
-          state.currentPost = null;
         }
       });
   },

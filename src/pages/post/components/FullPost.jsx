@@ -35,7 +35,7 @@ function FullPost({ post }) {
   const handleDelete = async () => {
     if (window.confirm("Delete this post?")) {
       await dispatch(deletePostThunk(postId));
-      navigate("/"); // редирект на главную после удаления
+      navigate("/");
     }
     setShowMenu(false);
   };

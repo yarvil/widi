@@ -8,19 +8,19 @@ import {
   fetchCommentsThunk,
   setCurrentPost,
 } from "@/app/store/posts/postsSlice";
-import FullPost from "./ui/FullPost";
+import FullPost from "./components/FullPost";
 import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
 import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
-import CreatePostForm from "shared/post/CreatePostForm/CreatePostForm";
+import CreatePostForm from "@/pages/feed/components/CreatePostForm/CreatePostForm";
 import {
   selectCurrentPost,
   selectComments,
   selectLoading,
   selectFeedPosts,
 } from "@/app/store/posts/postsSelectors";
-import { PageHeader } from "./ui/FullPost.styled";
+import { PageHeader } from "./components/FullPost.styled";
 import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
-import CommentCard from "./ui/CommentCard";
+import CommentCard from "./components/CommentCard";
 
 export default function PostPage() {
   const { postId } = useParams();

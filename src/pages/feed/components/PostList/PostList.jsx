@@ -1,20 +1,34 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
-import { selectFeedPosts } from "@/app/store/posts/postsSelectors";
-import { fetchMyFeedThunk } from "@/app/store/posts/postsSlice";
+import {
+  selectMyFeedPosts,
+  selectFeedPosts,
+} from "@/app/store/posts/postsSelectors";
+import { fetchMyFeedThunk, fetchFeedThunk } from "@/app/store/posts/postsSlice";
 import PostCard from "shared/post/PostCard/PostCard";
 import { PostCardWrapper } from "shared/post/PostCard/PostCard.styled";
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 
-export default function PostList() {
+export default function PostList({ variant = "following" }) {
   const dispatch = useDispatch();
-  const posts = useSelector(selectFeedPosts);
   const searchValue = useSelector(selectorSearch);
+  const posts = useSelector(
+    variant === "following" ? selectMyFeedPosts : selectFeedPosts,
+  );
+  const fetchThunk =
+    variant === "following" ? fetchMyFeedThunk : fetchFeedThunk;
 
   useEffect(() => {
-    dispatch(fetchMyFeedThunk());
-  }, [dispatch]);
+    dispatch(fetchThunk());
+
+    const interval = setInterval(() => {
+      dispatch(fetchThunk());
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [dispatch, fetchThunk]);
 
   const filteredPosts = posts
     .filter((post) =>
@@ -32,3 +46,7 @@ export default function PostList() {
     </>
   );
 }
+
+PostList.propTypes = {
+  variant: PropTypes.oneOf(["following", "foryou"]),
+};

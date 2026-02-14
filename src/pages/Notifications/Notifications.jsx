@@ -10,7 +10,7 @@ import {
 } from "../Notifications/NotificationsStyled";
 import Close from "@/shared/assets/icons/x-icon.svg?react";
 import { CloseButton } from "../Notifications/NotificationsStyled";
-import PostDate from "../post/ui/PostDate";
+import PostDate from "../post/components/PostDate";
 export default function Notifications({ post, onClose }) {
   const { postId, avatar, name, createdTime } = post;
   const textNf = postId ? "Public a new post" : "Send a new message";
