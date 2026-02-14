@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMyNotifications } from "@/api/notifications";
+import { fetchMyNotifications, readNotification } from "@/api/notifications";
 
 export const fetchMyNotificationsThunk = createAsyncThunk(
   "notifications/fetchMyNotifications",
@@ -7,6 +7,13 @@ export const fetchMyNotificationsThunk = createAsyncThunk(
     return await fetchMyNotifications();
   },
 );
+export const readNotificationThunk = createAsyncThunk(
+  'notifications/readNotification',
+  async (id) => {
+    await readNotification(id)
+    return id
+  }
+)
 
 const normalizeNotifications = (notification) => {
   if (!notification) return null;
@@ -25,13 +32,29 @@ const notificationSlice = createSlice({
     myFeedNotifications: [],
     loading: false,
   },
+  reducers: {
+    removeNotification: (state, action) => {
+      state.notifications = state.notifications.filter(
+        n => n.id !== action.payload
+      );
+    }
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMyNotificationsThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.myFeedNotifications = action.payload.notifications.map(normalizeNotifications);
         console.log(action.payload)
       })
+      .addCase(readNotificationThunk.fulfilled, (state, action) => {
+        const notification = state.myFeedNotifications.find(
+          n => n.id === action.payload
+        );
+        if (notification) {
+          notification.isRead = true;
+        }
+      })
   },
 })
+export const { removeNotification } = notificationSlice.actions
 export default notificationSlice.reducer

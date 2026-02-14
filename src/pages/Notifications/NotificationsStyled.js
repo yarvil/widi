@@ -1,10 +1,16 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+export const NotificationsWrapper = styled.div`
+display:flex;
+align-items:center;`
 
 export const NotificationPostLink = styled(Link)`
   text-decoration: none;
   color: inherit; 
+  
 `;
+
+
 
 export const NotificationsPost = styled.div`
   position: relative;

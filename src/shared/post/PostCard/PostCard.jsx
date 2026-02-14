@@ -17,30 +17,25 @@ import {
   MoreButton,
   DropdownMenu,
   MenuItem,
+  SaveButton
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "shared/post/Actions/Actions";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import MoreIcon from "@/shared/assets/icons/dots.svg?react";
+import BookmarkIcon from '@/shared/assets/icons/bookmark.svg?react'
 import EditPostModal from "./EditPostModal";
 import { toggleSaveThunk } from "@/app/store/posts/postsSlice";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, authorId, text, media,saved } = post;
+  const { postId, avatar, createdTime, name, authorId, text, media, saved } = post;
   const [showMenu, setShowMenu] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
   const isMyPost = currentUser?.id === authorId;
-  const handleSave = () => {
-    dispatch(toggleSaveThunk({
-      postId,
-      saved,
-    }));
-  };
-
   const handleDelete = () => {
     if (window.confirm("Delete this post?")) {
       dispatch(deletePostThunk(postId));
@@ -75,6 +70,18 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
               <AuthorName>{name}</AuthorName>
             </Link>
             <TimeAgo time={createdTime} />
+            <SaveButton
+                  $active={post.saved}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dispatch(toggleSaveThunk({
+                      postId,
+                      saved
+                    }));
+                  }}
+                >
+                  <BookmarkIcon />
+                </SaveButton>
             {isMyPost && (
               <div style={{ marginLeft: "auto", position: "relative" }}>
                 <MoreButton onClick={() => setShowMenu(!showMenu)}>
@@ -83,7 +90,6 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
                 {showMenu && (
                   <DropdownMenu>
                     <MenuItem onClick={handleEdit}>Edit post</MenuItem>
-                    <MenuItem onClick={handleSave}>Save post</MenuItem>
                     <MenuItem $danger onClick={handleDelete}>
                       Delete post
                     </MenuItem>
@@ -120,7 +126,7 @@ PostCard.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    saved : PropTypes.bool
+    saved: PropTypes.bool
   }),
   withTopLine: PropTypes.bool,
   withBottomLine: PropTypes.bool,

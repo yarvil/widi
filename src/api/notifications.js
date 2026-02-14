@@ -19,6 +19,11 @@ export async function unsubscribeToUser(targetUserId) {
 }
 export async function readAllNotifications() {
     'POST',
-    'api/notifications/read-all'
-    
+    'api/notifications/read-all' 
+}
+export async function readNotification(notificationId){
+  return await apiRequest(
+    'POST',
+    `api/notifications/${notificationId}/read`
+  )
 }
