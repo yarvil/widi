@@ -5,7 +5,6 @@ export const FullPostWrapper = styled.div`
   flex-direction: column;
   padding: 12px 16px;
   gap: 12px;
-  border-bottom: 1px solid #2f3336;
 `;
 
 export const PageHeader = styled.div`
@@ -23,7 +22,7 @@ export const PageHeader = styled.div`
 
 export const PostHeader = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: 12px;
   margin-bottom: 16px;
 `;

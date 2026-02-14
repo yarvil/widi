@@ -6,7 +6,7 @@ import useUser from "@/hooks/useUser";
 const Wrapper = styled.div`
   display: flex;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 16px;
   border-bottom: 1px solid #2f3336;
 `;
 
@@ -43,7 +43,7 @@ function CommentCard({ comment }) {
 
   return (
     <Wrapper>
-      <Avatar src={user?.avatarUrl || ""} alt="" />
+      {user?.avatarUrl && <Avatar src={user.avatarUrl} />}
       <div>
         <Header>
           <AuthorName>
