@@ -27,3 +27,9 @@ export async function readNotification(notificationId){
     `api/notifications/${notificationId}/read`
   )
 }
+export async function  deleteNotification(notificationId){
+  return await apiRequest(
+    'DELETE',
+    `api/notifications/${notificationId}`
+  )
+}

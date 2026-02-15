@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { calculateUnreadCount } from "@/pages/chat/utils/chatHelper";
 
 import {
-  loadConversations,
+  loadThreads,
   loadMessagesByThreads,
-  loadUsers,
+  createNewThread,
 } from "../chatThunks";
 
 const initialState = {
-  conversations: [],
+  threads: [],
   messages: {},
   activeConversationId: null,
   currentUser: {
@@ -18,6 +18,7 @@ const initialState = {
   },
   otherUsers: [],
   loading: false,
+  error: null,
 };
 
 const chatSlice = createSlice({
@@ -55,12 +56,6 @@ const chatSlice = createSlice({
         content,
         createdAt: new Date().toISOString().slice(0, 19),
         messageType: "TEXT",
-        // timestamp: new Date().toLocaleTimeString("eu-EU", {
-        //   hour: "2-digit",
-        //   minute: "2-digit",
-        // }),
-        // isOwn: true,
-        // isRead: true,
       };
 
       if (!state.messages[conversationId]) {
@@ -159,23 +154,28 @@ const chatSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //users
-      .addCase(loadUsers.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(loadUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otherUsers = Object.values(action.payload).filter(
-          (user) => user.id !== "user-1",
-        );
-      })
 
       // threads/chats
-      .addCase(loadConversations.pending, (state) => {
+      .addCase(loadThreads.pending, (state) => {
         state.loading = true;
       })
-      .addCase(loadConversations.fulfilled, (state, action) => {
+      .addCase(loadThreads.fulfilled, (state, action) => {
         state.loading = false;
-        state.conversations = action.payload;
+        state.threads = action.payload;
+      })
+      .addCase(loadThreads.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(createNewThread.fulfilled, (state, action) => {
+        const exists = state.threads.find((thread) => {
+          return thread.id === action.payload.id;
+        });
+
+        if (!exists) {
+          state.conversations.unshift(action.payload);
+        }
+        state.activeConversationId = action.payload.id;
       })
 
       // messages

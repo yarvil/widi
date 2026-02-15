@@ -123,6 +123,22 @@ export const LogoWrapper = styled.div`
   justify-content: center;
   gap: 10px;
 `;
+export const SubmitBtn = styled.div`
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #2f3336;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom:10px;
+`
+export const CancelBtn = styled(SubmitBtn)`
+    color: #fff;
+    background-color: #000;
+    margin-top: 0;
+    margin-bottom:0;
+`
 export const Title = styled.h1`
   color: #fff;
   font-size: 20px;

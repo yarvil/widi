@@ -80,9 +80,6 @@ export const ActionButton = styled.button`
     }};
   }
   svg {
-    width: 18px;
-    height: 18px;
-
     fill: ${(props) => {
       switch (props.$action) {
         case "like":
@@ -93,9 +90,6 @@ export const ActionButton = styled.button`
 
         case "reply":
           return props.$active ? "rgb(29, 155, 240)" : "none";
-
-        default:
-          return "#6e767d";
       }
     }};
   }

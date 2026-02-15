@@ -4,9 +4,8 @@ import svgr from "vite-plugin-svgr";
 import path from "node:path";
 import { fileURLToPath } from "url";
 
-// 👇 Define __filename and __dirname using the current module's URL
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename); // This fixes the 'not defined' error
+const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -18,5 +17,9 @@ export default defineConfig({
       pages: path.resolve(__dirname, "./src/pages"),
       shared: path.resolve(__dirname, "./src/shared"),
     },
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
   },
 });

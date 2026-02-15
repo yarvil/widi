@@ -9,11 +9,10 @@ import {
   deletePostApi,
   savePostApi,
   unsavePostApi,
-  fetchSavedPostsApi
+  fetchSavedPostsApi,
 } from "@/api/posts";
 import { fetchComments, createCommentApi } from "@/api/comments";
 import { toggleLikeApi } from "@/api/likes";
-
 
 export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
   return await fetchFeed();
@@ -28,7 +27,7 @@ export const toggleSaveThunk = createAsyncThunk(
       await savePostApi(postId);
       return { postId, saved: true };
     }
-  }
+  },
 );
 export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
@@ -42,9 +41,6 @@ export const fetchMyFeedThunk = createAsyncThunk(
     return await fetchMyFeed();
   },
 );
-
-
-
 
 export const fetchCommentsThunk = createAsyncThunk(
   "posts/fetchComments",
@@ -82,12 +78,11 @@ export const deletePostThunk = createAsyncThunk(
   },
 );
 
-
 export const fetchSavedPostsThunk = createAsyncThunk(
   "posts/fetchSavedPosts",
   async () => {
     return await fetchSavedPostsApi();
-  }
+  },
 );
 
 export const toggleLikeThunk = createAsyncThunk(
@@ -111,8 +106,8 @@ const normalizePost = (post) => {
     commentsCount: post.commentsCount,
     repostsCount: post.repostsCount,
     quotesCount: post.quotesCount,
-    liked: false,
-    saved: false,
+    liked: post.liked,
+    saved: post.saved,
   };
 };
 
@@ -263,7 +258,7 @@ const postsSlice = createSlice({
       .addCase(toggleSaveThunk.fulfilled, (state, action) => {
         const { postId, saved } = action.payload;
         const update = (arr) => {
-          arr?.forEach(p => {
+          arr?.forEach((p) => {
             if (p.postId === postId) {
               p.saved = saved;
             }
@@ -272,18 +267,24 @@ const postsSlice = createSlice({
         update(state.feedPosts);
         update(state.myFeedPosts);
         update(state.savedPosts);
-        if (!saved) {
-          state.savedPosts = state.savedPosts.filter(p => p.postId !== postId);
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost.saved = saved;
         }
-        console.log(action.payload)
+        if (!saved) {
+          state.savedPosts = state.savedPosts.filter(
+            (p) => p.postId !== postId,
+          );
+        }
+        console.log(action.payload);
       })
 
       .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
-        state.savedPosts = action.payload.content.map(p => ({
+        state.savedPosts = action.payload.content.map((p) => ({
           ...normalizePost(p),
-          saved: true
+          saved: true,
         }));
-        console.log(action.payload)
+        console.log(action.payload);
       });
   },
 });
