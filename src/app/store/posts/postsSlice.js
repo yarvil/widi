@@ -18,12 +18,6 @@ import { toggleLikeApi } from "@/api/likes";
 export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
   return await fetchFeed();
 });
-export const fetchMyFeedThunk = createAsyncThunk(
-  "posts/fetchMyFeed",
-  async () => {
-    return await fetchMyFeed();
-  },
-);
 export const toggleSaveThunk = createAsyncThunk(
   "posts/toggleSave",
   async ({ postId, saved }) => {
@@ -36,13 +30,21 @@ export const toggleSaveThunk = createAsyncThunk(
     }
   }
 );
-
 export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
   async (postId) => {
     return await fetchPost(postId);
   },
 );
+export const fetchMyFeedThunk = createAsyncThunk(
+  "posts/fetchMyFeed",
+  async () => {
+    return await fetchMyFeed();
+  },
+);
+
+
+
 
 export const fetchCommentsThunk = createAsyncThunk(
   "posts/fetchComments",
@@ -260,21 +262,29 @@ const postsSlice = createSlice({
       // --- Save post ---
       .addCase(toggleSaveThunk.fulfilled, (state, action) => {
         const { postId, saved } = action.payload;
-
-        const inFeed = state.feedPosts.find(p => p.postId === postId);
-        if (inFeed) {
-          inFeed.saved = saved;
-        }
-
-        if (state.currentPost?.postId === postId) {
-          state.currentPost.saved = saved;
+        const update = (arr) => {
+          arr?.forEach(p => {
+            if (p.postId === postId) {
+              p.saved = saved;
+            }
+          });
+        };
+        update(state.feedPosts);
+        update(state.myFeedPosts);
+        update(state.savedPosts);
+        if (!saved) {
+          state.savedPosts = state.savedPosts.filter(p => p.postId !== postId);
         }
         console.log(action.payload)
       })
+
       .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
+        state.savedPosts = action.payload.content.map(p => ({
+          ...normalizePost(p),
+          saved: true
+        }));
         console.log(action.payload)
-        state.savedPosts = action.payload.content.map(normalizePost);
-      })
+      });
   },
 });
 

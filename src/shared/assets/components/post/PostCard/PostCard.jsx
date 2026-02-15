@@ -66,8 +66,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
             <TimeAgo time={createdTime} />
             <SaveButton
                   $active={post.saved}
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     dispatch(toggleSaveThunk({
                       postId,
                       saved

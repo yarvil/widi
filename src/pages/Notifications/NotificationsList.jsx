@@ -1,9 +1,9 @@
 import React,{useEffect} from "react";
-import Notifications from "../Notifications/Notifications";
+import Notifications from "./Notifications";
 import {
   Notification,
   NotificationsWrapper,
-} from "../NotificationsList/NotificationsListStyle";
+} from "./NotificationsListStyle";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMyNotificationsThunk } from "@/app/store/notifications/notificationsSlice";
 import { selectFeedNotifications } from "@/app/store/notifications/notificationsSelector";

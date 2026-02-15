@@ -2,22 +2,18 @@ import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import MainLogoSvg from "@/shared/assets/logo/WiDi.svg?react";
-import SmsLogo from "@/shared/assets/icons/mail.svg?react";
-import MenuLogo from "@/shared/assets/icons/menu.svg?react";
-import PostLogo from "@/shared/assets/icons/rows-3.svg?react";
-import FavsLogo from "@/shared/assets/icons/heart.svg?react";
-import LogOut from "@/shared/assets/icons/log-out.svg?react";
-import HomeLogo from "@/shared/assets/icons/house.svg?react";
-import ProfileLogo from "@/shared/assets/icons/circle-user-round.svg?react";
-import NotificationLogo from "@/shared/assets/icons/bell.svg?react";
-import CircleNotif from "@/shared/assets/icons/circle.svg?react";
+import MainIconSvg from "@/shared/assets/logo/WiDi.svg?react";
+import SmsIcon from "@/shared/assets/icons/mail.svg?react";
+import MenuIcon from "@/shared/assets/icons/menu.svg?react";
+import FavsIcon from "@/shared/assets/icons/heart.svg?react";
+import LogOutIcon from "@/shared/assets/icons/log-out.svg?react";
+import HomeIcon from "@/shared/assets/icons/house.svg?react";
+import ProfileIcon from "@/shared/assets/icons/circle-user-round.svg?react";
+import NotificationIcon from "@/shared/assets/icons/bell.svg?react";
 import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
 import { actionMenu, closeMenu } from "@/app/store/header/headerSlice";
 import { useMediaQuery } from "@/hooks/useMedia";
-import { selectorFavorites } from "@/app/store/favorite/favoriteSelector";
-import { clearFavorites } from "@/app/store/favorite/favoriteSlice";
 import ModalWindow from "../Modal/Modal";
 import {
   Heder,
@@ -37,7 +33,6 @@ import { logout } from "@/app/store/authentication/authSlice";
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
   const [modal, setModal] = useState(false);
-  const hasNewFavs = useSelector(selectorFavorites);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1024px)");
@@ -45,6 +40,14 @@ export default function AuthMenu() {
   function showBurgerMenu() {
     dispatch(actionMenu());
   }
+  const menuItems = [
+    { path: '/', name: 'Home Page', icon: <HomeIcon /> },
+    { path: '/favorite', name: 'Favorite', icon: <FavsIcon /> },
+    { path: '/follow', name: 'Follow', icon: <FollowIcon /> },
+    { path: '/users/:id', name: 'Profile', icon: <ProfileIcon /> },
+    { path: '/chat', name: 'Messenger', icon: <SmsIcon /> },
+    { path: '/notifications', name: 'Notifications', icon: <NotificationIcon /> },
+  ]
   function closeModal() {
     setModal(!modal);
   }
@@ -53,13 +56,13 @@ export default function AuthMenu() {
   }
   return (
     <>
-      <ModalWindow closeModal={closeModal} isOpen={modal} logOut={logOut} />
+      <ModalWindow closeModal={closeModal} isOpen={modal} onClick={logOut} confirmText="Do you really want to exit WiDi?" submitText='Yes' />
       {isMobile && (
         <Heder>
           <HeaderWrapper>
             <LogoWrapper>
               <NavLink to="/">
-                <MainLogoSvg />
+                <MainIconSvg />
                 <Title>WiDi</Title>
               </NavLink>
               <HeaderSearch
@@ -68,63 +71,23 @@ export default function AuthMenu() {
                 onChange={(e) => dispatch(setSearchValue(e.target.value))}
               />
             </LogoWrapper>
-            <MenuLogo onClick={showBurgerMenu} />
+            <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
               <MenuMiddleWrapper>
-                <NavLink to="/" onClick={() => dispatch(closeMenu())}>
-                  <HomeLogo />
-                  Home Page
-                </NavLink>
-                <NavLink to="/users/:id" onClick={() => dispatch(closeMenu())}>
-                  <ProfileLogo />
-                  Profile
-                </NavLink>
-                <NavLink to="/chat" onClick={() => dispatch(closeMenu())}>
-                  <SmsLogo />
-                  Messenger
-                </NavLink>
-                <NavLink to="/posts" onClick={() => dispatch(closeMenu())}>
-                  <PostLogo />
-                  Posts
-                </NavLink>
-                <NavLink
-                  to="/favorite"
-                  onClick={() => {
-                    (dispatch(clearFavorites()), dispatch(closeMenu()));
-                  }}
-                >
-                  {hasNewFavs && (
-                    <>
-                      <CircleNotif />
-                      <FavsLogo />
-                    </>
-                  )}
-                  {!hasNewFavs && (
-                    <>
-                      <FavsLogo />
-                    </>
-                  )}
-                  Favorite
-                </NavLink>
-                <NavLink to="/follow">
-                  <FollowIcon />
-                  Follow
-                </NavLink>
-                <NavLink
-                  to="/notifications"
-                  onClick={() => {
-                    (dispatch(closeMenu()));
-                  }}
-                >
-                  <NotificationLogo />
-                  Notifications
-                </NavLink>
+                {menuItems.map(item => (
+                  <div key={item.path}>
+                    <NavLink to={item.path} onClick={() => dispatch(closeMenu())}>
+                      {item.icon}
+                      {item.name}
+                    </NavLink>
+                  </div>
+                ))}
                 <NavLink
                   onClick={() => {
                     (closeModal(), dispatch(closeMenu()));
                   }}
                 >
-                  <LogOut />
+                  <LogOutIcon />
                   LogOut
                 </NavLink>
               </MenuMiddleWrapper>
@@ -137,7 +100,7 @@ export default function AuthMenu() {
           <HeaderWrapper>
             <LogoWrapper>
               <NavLink to="/">
-                <MainLogoSvg />
+                <MainIconSvg />
                 <Title>WiDi</Title>
               </NavLink>
               <HeaderSearch
@@ -147,71 +110,31 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              <NavLink to="/">
-                <IconWrapper>
-                  <HomeLogo />
-                  <Name>Home Page</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink to="/posts">
-                <IconWrapper>
-                  <PostLogo />
-                  <Name>Posts</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink
-                to="/favorite"
-                onClick={() => dispatch(clearFavorites())}
-              >
-                {hasNewFavs && (
-                  <>
+              {menuItems.slice(0,3).map(item => (
+                <div key={item.path}>
+                  <NavLink to={item.path}>
                     <IconWrapper>
-                      <FavsLogo />
-                      <CircleNotif />
-                      <Name>Favorite</Name>
+                      {item.icon}
+                      <Name>{item.name}</Name>
                     </IconWrapper>
-                  </>
-                )}
-                {!hasNewFavs && (
-                  <>
-                    <IconWrapper>
-                      <FavsLogo />
-                      <Name>Favorite</Name>
-                    </IconWrapper>
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/follow">
-                <IconWrapper>
-                  <FollowIcon />
-                  <Name>Follow</Name>
-                </IconWrapper>
-              </NavLink>
+                  </NavLink>
+                </div>
+              ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-              <NavLink to="/users/:id">
-                <IconWrapper>
-                  <ProfileLogo />
-                  <Name>Profile</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink to="/chat">
-                <IconWrapper>
-                  <SmsLogo />
-                  <Name>Messenger</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink
-                to="/notifications"
-              >
-                <IconWrapper>
-                  <NotificationLogo />
-                  <Name>Notifications</Name>
-                </IconWrapper>
-              </NavLink>
+               {menuItems.slice(3,6).map(item => (
+                <div key={item.path}>
+                  <NavLink to={item.path}>
+                    <IconWrapper>
+                      {item.icon}
+                      <Name>{item.name}</Name>
+                    </IconWrapper>
+                  </NavLink>
+                </div>
+              ))}
               <NavLink onClick={() => closeModal()}>
                 <IconWrapper>
-                  <LogOut />
+                  <LogOutIcon />
                   <Name>LogOut</Name>
                 </IconWrapper>
               </NavLink>
@@ -224,7 +147,7 @@ export default function AuthMenu() {
           <HeaderWrapper>
             <LogoWrapper>
               <NavLink to="/">
-                <MainLogoSvg />
+                <MainIconSvg />
                 <Title>WiDi</Title>
               </NavLink>
               <HeaderSearch
@@ -234,71 +157,31 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              <NavLink to="/">
-                <IconWrapper>
-                  <HomeLogo />
-                  <Name>Home Page</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink to="/posts">
-                <IconWrapper>
-                  <PostLogo />
-                  <Name>Posts</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink
-                to="/favorite"
-                onClick={() => dispatch(clearFavorites())}
-              >
-                {hasNewFavs && (
-                  <>
+              {menuItems.slice(0,3).map(item => (
+                <div key={item.path}>
+                  <NavLink to={item.path}>
                     <IconWrapper>
-                      <FavsLogo />
-                      <CircleNotif />
-                      <Name>Favorite</Name>
+                      {item.icon}
+                      <Name>{item.name}</Name>
                     </IconWrapper>
-                  </>
-                )}
-                {!hasNewFavs && (
-                  <>
-                    <IconWrapper>
-                      <FavsLogo />
-                      <Name>Favorite</Name>
-                    </IconWrapper>
-                  </>
-                )}
-              </NavLink>
-              <NavLink to="/follow">
-                <IconWrapper>
-                  <FollowIcon />
-                  <Name>Follow</Name>
-                </IconWrapper>
-              </NavLink>
+                  </NavLink>
+                </div>
+              ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-              <NavLink to="/users/:id">
-                <IconWrapper>
-                  <ProfileLogo />
-                  <Name>Profile</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink to="/chat">
-                <IconWrapper>
-                  <SmsLogo />
-                  <Name>Messenger</Name>
-                </IconWrapper>
-              </NavLink>
-              <NavLink
-                to="/notifications"
-              >
-                <IconWrapper>
-                  <NotificationLogo />
-                  <Name>Notifications</Name>
-                </IconWrapper>
-              </NavLink>
+              {menuItems.slice(3,6).map(item => (
+                <div key={item.path}>
+                  <NavLink to={item.path}>
+                    <IconWrapper>
+                      {item.icon}
+                      <Name>{item.name}</Name>
+                    </IconWrapper>
+                  </NavLink>
+                </div>
+              ))}
               <NavLink onClick={() => closeModal()}>
                 <IconWrapper>
-                  <LogOut />
+                  <LogOutIcon />
                   <Name>LogOut</Name>
                 </IconWrapper>
               </NavLink>

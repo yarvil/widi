@@ -47,7 +47,7 @@ export const Heder = styled.header`
   top: 0;
   z-index: 1000;
   background: #000;
-  border-bottom: 1px solid #808080;
+  border-bottom: 1px solid #2f3336;
   a{
   text-decoration: none;
   color: #fff;
@@ -94,6 +94,15 @@ export const HeaderSearch = styled.input`
   background-color: #2a2a2a;
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
   }
+  @media(max-width: 768px){
+  width:150px;
+  font-size:12px;
+  background-size: 16px 16px;
+  &:placeholder{
+    color: #aaa;
+    font-size:12px;
+  }
+  }
   
   `
 export const MenuMiddleWrapper = styled.div`
@@ -111,9 +120,8 @@ export const MenuMiddleWrapper = styled.div`
 export const LogoWrapper = styled.div`
   display: flex;
   align-items:center;
+  justify-content:center;
   gap:10px;
-  @media(min-width:769px){
-  }
   `
 export const Title = styled.h1`
   color: #fff;
