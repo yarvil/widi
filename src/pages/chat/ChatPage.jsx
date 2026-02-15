@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadConversations } from "@/app/store/chat/chatThunks";
 
+import { selectUsers } from "@/app/store/users/usersSelectors";
+import { fetchUsersThunk } from "@/app/store/users/usersSlice";
+
 import { AppContainer } from "./components/common/styles";
 import ChatAreaComponent from "./components/chat/ChatAreaComponents";
 import ConversationListComponent from "./components/sidebar/ConversationListComponent";
@@ -18,6 +21,10 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
+    dispatch(fetchUsersThunk());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (!userId) return;
 
     dispatch(loadConversations(userId));
@@ -26,6 +33,7 @@ const ChatPage = () => {
   return (
     <AppContainer>
       <ConversationListComponent
+        users={selectUsers}
         handleChatList={handleOpenChatlist}
         isChatListOpen={isMobileChatOpen}
       />
