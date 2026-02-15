@@ -13,7 +13,7 @@ import LikeIcon from "shared/assets/icons/like-icon.svg?react";
 import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
 import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import { setNewFavorites } from "@/app/store/favorite/favoriteSlice";
+import { setNewFavorites ,clearFavorites} from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
   const { postId, commentsCount, likesCount, liked } = post;
@@ -26,6 +26,8 @@ function Actions({ post, withBorder }) {
     dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
     if (!liked) {
       dispatch(setNewFavorites());
+    }else{
+      dispatch(clearFavorites())
     }
   };
 

@@ -96,9 +96,26 @@ PostCard.propTypes = {
     text: PropTypes.string,
     media: PropTypes.string,
     following: PropTypes.bool,
+    saved: PropTypes.bool,
   }),
   withTopLine: PropTypes.bool,
   withBottomLine: PropTypes.bool,
 };
 
 export default PostCard;
+
+{
+  /* <SaveButton
+  $active={post.saved}
+  onClick={() => {
+    dispatch(
+      toggleSaveThunk({
+        postId,
+        saved,
+      }),
+    );
+  }}
+>
+  <BookmarkIcon />
+</SaveButton>; */
+}
