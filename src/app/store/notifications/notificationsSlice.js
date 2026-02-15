@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMyNotifications, readNotification } from "@/api/notifications";
+import { fetchMyNotifications, readNotification, deleteNotification } from "@/api/notifications";
 
 export const fetchMyNotificationsThunk = createAsyncThunk(
   "notifications/fetchMyNotifications",
@@ -13,6 +13,14 @@ export const readNotificationThunk = createAsyncThunk(
     await readNotification(id)
     return id
   }
+)
+export const deleteNotificationThunk = createAsyncThunk(
+  'notifications/deleteNotification',
+  async (id) => {
+    await deleteNotification(id)
+    return id
+  }
+
 )
 
 const normalizeNotifications = (notification) => {
@@ -53,6 +61,10 @@ const notificationSlice = createSlice({
         if (notification) {
           notification.isRead = true;
         }
+      })
+      .addCase(deleteNotificationThunk.fulfilled, (state, action) => {
+        state.myFeedNotifications =
+          state.myFeedNotifications.filter(n => n.id !== action.payload);
       })
   },
 })

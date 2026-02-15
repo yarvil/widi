@@ -267,6 +267,10 @@ const postsSlice = createSlice({
         update(state.feedPosts);
         update(state.myFeedPosts);
         update(state.savedPosts);
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost.saved = saved;
+        }
         if (!saved) {
           state.savedPosts = state.savedPosts.filter(
             (p) => p.postId !== postId,
