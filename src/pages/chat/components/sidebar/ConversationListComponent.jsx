@@ -38,7 +38,7 @@ import {
 import SearchIconSvg from "@/shared/assets/icons/search.svg";
 // import SearchIconSvg from "@/shared/icons/search.svg";
 import OptionsIcon from "@/shared/assets/icons/ellipsis-vertical.svg?react";
-import { loadUsers } from "@/app/store/chat/chatThunks";
+import { createNewThread, loadUsers } from "@/app/store/chat/chatThunks";
 
 const ConversationListComponent = ({
   handleChatList,
@@ -95,9 +95,6 @@ const ConversationListComponent = ({
         )
       : [];
 
-  // console.log(otherUsers, "otherUsers");
-  // console.log(filteredNewParticipants, "newPart");
-
   const handleOpenConvOptions = (convId, event) => {
     event.stopPropagation();
 
@@ -105,11 +102,9 @@ const ConversationListComponent = ({
   };
 
   const handleSelectUser = (userId) => {
-    dispatch(createNewConversation(userId));
-
+    dispatch(createNewThread(userId));
     // Очищаем поиск
     setSearchNewParticipants("");
-
     // На мобайле закрываем список чатов
     if (window.innerWidth < 768) {
       handleChatList();
