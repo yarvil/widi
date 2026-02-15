@@ -3,12 +3,9 @@ import { fetchThreads } from "@/api/threads";
 import { fetchUsers } from "@/api/users";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const loadThreads = createAsyncThunk(
-  "chat/loadThreads",
-  async (userId) => {
-    return await fetchThreads(userId);
-  },
-);
+export const loadThreads = createAsyncThunk("chat/loadThreads", async () => {
+  return await fetchThreads();
+});
 
 export const loadMessagesByThreads = createAsyncThunk(
   "chat/loadMessagesByConversation",
