@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadThreads } from "@/app/store/chat/chatThunks";
+// import { loadThreads } from "@/app/store/chat/chatThunks";
 
 import { selectUsers } from "@/app/store/users/usersSelectors";
 import { fetchUsersThunk } from "@/app/store/users/usersSlice";
@@ -24,11 +24,11 @@ const ChatPage = () => {
     dispatch(fetchUsersThunk());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!userId) return;
+  // useEffect(() => {
+  //   if (!userId) return;
 
-    dispatch(loadConversations(userId));
-  }, [userId, dispatch]);
+  //   dispatch(loadConversations(userId));
+  // }, [userId, dispatch]);
 
   return (
     <AppContainer>
