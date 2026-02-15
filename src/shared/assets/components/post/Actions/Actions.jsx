@@ -8,15 +8,18 @@ import {
   IconWrapper,
   Count,
 } from "./Actions.styled";
-import ReplyIcon from "shared/assets/icons/reply-icon.svg?react";
-import LikeIcon from "shared/assets/icons/like-icon.svg?react";
-import LikeIconFilled from "shared/assets/icons/like-icon-filled.svg?react";
-import { toggleLikeThunk } from "@/app/store/posts/postsSlice";
+import ReplyIcon from "shared/assets/icons/message-circle.svg?react";
+import LikeIcon from "shared/assets/icons/heart-action.svg?react";
+import SaveIcon from "@/shared/assets/icons/bookmark-action.svg?react";
+import { toggleLikeThunk, toggleSaveThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import { setNewFavorites } from "@/app/store/favorite/favoriteSlice";
+import {
+  setNewFavorites,
+  clearFavorites,
+} from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
-  const { postId, commentsCount, likesCount, liked } = post;
+  const { postId, commentsCount, likesCount, liked, saved } = post;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
@@ -26,11 +29,22 @@ function Actions({ post, withBorder }) {
     dispatch(toggleLikeThunk({ postId, userId: currentUser.id }));
     if (!liked) {
       dispatch(setNewFavorites());
+    } else {
+      dispatch(clearFavorites());
     }
   };
 
   const handleReplyClick = () => {
     navigate(`/post/${postId}`);
+  };
+
+  const handleSaveClick = () => {
+    dispatch(
+      toggleSaveThunk({
+        postId,
+        saved,
+      }),
+    );
   };
 
   return (
@@ -47,8 +61,20 @@ function Actions({ post, withBorder }) {
         $action="like"
         $active={liked}
       >
-        <IconWrapper>{liked ? <LikeIconFilled /> : <LikeIcon />}</IconWrapper>
+        <IconWrapper>
+          <LikeIcon />
+        </IconWrapper>
         <Count $show={likesCount}>{likesCount}</Count>
+      </ActionButton>
+      <ActionButton
+        type="button"
+        $action="save"
+        $active={saved}
+        onClick={handleSaveClick}
+      >
+        <IconWrapper>
+          <SaveIcon />
+        </IconWrapper>
       </ActionButton>
     </ActionsWrapper>
   );
@@ -60,6 +86,7 @@ Actions.propTypes = {
     commentsCount: PropTypes.number,
     likesCount: PropTypes.number,
     liked: PropTypes.bool,
+    saved: PropTypes.bool,
   }),
   withBorder: PropTypes.bool,
 };

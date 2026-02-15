@@ -1,12 +1,48 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-import { MoreButton, DropdownMenu, MenuItem } from "./PostMenu.styled";
+import {
+  MoreButton,
+  DropdownMenu,
+  MenuItem,
+  MenuWrapper,
+} from "./PostMenu.styled";
 import MoreIcon from "@/shared/assets/icons/dots.svg?react";
+import TrashIcon from "@/shared/assets/icons/trash-2.svg?react";
+import EditIcon from "@/shared/assets/icons/square-pen.svg?react";
+import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
+import UnfollowIcon from "@/shared/assets/icons/user-round-minus.svg?react";
 
-export default function PostMenu({ onEdit, onDelete }) {
+const MENU_VARIANTS = {
+  owner: (handlers) => [
+    { id: "edit", label: "Edit", icon: EditIcon, onClick: handlers.onEdit },
+    {
+      id: "delete",
+      label: "Delete",
+      icon: TrashIcon,
+      onClick: handlers.onDelete,
+      danger: true,
+    },
+  ],
+  other: (handlers, isFollowing) => [
+    {
+      id: "follow",
+      label: isFollowing ? "Unfollow" : "Follow",
+      icon: isFollowing ? UnfollowIcon : FollowIcon,
+      onClick: handlers.onFollow,
+    },
+  ],
+};
+
+export default function PostMenu({
+  variant = "owner",
+  isFollowing = false,
+  ...handlers
+}) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
+
+  const menuItems = MENU_VARIANTS[variant](handlers, isFollowing);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -24,34 +60,38 @@ export default function PostMenu({ onEdit, onDelete }) {
     };
   }, [showMenu]);
 
-  const handleEdit = () => {
+  const handleItemClick = (item) => {
     setShowMenu(false);
-    onEdit();
-  };
-
-  const handleDelete = () => {
-    setShowMenu(false);
-    onDelete();
+    item.onClick?.();
   };
 
   return (
-    <div ref={menuRef} style={{ marginLeft: "auto", position: "relative" }}>
+    <MenuWrapper ref={menuRef}>
       <MoreButton onClick={() => setShowMenu(!showMenu)}>
         <MoreIcon />
       </MoreButton>
       {showMenu && (
         <DropdownMenu>
-          <MenuItem onClick={handleEdit}>Edit post</MenuItem>
-          <MenuItem $danger onClick={handleDelete}>
-            Delete post
-          </MenuItem>
+          {menuItems.map((item) => (
+            <MenuItem
+              key={item.id}
+              $danger={item.danger}
+              onClick={() => handleItemClick(item)}
+            >
+              <item.icon />
+              {item.label}
+            </MenuItem>
+          ))}
         </DropdownMenu>
       )}
-    </div>
+    </MenuWrapper>
   );
 }
 
 PostMenu.propTypes = {
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  variant: PropTypes.string,
+  isFollowing: PropTypes.bool,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
+  onFollow: PropTypes.func,
 };

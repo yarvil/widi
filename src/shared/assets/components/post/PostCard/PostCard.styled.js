@@ -44,10 +44,17 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
-  margin-block: 12px 5px;
+  position: relative;
+  padding-top: 12px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 4px;
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  gap: 5px;
 `;
 
 export const AuthorName = styled.h3`
@@ -65,7 +72,7 @@ export const AuthorCounts = styled.p`
 `;
 
 export const Text = styled.p`
-  margin-block: 0 12px;
+  margin-block: 0 5px;
   font-size: 16px;
   color: #d9d9d9;
 `;
