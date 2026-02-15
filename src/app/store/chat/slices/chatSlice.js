@@ -4,7 +4,7 @@ import { calculateUnreadCount } from "@/pages/chat/utils/chatHelper";
 import { loadThreads, loadMessagesByThreads, loadUsers } from "../chatThunks";
 
 const initialState = {
-  conversations: [],
+  threads: [],
   messages: {},
   activeConversationId: null,
   currentUser: {
@@ -14,6 +14,7 @@ const initialState = {
   },
   otherUsers: [],
   loading: false,
+  error: null,
 };
 
 const chatSlice = createSlice({
@@ -171,7 +172,11 @@ const chatSlice = createSlice({
       })
       .addCase(loadThreads.fulfilled, (state, action) => {
         state.loading = false;
-        state.conversations = action.payload;
+        state.threads = action.payload;
+      })
+      .addCase(loadThreads.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       })
 
       // messages
