@@ -1,8 +1,5 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import {
   AuthorName,
   Text,
@@ -11,54 +8,65 @@ import {
   AuthorCounts,
 } from "@/shared/assets/components/post/PostCard/PostCard.styled";
 import { Avatar } from "@/shared/assets/components/post/PostCard/PostCard.styled";
-import { FullPostWrapper, PostHeader, PostAuthor } from "./FullPost.styled";
+import {
+  FullPostWrapper,
+  PostHeader,
+  PostAuthor,
+  UserInfo,
+} from "./FullPost.styled";
 import PostDate from "./PostDate";
 import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { Link } from "react-router-dom";
-import { deletePostThunk } from "@/app/store/posts/postsSlice";
-import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
 import useUser from "@/hooks/useUser";
 import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
+import usePostActions from "@/hooks/usePostActions";
 
 function FullPost({ post }) {
   const { avatar, name, authorId, text, media, createdTime, postId } = post;
-  const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser);
   const { user } = useUser(authorId);
 
-  const isMyPost = currentUser?.id === authorId;
-
-  const handleDelete = async () => {
-    if (window.confirm("Delete this post?")) {
-      await dispatch(deletePostThunk(postId));
-      navigate("/");
-    }
-  };
-
-  const handleEdit = () => {
-    setShowEditModal(true);
-  };
+  const {
+    menuVariant,
+    isFollowing,
+    showEditModal,
+    handleEdit,
+    handleDelete,
+    handleFollow,
+    closeEditModal,
+  } = usePostActions({
+    postId,
+    authorId,
+    following: user?.following,
+    onDeleteSuccess: () => navigate("/"),
+  });
 
   return (
     <>
       <FullPostWrapper>
         <PostHeader>
           <Avatar src={avatar} />
-          <PostAuthor>
-            <Link to={`/users/${authorId}`}>
-              <AuthorName>{name}</AuthorName>
-            </Link>
-            {user && (
-              <>
-                <AuthorCounts>Followers: {user.followersCount}</AuthorCounts>
-                <AuthorCounts>Posts: {user.postsCount}</AuthorCounts>
-              </>
-            )}
-          </PostAuthor>
-          {isMyPost && <PostMenu onEdit={handleEdit} onDelete={handleDelete} />}
+          <UserInfo>
+            <PostAuthor>
+              <Link to={`/users/${authorId}`}>
+                <AuthorName>{name}</AuthorName>
+              </Link>
+              {user && (
+                <>
+                  <AuthorCounts>Followers: {user.followersCount}</AuthorCounts>
+                  <AuthorCounts>Posts: {user.postsCount}</AuthorCounts>
+                </>
+              )}
+            </PostAuthor>
+            <PostMenu
+              variant={menuVariant}
+              isFollowing={isFollowing}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onFollow={handleFollow}
+            />
+          </UserInfo>
         </PostHeader>
         <Text>{text}</Text>
         {media && (
@@ -70,9 +78,7 @@ function FullPost({ post }) {
         <Actions post={post} withBorder />
       </FullPostWrapper>
 
-      {showEditModal && (
-        <EditPostModal post={post} onClose={() => setShowEditModal(false)} />
-      )}
+      {showEditModal && <EditPostModal post={post} onClose={closeEditModal} />}
     </>
   );
 }
@@ -85,7 +91,7 @@ FullPost.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    createdTime: PropTypes.string,
+    createdTime: PropTypes.string
   }),
 };
 

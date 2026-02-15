@@ -45,13 +45,13 @@ export const ActionButton = styled.button`
   &:hover {
     color: ${(props) => {
       switch (props.$action) {
-        case "repost":
-          return "rgb(0, 186, 124)";
-
         case "like":
           return "rgb(249, 24, 128)";
 
         case "reply":
+          return "rgb(29, 155, 240)";
+
+        case "save":
           return "rgb(29, 155, 240)";
 
         default:
@@ -62,13 +62,13 @@ export const ActionButton = styled.button`
   &:hover ${IconWrapper} {
     background-color: ${(props) => {
       switch (props.$action) {
-        case "repost":
-          return "rgba(0, 186, 124, 0.1)";
-
         case "like":
           return "rgba(249, 24, 128, 0.1)";
 
         case "reply":
+          return "rgba(29, 155, 240, 0.1)";
+
+        case "save":
           return "rgba(29, 155, 240, 0.1)";
 
         case "media":
@@ -76,6 +76,26 @@ export const ActionButton = styled.button`
 
         default:
           return "rgba(39, 44, 48, 0.75)";
+      }
+    }};
+  }
+  svg {
+    width: 18px;
+    height: 18px;
+
+    fill: ${(props) => {
+      switch (props.$action) {
+        case "like":
+          return props.$active ? "rgb(249, 24, 128)" : "none";
+
+        case "save":
+          return props.$active ? "rgb(29, 155, 240)" : "none";
+
+        case "reply":
+          return props.$active ? "rgb(29, 155, 240)" : "none";
+
+        default:
+          return "#6e767d";
       }
     }};
   }

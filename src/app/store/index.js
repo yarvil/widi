@@ -3,7 +3,7 @@ import postsReducer from "./posts/postsSlice";
 import authSlice from "./authentication/authSlice";
 import chatReducer from "./chat/slices/chatSlice";
 import headerReducer from "./header/headerSlice";
-import notificationsReducer from "./notifications/notificationsSlice";
+import notificationReducer from "./notifications/notificationsSlice";
 import searchSliceReducer from "./search/searchSlice";
 import favoriteSliceReducer from "./favorite/favoriteSlice";
 import usersReducer from "./users/usersSlice";
@@ -15,7 +15,7 @@ export const store = configureStore({
     posts: postsReducer,
     chat: chatReducer,
     header: headerReducer,
-    notifications: notificationsReducer,
+    notifications: notificationReducer,
     search: searchSliceReducer,
     favorites: favoriteSliceReducer,
     users: usersReducer,

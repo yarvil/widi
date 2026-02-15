@@ -27,6 +27,13 @@ export const PostHeader = styled.div`
   margin-bottom: 16px;
 `;
 
+export const UserInfo = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: start;
+`;
+
 export const PostAuthor = styled.div`
   display: flex;
   flex-direction: column;

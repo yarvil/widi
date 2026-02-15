@@ -1,16 +1,16 @@
 import React from "react";
 import Close from "@/shared/assets/icons/x-icon.svg?react";
 import PropTypes from "prop-types";
+import MainLogo from '@/shared/assets/logo/WiDi.svg?react'
 import {
   ModalWrapper,
   Modal,
   ModalContent,
   CloseButton,
-  ButtonWrapper,
-  SubmitBtn,
 } from "./Modal.styled";
+import { LogoWrapper, Title } from "../Header/HeaderStyled";
 export default function ModalWindow(props) {
-  const { isOpen, closeModal, logOut } = props;
+  const { isOpen, closeModal,children } = props;
   return (
     <>
       {isOpen && (
@@ -20,18 +20,12 @@ export default function ModalWindow(props) {
               <Close onClick={closeModal} />
             </CloseButton>
             <ModalContent>
-              <p style={{ color: "#fff", textAlign: `center` }}>
-                Do you really want to exit WiDi?
-              </p>
+              <LogoWrapper>
+                <MainLogo />
+                <Title>WiDi</Title>
+              </LogoWrapper>
+              {children}
             </ModalContent>
-            <ButtonWrapper>
-              <SubmitBtn type="submit" onClick={logOut}>
-                Yes
-              </SubmitBtn>
-              <SubmitBtn type="submit" onClick={closeModal}>
-                No
-              </SubmitBtn>
-            </ButtonWrapper>
           </Modal>
         </ModalWrapper>
       )}
@@ -40,7 +34,8 @@ export default function ModalWindow(props) {
 }
 
 ModalWindow.propTypes = {
+  
   isOpen: PropTypes.func,
   closeModal: PropTypes.func,
-  logOut: PropTypes.func,
+  children:PropTypes.node,
 };
