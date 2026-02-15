@@ -15,43 +15,6 @@ export const PostContainer = styled.div`
     background-color: rgba(255, 255, 255, 0.03);
   }
 `;
-export const SaveButton = styled.button`
-  background: transparent;
-  border: none;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 6px;
-  border-radius: 10px;
-
-  transition: all 0.25s ease;
-
-  svg {
-    width: 20px;
-    height: 20px;
-    stroke: ${({ $active }) => ($active ? "#7c3aed" : "#808080")};
-    fill: ${({ $active }) => ($active ? "#7c3aed" : "#fff")};
-    transition: all 0.25s ease;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.06);
-
-    svg {
-      stroke: #ffffff;
-    }
-  }
-
-  ${({ $active }) =>
-    $active &&
-    `
-    box-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
-  `}
-`;
-
 
 export const ReplyLine = styled.div`
   width: 2px;
@@ -82,7 +45,7 @@ export const Content = styled.div`
 
 export const Header = styled.div`
   position: relative;
-  margin-block: 12px 5px;
+  padding-top: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -109,7 +72,7 @@ export const AuthorCounts = styled.p`
 `;
 
 export const Text = styled.p`
-  margin-block: 0 12px;
+  margin-block: 0 5px;
   font-size: 16px;
   color: #d9d9d9;
 `;

@@ -103,19 +103,3 @@ PostCard.propTypes = {
 };
 
 export default PostCard;
-
-{
-  /* <SaveButton
-  $active={post.saved}
-  onClick={() => {
-    dispatch(
-      toggleSaveThunk({
-        postId,
-        saved,
-      }),
-    );
-  }}
->
-  <BookmarkIcon />
-</SaveButton>; */
-}
