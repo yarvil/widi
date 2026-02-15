@@ -1,20 +1,19 @@
 import styled from "styled-components";
 
 export const MoreButton = styled.button`
-  background: transparent;
+  padding: 0;
   border: none;
+  background: transparent;
   cursor: pointer;
-  padding: 8px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 34px;
+  height: 34px;
+  position: relative;
   transition: 0.2s;
   color: #71767b;
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(25%, -50%);
 
   &:hover {
     background-color: rgba(29, 155, 240, 0.1);
@@ -25,6 +24,11 @@ export const MoreButton = styled.button`
     width: 18px;
     height: 18px;
   }
+`;
+
+export const MenuWrapper = styled.div`
+  position: relative;
+  margin-top: -6px;
 `;
 
 export const DropdownMenu = styled.div`
@@ -41,6 +45,9 @@ export const DropdownMenu = styled.div`
 `;
 
 export const MenuItem = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   padding: 12px 16px;
   border: none;
@@ -51,6 +58,11 @@ export const MenuItem = styled.button`
   cursor: pointer;
   text-align: left;
   transition: 0.2s;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.03);

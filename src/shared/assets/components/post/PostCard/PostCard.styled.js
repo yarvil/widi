@@ -44,10 +44,17 @@ export const Content = styled.div`
 `;
 
 export const Header = styled.div`
+  position: relative;
   margin-block: 12px 5px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 4px;
+`;
+
+export const UserInfo = styled.div`
+  display: flex;
+  gap: 5px;
 `;
 
 export const AuthorName = styled.h3`
