@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import {
   AuthorName,
   Text,
@@ -16,7 +17,6 @@ import {
 } from "./FullPost.styled";
 import PostDate from "./PostDate";
 import Actions from "@/shared/assets/components/post/Actions/Actions";
-import { Link } from "react-router-dom";
 import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
 import useUser from "@/hooks/useUser";
 import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
@@ -91,7 +91,7 @@ FullPost.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    createdTime: PropTypes.string
+    createdTime: PropTypes.string,
   }),
 };
 
