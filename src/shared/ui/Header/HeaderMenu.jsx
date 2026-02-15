@@ -25,6 +25,8 @@ import {
   IconWrapper,
   HeaderSearch,
   MenuSideWrapper,
+  SubmitBtn,
+  CancelBtn
 } from "./HeaderStyled";
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
@@ -56,7 +58,13 @@ export default function AuthMenu() {
   }
   return (
     <>
-      <ModalWindow closeModal={closeModal} isOpen={modal} onClick={logOut} confirmText="Do you really want to exit WiDi?" submitText='Yes' />
+      <ModalWindow closeModal={closeModal} isOpen={modal}>
+        <p style={{ color: "#fff" }}>
+          Do you really want to exit WiDi?
+        </p>
+        <SubmitBtn onClick={logOut}>Yes</SubmitBtn>
+        <CancelBtn onClick={closeModal}>Cancel</CancelBtn>
+      </ModalWindow>
       {isMobile && (
         <Heder>
           <HeaderWrapper>
@@ -110,7 +118,7 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              {menuItems.slice(0,3).map(item => (
+              {menuItems.slice(0, 3).map(item => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -122,7 +130,7 @@ export default function AuthMenu() {
               ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-               {menuItems.slice(3,6).map(item => (
+              {menuItems.slice(3, 6).map(item => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -157,7 +165,7 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              {menuItems.slice(0,3).map(item => (
+              {menuItems.slice(0, 3).map(item => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -169,7 +177,7 @@ export default function AuthMenu() {
               ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-              {menuItems.slice(3,6).map(item => (
+              {menuItems.slice(3, 6).map(item => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
