@@ -202,7 +202,7 @@ const postsSlice = createSlice({
         const postInMyFeed = state.myFeedPosts.find(
           (p) => p.postId === updatedPost.postId,
         );
-        if (postInFeed) {
+        if (postInMyFeed) {
           Object.assign(postInMyFeed, updatedPost);
         }
 

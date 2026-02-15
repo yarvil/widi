@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import {
@@ -14,33 +12,30 @@ import {
   PostContainer,
   ReplyLine,
   AvatarWrapper,
-  SaveButton
+  UserInfo,
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "@/shared/assets/components/post/Actions/Actions";
-import { deletePostThunk } from "@/app/store/posts/postsSlice";
-import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import BookmarkIcon from '@/shared/assets/icons/bookmark.svg?react'
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
-import { toggleSaveThunk } from "@/app/store/posts/postsSlice";
+import usePostActions from "@/hooks/usePostActions";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, authorId, text, media, saved } = post;
-  const [showEditModal, setShowEditModal] = useState(false);
-  const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
+  const { postId, avatar, createdTime, name, authorId, text, media } = post;
 
-  const isMyPost = currentUser?.id === authorId;
-  const handleDelete = () => {
-    if (window.confirm("Delete this post?")) {
-      dispatch(deletePostThunk(postId));
-    }
-  };
-
-  const handleEdit = () => {
-    setShowEditModal(true);
-  };
+  const {
+    menuVariant,
+    isFollowing,
+    showEditModal,
+    handleEdit,
+    handleDelete,
+    handleFollow,
+    closeEditModal,
+  } = usePostActions({
+    postId,
+    authorId,
+    following: post.following,
+  });
 
   return (
     <>
@@ -57,27 +52,22 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
         </AvatarWrapper>
         <Content>
           <Header>
-            <Link
-              style={{ display: "flex", gap: "4px" }}
-              to={`/users/${authorId}`}
-            >
-              <AuthorName>{name}</AuthorName>
-            </Link>
-            <TimeAgo time={createdTime} />
-            <SaveButton
-                  $active={post.saved}
-                  onClick={() => {
-                    dispatch(toggleSaveThunk({
-                      postId,
-                      saved
-                    }));
-                  }}
-                >
-                  <BookmarkIcon />
-                </SaveButton>
-            {isMyPost && (
-              <PostMenu onEdit={handleEdit} onDelete={handleDelete} />
-            )}
+            <UserInfo>
+              <Link
+                style={{ display: "flex", gap: "4px" }}
+                to={`/users/${authorId}`}
+              >
+                <AuthorName>{name}</AuthorName>
+              </Link>
+              <TimeAgo time={createdTime} />
+            </UserInfo>
+            <PostMenu
+              variant={menuVariant}
+              isFollowing={isFollowing}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onFollow={handleFollow}
+            />
           </Header>
           <Link to={`/post/${postId}`}>
             <Text>{text}</Text>
@@ -91,9 +81,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
         </Content>
       </PostContainer>
 
-      {showEditModal && (
-        <EditPostModal post={post} onClose={() => setShowEditModal(false)} />
-      )}
+      {showEditModal && <EditPostModal post={post} onClose={closeEditModal} />}
     </>
   );
 }
@@ -107,7 +95,8 @@ PostCard.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    saved: PropTypes.bool
+    following: PropTypes.bool,
+    saved: PropTypes.bool,
   }),
   withTopLine: PropTypes.bool,
   withBottomLine: PropTypes.bool,
