@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadConversations } from "@/app/store/chat/chatThunks";
+import { loadThreads } from "@/app/store/chat/chatThunks";
 
 import { selectUsers } from "@/app/store/users/usersSelectors";
 import { fetchUsersThunk } from "@/app/store/users/usersSlice";
