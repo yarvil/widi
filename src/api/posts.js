@@ -31,3 +31,14 @@ export async function updatePostApi(postId, content, imageUrl = null) {
 export async function deletePostApi(postId) {
   return await apiRequest("DELETE", `api/posts/${postId}`);
 }
+
+export async function savePostApi(postId) {
+  return await apiRequest("POST", `api/posts/${postId}/save`);
+}
+
+export async function unsavePostApi(postId) {
+  return await apiRequest("DELETE", `api/posts/${postId}/save`);
+}
+export async function fetchSavedPostsApi(page = 0, size = 20) {
+  return await apiRequest("GET", `api/posts/saved?page=${page}&size=${size}`);
+}

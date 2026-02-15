@@ -4,7 +4,7 @@ import FeedPage from "@/pages/feed/FeedPage";
 import PostPage from "@/pages/post/PostPage";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import NotificationList from "@/pages/NotificationsList/NotificationsList";
+import NotificationList from "@/pages/Notifications/NotificationsList";
 import FavoriteList from "@/pages/FavoriteList/FavoriteList";
 import {
   AuthPage,

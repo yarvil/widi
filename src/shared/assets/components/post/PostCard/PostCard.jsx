@@ -14,22 +14,24 @@ import {
   PostContainer,
   ReplyLine,
   AvatarWrapper,
+  SaveButton
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
+import BookmarkIcon from '@/shared/assets/icons/bookmark.svg?react'
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
+import { toggleSaveThunk } from "@/app/store/posts/postsSlice";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, authorId, text, media } = post;
+  const { postId, avatar, createdTime, name, authorId, text, media, saved } = post;
   const [showEditModal, setShowEditModal] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
   const isMyPost = currentUser?.id === authorId;
-
   const handleDelete = () => {
     if (window.confirm("Delete this post?")) {
       dispatch(deletePostThunk(postId));
@@ -62,6 +64,17 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
               <AuthorName>{name}</AuthorName>
             </Link>
             <TimeAgo time={createdTime} />
+            <SaveButton
+                  $active={post.saved}
+                  onClick={() => {
+                    dispatch(toggleSaveThunk({
+                      postId,
+                      saved
+                    }));
+                  }}
+                >
+                  <BookmarkIcon />
+                </SaveButton>
             {isMyPost && (
               <PostMenu onEdit={handleEdit} onDelete={handleDelete} />
             )}
@@ -94,6 +107,7 @@ PostCard.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
+    saved: PropTypes.bool
   }),
   withTopLine: PropTypes.bool,
   withBottomLine: PropTypes.bool,

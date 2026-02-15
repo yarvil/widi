@@ -7,13 +7,35 @@ import {
   fetchMyFeed,
   updatePostApi,
   deletePostApi,
+  savePostApi,
+  unsavePostApi,
+  fetchSavedPostsApi
 } from "@/api/posts";
 import { fetchComments, createCommentApi } from "@/api/comments";
 import { toggleLikeApi } from "@/api/likes";
 
+
 export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
   return await fetchFeed();
 });
+export const toggleSaveThunk = createAsyncThunk(
+  "posts/toggleSave",
+  async ({ postId, saved }) => {
+    if (saved) {
+      await unsavePostApi(postId);
+      return { postId, saved: false };
+    } else {
+      await savePostApi(postId);
+      return { postId, saved: true };
+    }
+  }
+);
+export const fetchPostThunk = createAsyncThunk(
+  "posts/fetchPost",
+  async (postId) => {
+    return await fetchPost(postId);
+  },
+);
 export const fetchMyFeedThunk = createAsyncThunk(
   "posts/fetchMyFeed",
   async () => {
@@ -21,12 +43,8 @@ export const fetchMyFeedThunk = createAsyncThunk(
   },
 );
 
-export const fetchPostThunk = createAsyncThunk(
-  "posts/fetchPost",
-  async (postId) => {
-    return await fetchPost(postId);
-  },
-);
+
+
 
 export const fetchCommentsThunk = createAsyncThunk(
   "posts/fetchComments",
@@ -64,6 +82,14 @@ export const deletePostThunk = createAsyncThunk(
   },
 );
 
+
+export const fetchSavedPostsThunk = createAsyncThunk(
+  "posts/fetchSavedPosts",
+  async () => {
+    return await fetchSavedPostsApi();
+  }
+);
+
 export const toggleLikeThunk = createAsyncThunk(
   "posts/toggleLike",
   async ({ postId, userId }) => {
@@ -86,6 +112,7 @@ const normalizePost = (post) => {
     repostsCount: post.repostsCount,
     quotesCount: post.quotesCount,
     liked: false,
+    saved: false,
   };
 };
 
@@ -94,6 +121,7 @@ const postsSlice = createSlice({
   initialState: {
     feedPosts: [],
     myFeedPosts: [],
+    savedPosts: [],
     currentPost: null,
     comments: [],
     loading: false,
@@ -102,11 +130,6 @@ const postsSlice = createSlice({
   reducers: {
     setCurrentPost: (state, action) => {
       state.currentPost = action.payload;
-    },
-    deletePost: (state, action) => {
-      state.feedPosts = state.feedPosts.filter(
-        (post) => post.postId !== action.payload,
-      );
     },
   },
   extraReducers: (builder) => {
@@ -235,6 +258,32 @@ const postsSlice = createSlice({
           state.currentPost.liked = liked;
           state.currentPost.likesCount = totalLikes;
         }
+      })
+      // --- Save post ---
+      .addCase(toggleSaveThunk.fulfilled, (state, action) => {
+        const { postId, saved } = action.payload;
+        const update = (arr) => {
+          arr?.forEach(p => {
+            if (p.postId === postId) {
+              p.saved = saved;
+            }
+          });
+        };
+        update(state.feedPosts);
+        update(state.myFeedPosts);
+        update(state.savedPosts);
+        if (!saved) {
+          state.savedPosts = state.savedPosts.filter(p => p.postId !== postId);
+        }
+        console.log(action.payload)
+      })
+
+      .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
+        state.savedPosts = action.payload.content.map(p => ({
+          ...normalizePost(p),
+          saved: true
+        }));
+        console.log(action.payload)
       });
   },
 });
