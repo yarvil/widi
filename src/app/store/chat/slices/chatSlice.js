@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateUnreadCount } from "@/pages/chat/utils/chatHelper";
 
-import { loadThreads, loadMessagesByThreads, loadUsers } from "../chatThunks";
+import {
+  loadThreads,
+  loadMessagesByThreads,
+  createNewThread,
+} from "../chatThunks";
 
 const initialState = {
   threads: [],
@@ -52,12 +56,6 @@ const chatSlice = createSlice({
         content,
         createdAt: new Date().toISOString().slice(0, 19),
         messageType: "TEXT",
-        // timestamp: new Date().toLocaleTimeString("eu-EU", {
-        //   hour: "2-digit",
-        //   minute: "2-digit",
-        // }),
-        // isOwn: true,
-        // isRead: true,
       };
 
       if (!state.messages[conversationId]) {
@@ -156,15 +154,6 @@ const chatSlice = createSlice({
   extraReducers: (builder) => {
     builder
       //users
-      .addCase(loadUsers.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(loadUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.otherUsers = Object.values(action.payload).filter(
-          (user) => user.id !== "user-1",
-        );
-      })
 
       // threads/chats
       .addCase(loadThreads.pending, (state) => {
@@ -177,6 +166,16 @@ const chatSlice = createSlice({
       .addCase(loadThreads.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(createNewThread.fulfilled, (state, action) => {
+        const exists = state.threads.find((thread) => {
+          return thread.id === action.payload.id;
+        });
+
+        if (!exists) {
+          state.conversations.unshift(action.payload);
+        }
+        state.activeConversationId = action.payload.id;
       })
 
       // messages
