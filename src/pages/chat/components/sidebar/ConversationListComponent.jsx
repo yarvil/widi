@@ -40,16 +40,21 @@ import SearchIconSvg from "@/shared/assets/icons/search.svg";
 import OptionsIcon from "@/shared/assets/icons/ellipsis-vertical.svg?react";
 import { loadUsers } from "@/app/store/chat/chatThunks";
 
-const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
+const ConversationListComponent = ({
+  handleChatList,
+  isChatListOpen,
+  users,
+}) => {
   const dispatch = useDispatch();
-  const { conversations, activeConversationId, otherUsers } = useSelector(
-    (state) => state.chat,
-  );
+  const { threads, activeConversationId } = useSelector((state) => state.chat);
+  // otherUsers Было в селекторе state.chat
 
-  // const isConversation =
-  //   Array.isArray(conversations) && conversations.length > 0;
+  const allUsers = users;
+  const currentUser = useSelector((state) => state.auth.user);
+  const otherUsers = allUsers.filter((user) => user.id !== currentUser.id);
+
   const isConversation =
-    !Array.isArray(conversations) || conversations.length >= otherUsers.length;
+    !Array.isArray(threads) || threads.length >= otherUsers.length;
 
   const [search, setSearch] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -77,9 +82,10 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
     };
   }, [openMenuId]);
 
-  const filteredConversations = conversations.filter((conv) =>
+  const filteredThreads = threads.filter((conv) =>
     conv.participants[1].firstName.toLowerCase().includes(search.toLowerCase()),
   );
+
   const filteredNewParticipants =
     searchNewParticipants.trim().length > 0
       ? otherUsers.filter((participant) =>
@@ -89,8 +95,8 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
         )
       : [];
 
-  console.log(otherUsers, "otherUsers");
-  console.log(filteredNewParticipants, "newPart");
+  // console.log(otherUsers, "otherUsers");
+  // console.log(filteredNewParticipants, "newPart");
 
   const handleOpenConvOptions = (convId, event) => {
     event.stopPropagation();
@@ -125,7 +131,7 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
         </SearchWrapper>
       </SidebarHeader>
       <ConversationList>
-        {filteredConversations.map((conv) => (
+        {filteredThreads.map((conv) => (
           <ConversationItem
             key={conv.id}
             active={conv.id === activeConversationId}
@@ -213,6 +219,7 @@ const ConversationListComponent = ({ handleChatList, isChatListOpen }) => {
 ConversationListComponent.propTypes = {
   handleChatList: PropTypes.func.isRequired,
   isChatListOpen: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired,
 };
 
 export default ConversationListComponent;
