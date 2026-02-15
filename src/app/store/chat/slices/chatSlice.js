@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateUnreadCount } from "@/pages/chat/utils/chatHelper";
 
-import {
-  loadConversations,
-  loadMessagesByThreads,
-  loadUsers,
-} from "../chatThunks";
+import { loadThreads, loadMessagesByThreads, loadUsers } from "../chatThunks";
 
 const initialState = {
   conversations: [],
@@ -170,10 +166,10 @@ const chatSlice = createSlice({
       })
 
       // threads/chats
-      .addCase(loadConversations.pending, (state) => {
+      .addCase(loadThreads.pending, (state) => {
         state.loading = true;
       })
-      .addCase(loadConversations.fulfilled, (state, action) => {
+      .addCase(loadThreads.fulfilled, (state, action) => {
         state.loading = false;
         state.conversations = action.payload;
       })
