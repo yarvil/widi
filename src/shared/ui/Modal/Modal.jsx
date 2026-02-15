@@ -2,8 +2,6 @@ import React from "react";
 import Close from "@/shared/assets/icons/x-icon.svg?react";
 import PropTypes from "prop-types";
 import MainLogo from '@/shared/assets/logo/WiDi.svg?react'
-import SubmitBtn from "../Button/Button";
-import './Modal.scss'
 import {
   ModalWrapper,
   Modal,
@@ -12,7 +10,7 @@ import {
 } from "./Modal.styled";
 import { LogoWrapper, Title } from "../Header/HeaderStyled";
 export default function ModalWindow(props) {
-  const { isOpen, closeModal, onClick, confirmText, submitText } = props;
+  const { isOpen, closeModal,children } = props;
   return (
     <>
       {isOpen && (
@@ -26,11 +24,7 @@ export default function ModalWindow(props) {
                 <MainLogo />
                 <Title>WiDi</Title>
               </LogoWrapper>
-              <p style={{ color: "#fff" }}>
-                {confirmText}
-              </p>
-                <SubmitBtn className='logoutbut' onClick={onClick} text={submitText} />
-                <SubmitBtn className='cancelbut' onClick={closeModal} text='Cancel' />
+              {children}
             </ModalContent>
           </Modal>
         </ModalWrapper>
@@ -40,9 +34,8 @@ export default function ModalWindow(props) {
 }
 
 ModalWindow.propTypes = {
-  submitText: PropTypes.string,
-  confirmText: PropTypes.string,
+  
   isOpen: PropTypes.func,
   closeModal: PropTypes.func,
-  onClick: PropTypes.func,
+  children:PropTypes.node,
 };
