@@ -256,7 +256,25 @@ const postsSlice = createSlice({
           state.currentPost.liked = liked;
           state.currentPost.likesCount = totalLikes;
         }
-      });
+      })
+      // --- Save post ---
+      .addCase(toggleSaveThunk.fulfilled, (state, action) => {
+        const { postId, saved } = action.payload;
+
+        const inFeed = state.feedPosts.find(p => p.postId === postId);
+        if (inFeed) {
+          inFeed.saved = saved;
+        }
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost.saved = saved;
+        }
+        console.log(action.payload)
+      })
+      .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.savedPosts = action.payload.content.map(normalizePost);
+      })
   },
 });
 

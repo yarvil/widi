@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {
     savedPosts,
 } from "@/app/store/posts/postsSelectors";
-import PostCard from "@/shared/post/PostCard/PostCard";
+import PostCard from "@/shared/assets/components/post/PostCard/PostCard";
 import { FavoriteWrapper, Favorites } from './FavoriteListStyled'
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 import { fetchSavedPostsThunk } from "@/app/store/posts/postsSlice";
