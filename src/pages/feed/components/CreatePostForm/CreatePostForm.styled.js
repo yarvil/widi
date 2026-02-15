@@ -3,13 +3,13 @@ import styled from "styled-components";
 export const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-block: 16px;
+  padding-block: ${(props) => (props.$isReply ? "0" : "16px 0px")};
   gap: 12px;
   border-bottom: 1px solid #2f3336;
 `;
 export const FormContainer = styled.form`
   display: flex;
-  padding: 0 16px;
+  padding: 0 16px 10px 16px;
   gap: 12px;
 `;
 
@@ -49,7 +49,10 @@ export const TextArea = styled.textarea`
 `;
 
 export const Actions = styled.div`
+  padding-top: 10px;
   display: flex;
+  border-top: ${(props) => (props.$isExpanded ? "1px solid #2f3336" : "none")};
+  align-items: center;
   justify-content: ${(props) =>
     props.$isReply ? "flex-end" : "space-between"};
 `;
@@ -79,4 +82,15 @@ export const ReplyingText = styled.p`
   color: rgb(113, 118, 123);
   margin-left: 88px;
   margin-block: 0;
+`;
+
+export const CharCounter = styled.span`
+  color: ${(props) => (props.$warning ? "#ff6b6b" : "#71767b")};
+  font-size: 15px;
+`;
+
+export const RightAction = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
 `;

@@ -20,12 +20,13 @@ import {
   SaveButton
 } from "./PostCard.styled";
 import TimeAgo from "@/shared/ui/TimeAgo";
-import Actions from "shared/post/Actions/Actions";
+import Actions from "@/shared/assets/components/post/Actions/Actions";
 import { deletePostThunk } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import MoreIcon from "@/shared/assets/icons/dots.svg?react";
 import BookmarkIcon from '@/shared/assets/icons/bookmark.svg?react'
 import EditPostModal from "./EditPostModal";
+import PostMenu from "../PostMenu/PostMenu";
 import { toggleSaveThunk } from "@/app/store/posts/postsSlice";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
@@ -40,11 +41,9 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
     if (window.confirm("Delete this post?")) {
       dispatch(deletePostThunk(postId));
     }
-    setShowMenu(false);
   };
 
   const handleEdit = () => {
-    setShowMenu(false);
     setShowEditModal(true);
   };
 
@@ -83,19 +82,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
                   <BookmarkIcon />
                 </SaveButton>
             {isMyPost && (
-              <div style={{ marginLeft: "auto", position: "relative" }}>
-                <MoreButton onClick={() => setShowMenu(!showMenu)}>
-                  <MoreIcon />
-                </MoreButton>
-                {showMenu && (
-                  <DropdownMenu>
-                    <MenuItem onClick={handleEdit}>Edit post</MenuItem>
-                    <MenuItem $danger onClick={handleDelete}>
-                      Delete post
-                    </MenuItem>
-                  </DropdownMenu>
-                )}
-              </div>
+              <PostMenu onEdit={handleEdit} onDelete={handleDelete} />
             )}
           </Header>
           <Link to={`/post/${postId}`}>

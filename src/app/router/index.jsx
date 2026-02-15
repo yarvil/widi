@@ -6,7 +6,6 @@ import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 import NotificationList from "@/pages/NotificationsList/NotificationsList";
 import FavoriteList from "@/pages/FavoriteList/FavoriteList";
-import PostUserList from "@/pages/postsOfUser/postUserList";
 import {
   AuthPage,
   LoginPage,
@@ -17,6 +16,7 @@ import {
   OAuth2Callback,
 } from "@/pages/auth";
 import NotFoundPage from "@/pages/notFound/NotFoundPage";
+import UnauthorizedPage from "@/pages/unauthorized/UnauthorizedPage";
 import ChatPage from "@/pages/chat/ChatPage";
 import FollowPage from "@/pages/follow/FollowPage";
 
@@ -111,18 +111,14 @@ const RootRouter = [
     element: <NotFoundPage />,
   },
   {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />,
+  },
+  {
     path: "/chat",
     element: (
       <PrivateRoute>
         <ChatPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/posts",
-    element: (
-      <PrivateRoute>
-        <PostUserList />
       </PrivateRoute>
     ),
   },
@@ -134,7 +130,6 @@ const RootRouter = [
       </PrivateRoute>
     ),
   },
-  //
   {
     path: "/favorite",
     element: (

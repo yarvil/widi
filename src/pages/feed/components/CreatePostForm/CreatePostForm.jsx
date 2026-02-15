@@ -10,7 +10,10 @@ import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { uploadPostImage } from "@/api/upload";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
-import { ActionButton, IconWrapper } from "shared/post/Actions/Actions.styled";
+import {
+  ActionButton,
+  IconWrapper,
+} from "@/shared/assets/components/post/Actions/Actions.styled";
 import {
   FormWrapper,
   Avatar,
@@ -21,6 +24,8 @@ import {
   FormContainer,
   AvatarWrapper,
   ReplyingText,
+  RightAction,
+  CharCounter,
 } from "./CreatePostForm.styled";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
@@ -58,7 +63,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     e.preventDefault();
     if (!text.trim() || !currentUser) return;
 
-    if (isReply && parentId) {
+    if (parentId) {
       dispatch(
         createCommentThunk({
           postId: parentId,
@@ -89,7 +94,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
   };
 
   return (
-    <FormWrapper>
+    <FormWrapper $isReply={isReply}>
       {isReply && isExpanded && (
         <ReplyingText>
           Replying to
@@ -149,7 +154,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
             </div>
           )}
           {(isExpanded || !isReply) && (
-            <Actions $isReply={isReply}>
+            <Actions $isExpanded={isExpanded} $isReply={isReply}>
               {!isReply && (
                 <ActionButton
                   type="button"
@@ -162,9 +167,16 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
                   </IconWrapper>
                 </ActionButton>
               )}
-              <Button type="submit" disabled={!text.trim() || uploading}>
-                {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
-              </Button>
+              <RightAction>
+                {isExpanded && (
+                  <CharCounter $warning={text.length > 260}>
+                    {text.length > 0 && `${text.length}/280`}
+                  </CharCounter>
+                )}
+                <Button type="submit" disabled={!text.trim() || uploading}>
+                  {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
+                </Button>
+              </RightAction>
             </Actions>
           )}
         </Content>
