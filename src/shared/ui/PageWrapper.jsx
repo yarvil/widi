@@ -8,7 +8,7 @@ const PageWrapper = styled.div`
   margin-inline: auto;
   border-left: 1px solid #2f3336;
   border-right: 1px solid #2f3336;
-  margin-block: 0 40px;
+  min-height: calc(100vh - 82px);
 `;
 
 export default PageWrapper;

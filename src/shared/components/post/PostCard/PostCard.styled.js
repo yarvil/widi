@@ -9,6 +9,7 @@ export const PostCardWrapper = styled.div`
 export const PostContainer = styled.div`
   display: flex;
   padding-inline: 16px;
+  /* border: 1px solid #2f3336; */
   gap: 12px;
   transition: 0.2s;
   &:hover {

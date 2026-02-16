@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import {
   fetchFeed,
-  fetchPost,
+  fetchCurPost,
   createPostApi,
   fetchMyFeed,
   updatePostApi,
@@ -14,9 +14,13 @@ import {
 import { fetchComments, createCommentApi } from "@/api/comments";
 import { toggleLikeApi } from "@/api/likes";
 
-export const fetchFeedThunk = createAsyncThunk("posts/fetchFeed", async () => {
-  return await fetchFeed();
-});
+export const fetchFeedThunk = createAsyncThunk(
+  "posts/fetchFeed",
+  async (page = 0) => {
+    return await fetchFeed(page);
+  },
+);
+
 export const toggleSaveThunk = createAsyncThunk(
   "posts/toggleSave",
   async ({ postId, saved }) => {
@@ -29,16 +33,18 @@ export const toggleSaveThunk = createAsyncThunk(
     }
   },
 );
+
 export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
   async (postId) => {
-    return await fetchPost(postId);
+    return await fetchCurPost(postId);
   },
 );
+
 export const fetchMyFeedThunk = createAsyncThunk(
   "posts/fetchMyFeed",
-  async () => {
-    return await fetchMyFeed();
+  async (page = 0) => {
+    return await fetchMyFeed(page);
   },
 );
 
@@ -108,6 +114,7 @@ const normalizePost = (post) => {
     quotesCount: post.quotesCount,
     liked: post.liked,
     saved: post.saved,
+    isFollowing: post.author.isFollowing,
   };
 };
 
@@ -121,12 +128,19 @@ const postsSlice = createSlice({
     comments: [],
     loading: false,
     error: null,
+    feedPagination: { page: 0, hasMore: true },
+    myFeedPagination: { page: 0, hasMore: true },
   },
   reducers: {
     setCurrentPost: (state, action) => {
       state.currentPost = action.payload;
     },
+
+    clearComments: (state) => {
+      state.comments = [];
+    },
   },
+
   extraReducers: (builder) => {
     builder
       // --- Feed ---
@@ -136,7 +150,18 @@ const postsSlice = createSlice({
       })
       .addCase(fetchFeedThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.feedPosts = action.payload.content.map(normalizePost);
+        const newPosts = action.payload.content.map(normalizePost);
+
+        if (action.meta.arg === 0) {
+          state.feedPosts = newPosts;
+        } else {
+          state.feedPosts.push(...newPosts);
+        }
+
+        state.feedPagination = {
+          page: action.payload.number,
+          hasMore: !action.payload.last,
+        };
       })
       .addCase(fetchFeedThunk.rejected, (state) => {
         state.loading = false;
@@ -148,7 +173,18 @@ const postsSlice = createSlice({
       })
       .addCase(fetchMyFeedThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.myFeedPosts = action.payload.content.map(normalizePost);
+        const newPosts = action.payload.content.map(normalizePost);
+
+        if (action.meta.arg === 0) {
+          state.myFeedPosts = newPosts;
+        } else {
+          state.myFeedPosts.push(...newPosts);
+        }
+
+        state.myFeedPagination = {
+          page: action.payload.number,
+          hasMore: !action.payload.last,
+        };
       })
       .addCase(fetchMyFeedThunk.rejected, (state) => {
         state.loading = false;
@@ -276,7 +312,6 @@ const postsSlice = createSlice({
             (p) => p.postId !== postId,
           );
         }
-        console.log(action.payload);
       })
 
       .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
@@ -284,10 +319,9 @@ const postsSlice = createSlice({
           ...normalizePost(p),
           saved: true,
         }));
-        console.log(action.payload);
       });
   },
 });
 
-export const { setCurrentPost } = postsSlice.actions;
+export const { setCurrentPost, clearComments } = postsSlice.actions;
 export default postsSlice.reducer;

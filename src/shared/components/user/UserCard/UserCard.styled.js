@@ -21,7 +21,7 @@ export const UserFullName = styled.p`
   margin-block: 0 5px;
 `;
 
-export const UserId = styled.p`
+export const Counters = styled.p`
   color: #6e767d;
   font-size: 15px;
   margin: 0;
@@ -34,15 +34,39 @@ export const FollowButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   border: transparent;
-  background-color: rgb(239, 243, 244);
   transition: 0.2s;
 
-  &:disabled {
-    color: #000;
-    opacity: 0.5;
-    cursor: auto;
+  .hover-text {
+    display: none;
   }
-  &:not(:disabled):hover {
+
+  ${(props) =>
+    props.$following &&
+    `
+    color: rgb(239, 243, 244);
+    border: 1px solid rgb(83, 100, 113);
+    background-color: transparent;
+    min-width: 100px;
+  `}
+
+  &:hover {
     background-color: rgb(215, 219, 220);
+
+    ${(props) =>
+      props.$following &&
+      `
+     color: rgb(244, 33, 46);
+     border: 1px solid rgb(103, 7, 15);
+     background-color: rgba(244, 33, 46, 0.1);
+
+     .default-text {
+        display: none;
+      }
+      
+    .hover-text {
+        display: inline;
+      }
+    
+  `}
   }
 `;

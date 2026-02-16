@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MainIconSvg from "@/shared/assets/logo/WiDi.svg?react";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
 import MenuIcon from "@/shared/assets/icons/menu.svg?react";
-import FavsIcon from "@/shared/assets/icons/heart.svg?react";
+import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
 import LogOutIcon from "@/shared/assets/icons/log-out.svg?react";
 import HomeIcon from "@/shared/assets/icons/house.svg?react";
 import ProfileIcon from "@/shared/assets/icons/circle-user-round.svg?react";
@@ -44,7 +44,7 @@ export default function AuthMenu() {
   }
   const menuItems = [
     { path: '/', name: 'Home Page', icon: <HomeIcon /> },
-    { path: '/favorite', name: 'Favorite', icon: <FavsIcon /> },
+    { path: '/favorite', name: 'Bookmarks', icon: <BookMarkIcon /> },
     { path: '/follow', name: 'Follow', icon: <FollowIcon /> },
     { path: '/users/:id', name: 'Profile', icon: <ProfileIcon /> },
     { path: '/chat', name: 'Messenger', icon: <SmsIcon /> },

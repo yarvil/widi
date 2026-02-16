@@ -2,22 +2,24 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
+import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
+import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
 import { Avatar, AvatarWrapper } from "../../post/PostCard/PostCard.styled";
 import {
   FollowButton,
   UserCardWrapper,
   UserFullName,
-  UserId,
+  Counters,
   UserInformation,
 } from "./UserCard.styled";
-import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
-import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
 
 export default function UserCard({
   avatarUrl,
   id,
   firstName,
   lastName,
+  followersCount,
+  postsCount,
   following: initialIsFollowing,
 }) {
   const dispatch = useDispatch();
@@ -43,11 +45,19 @@ export default function UserCard({
               {firstName} {lastName}
             </UserFullName>
           </Link>
-          <UserId>@{id}</UserId>
+          <Counters>Followers: {followersCount}</Counters>
+          <Counters>Posts: {postsCount}</Counters>
         </div>
         <div>
-          <FollowButton onClick={handleFollowClick}>
-            {isFollowing ? "Unfollow" : "Follow"}
+          <FollowButton $following={isFollowing} onClick={handleFollowClick}>
+            {isFollowing ? (
+              <>
+                <span className="default-text">Following</span>
+                <span className="hover-text">Unfollow</span>
+              </>
+            ) : (
+              "Follow"
+            )}
           </FollowButton>
         </div>
       </UserInformation>
@@ -61,4 +71,6 @@ UserCard.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   following: PropTypes.bool,
+  followersCount: PropTypes.number,
+  postsCount: PropTypes.number,
 };

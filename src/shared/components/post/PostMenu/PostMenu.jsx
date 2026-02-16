@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
+import MoreIcon from "@/shared/assets/icons/dots.svg?react";
+import TrashIcon from "@/shared/assets/icons/trash-2.svg?react";
+import EditIcon from "@/shared/assets/icons/square-pen.svg?react";
+import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
+import UnfollowIcon from "@/shared/assets/icons/user-round-minus.svg?react";
 import {
   MoreButton,
   DropdownMenu,
   MenuItem,
   MenuWrapper,
 } from "./PostMenu.styled";
-import MoreIcon from "@/shared/assets/icons/dots.svg?react";
-import TrashIcon from "@/shared/assets/icons/trash-2.svg?react";
-import EditIcon from "@/shared/assets/icons/square-pen.svg?react";
-import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
-import UnfollowIcon from "@/shared/assets/icons/user-round-minus.svg?react";
 
 const MENU_VARIANTS = {
   owner: (handlers) => [

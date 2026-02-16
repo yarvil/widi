@@ -26,8 +26,9 @@ import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
-  const { conversations, messages, activeConversationId, currentUser } =
-    useSelector((state) => state.chat);
+  const { threads, messages, activeConversationId, currentUser } = useSelector(
+    (state) => state.chat,
+  );
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
@@ -36,9 +37,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     dispatch(loadMessagesByThreads(activeConversationId));
   }, [activeConversationId, dispatch]);
 
-  const activeConversation = conversations.find(
-    (c) => c.id === activeConversationId,
-  );
+  const activeConversation = threads.find((c) => c.id === activeConversationId);
   const currentMessages = messages[activeConversationId] || [];
   console.log(currentMessages);
 

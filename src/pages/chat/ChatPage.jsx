@@ -30,10 +30,12 @@ const ChatPage = () => {
   //   dispatch(loadConversations(userId));
   // }, [userId, dispatch]);
 
+  const users = useSelector(selectUsers);
+
   return (
     <AppContainer>
       <ConversationListComponent
-        users={selectUsers}
+        users={users}
         handleChatList={handleOpenChatlist}
         isChatListOpen={isMobileChatOpen}
       />

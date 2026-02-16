@@ -3,20 +3,20 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import {
+  setNewFavorites,
+  clearFavorites,
+} from "@/app/store/favorite/favoriteSlice";
+import { toggleLikeThunk, toggleSaveThunk } from "@/app/store/posts/postsSlice";
+import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
+import ReplyIcon from "@/shared/assets/icons/message-circle.svg?react";
+import LikeIcon from "@/shared/assets/icons/heart-action.svg?react";
+import SaveIcon from "@/shared/assets/icons/bookmark-action.svg?react";
+import {
   ActionsWrapper,
   ActionButton,
   IconWrapper,
   Count,
 } from "./Actions.styled";
-import ReplyIcon from "shared/assets/icons/message-circle.svg?react";
-import LikeIcon from "shared/assets/icons/heart-action.svg?react";
-import SaveIcon from "@/shared/assets/icons/bookmark-action.svg?react";
-import { toggleLikeThunk, toggleSaveThunk } from "@/app/store/posts/postsSlice";
-import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
-import {
-  setNewFavorites,
-  clearFavorites,
-} from "@/app/store/favorite/favoriteSlice";
 
 function Actions({ post, withBorder }) {
   const { postId, commentsCount, likesCount, liked, saved } = post;
@@ -47,35 +47,42 @@ function Actions({ post, withBorder }) {
     );
   };
 
+  const ACTIONS = [
+    {
+      label: "reply",
+      icon: <ReplyIcon />,
+      onClick: handleReplyClick,
+      counter: commentsCount,
+    },
+    {
+      label: "like",
+      active: liked,
+      icon: <LikeIcon />,
+      onClick: handleLikeClick,
+      counter: likesCount,
+    },
+    {
+      label: "save",
+      active: saved,
+      icon: <SaveIcon />,
+      onClick: handleSaveClick,
+    },
+  ];
+
   return (
     <ActionsWrapper $withBorder={withBorder}>
-      <ActionButton type="button" $action="reply" onClick={handleReplyClick}>
-        <IconWrapper>
-          <ReplyIcon />
-        </IconWrapper>
-        <Count $show={commentsCount}>{commentsCount}</Count>
-      </ActionButton>
-      <ActionButton
-        onClick={handleLikeClick}
-        type="button"
-        $action="like"
-        $active={liked}
-      >
-        <IconWrapper>
-          <LikeIcon />
-        </IconWrapper>
-        <Count $show={likesCount}>{likesCount}</Count>
-      </ActionButton>
-      <ActionButton
-        type="button"
-        $action="save"
-        $active={saved}
-        onClick={handleSaveClick}
-      >
-        <IconWrapper>
-          <SaveIcon />
-        </IconWrapper>
-      </ActionButton>
+      {ACTIONS.map((item, index) => (
+        <ActionButton
+          key={index}
+          type="button"
+          $action={item.label}
+          $active={item.active}
+          onClick={item.onClick}
+        >
+          <IconWrapper>{item.icon}</IconWrapper>
+          <Count $show={item.counter}>{item.counter}</Count>
+        </ActionButton>
+      ))}
     </ActionsWrapper>
   );
 }

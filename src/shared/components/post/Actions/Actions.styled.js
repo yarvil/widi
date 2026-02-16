@@ -93,6 +93,14 @@ export const ActionButton = styled.button`
       }
     }};
   }
+
+  ${(props) =>
+    props.$closeMedia &&
+    `
+      position: absolute;
+      top: 5px;
+      right: 5px;
+  `}
 `;
 
 export const Count = styled.span`

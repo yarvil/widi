@@ -1,5 +1,5 @@
-import { apiRequest } from "@/pages/auth/sendRequest";
+import { fetchPost } from "@/pages/auth/sendRequest";
 
 export async function toggleLikeApi(postId, userId) {
-  return await apiRequest("POST", `api/likes/${postId}`, { userId });
+  return await fetchPost({ userId }, `api/likes/${postId}`);
 }
