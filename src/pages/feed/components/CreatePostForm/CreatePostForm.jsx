@@ -26,6 +26,7 @@ import {
   ReplyingText,
   RightAction,
   CharCounter,
+  MediaWrapper,
 } from "./CreatePostForm.styled";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
@@ -33,10 +34,12 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
   const [media, setMedia] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+
   const dispatch = useDispatch();
+  const currentUser = useSelector(selectCurrentUser);
+
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
-  const currentUser = useSelector(selectCurrentUser);
 
   const placeholder = isReply ? "Post your reply" : "What's happening?";
 
@@ -98,7 +101,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
       {isReply && isExpanded && (
         <ReplyingText>
           Replying to
-          <span style={{ color: "rgb(29, 155, 240)" }}> @{username}</span>
+          <span> @{username}</span>
         </ReplyingText>
       )}
       <FormContainer onSubmit={handleSubmit}>
@@ -124,34 +127,18 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
             placeholder={placeholder}
           />
           {media && (
-            <div
-              style={{
-                position: "relative",
-                marginBlock: "10px",
-                borderRadius: "16px",
-                border: "1px solid #2f3336",
-                minHeight: "60px",
-              }}
-            >
-              <img
-                src={media.preview}
-                style={{ maxWidth: "100%", padding: "20px" }}
-              />
+            <MediaWrapper>
+              <img src={media.preview} />
               <ActionButton
+                $closeMedia
                 type="button"
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  top: 5,
-                  right: 5,
-                }}
                 onClick={() => setMedia(null)}
               >
                 <IconWrapper>
                   <RemoveIcon />
                 </IconWrapper>
               </ActionButton>
-            </div>
+            </MediaWrapper>
           )}
           {(isExpanded || !isReply) && (
             <Actions $isExpanded={isExpanded} $isReply={isReply}>

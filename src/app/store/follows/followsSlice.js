@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { followUser, unfollowUser } from "@/api/follows";
-import { subscribeToUser,unsubscribeToUser } from "@/api/notifications";
+import { subscribeToUser, unsubscribeToUser } from "@/api/notifications";
 
 export const toggleFollowThunk = createAsyncThunk(
   "follows/toggleFollow",
@@ -20,7 +20,7 @@ export const toggleFollowThunk = createAsyncThunk(
 const followsSlice = createSlice({
   name: "follows",
   initialState: {
-    followingStatus: {},
+    isFollowing: {},
     loading: false,
   },
   reducers: {},
@@ -32,7 +32,7 @@ const followsSlice = createSlice({
       .addCase(toggleFollowThunk.fulfilled, (state, action) => {
         state.loading = false;
         const { userId, isFollowing } = action.payload;
-        state.followingStatus[userId] = isFollowing;
+        state.isFollowing[userId] = isFollowing;
       })
       .addCase(toggleFollowThunk.rejected, (state) => {
         state.loading = false;

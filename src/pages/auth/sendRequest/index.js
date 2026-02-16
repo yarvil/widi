@@ -62,3 +62,11 @@ export async function fetchPost(body, url) {
 export async function fetchPut(body, url) {
   return apiRequest("PUT", url, body);
 }
+
+export async function fetchPatch(body, url) {
+  return apiRequest("PATCH", url, body);
+}
+
+export async function fetchDelete(url) {
+  return apiRequest("DELETE", url);
+}

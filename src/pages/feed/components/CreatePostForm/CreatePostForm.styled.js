@@ -48,6 +48,19 @@ export const TextArea = styled.textarea`
   margin-top: 10px;
 `;
 
+export const MediaWrapper = styled.div`
+  position: relative;
+  margin-block: 10px;
+  border-radius: 16px;
+  border: 1px solid #2f3336;
+  min-height: 60px;
+
+  img {
+    max-width: 100%;
+    padding: 20px;
+  }
+`;
+
 export const Actions = styled.div`
   padding-top: 10px;
   display: flex;
@@ -82,6 +95,10 @@ export const ReplyingText = styled.p`
   color: rgb(113, 118, 123);
   margin-left: 88px;
   margin-block: 0;
+
+  & span {
+    color: rgb(29, 155, 240);
+  }
 `;
 
 export const CharCounter = styled.span`

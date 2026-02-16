@@ -1,6 +1,12 @@
 import { useNavigate, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import useUser from "@/hooks/useUser";
+import usePostActions from "@/hooks/usePostActions";
+import PostDate from "../PostDate";
+import Actions from "@/shared/assets/components/post/Actions/Actions";
+import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
+import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
 import {
   AuthorName,
   Text,
@@ -15,12 +21,6 @@ import {
   PostAuthor,
   UserInfo,
 } from "./FullPost.styled";
-import PostDate from "./PostDate";
-import Actions from "@/shared/assets/components/post/Actions/Actions";
-import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
-import useUser from "@/hooks/useUser";
-import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
-import usePostActions from "@/hooks/usePostActions";
 
 function FullPost({ post }) {
   const { avatar, name, authorId, text, media, createdTime, postId } = post;

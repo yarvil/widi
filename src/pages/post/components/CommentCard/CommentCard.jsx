@@ -1,41 +1,14 @@
 import PropTypes from "prop-types";
-import styled from "styled-components";
-import TimeAgo from "@/shared/ui/TimeAgo";
+
 import useUser from "@/hooks/useUser";
-
-const Wrapper = styled.div`
-  display: flex;
-  gap: 12px;
-  padding: 16px;
-  border-bottom: 1px solid #2f3336;
-`;
-
-const Avatar = styled.img`
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
-`;
-
-const AuthorName = styled.span`
-  color: #e7e7e7;
-  font-weight: 700;
-  font-size: 15px;
-`;
-
-const Text = styled.p`
-  color: #e7e7e7;
-  margin: 0;
-  font-size: 15px;
-`;
+import TimeAgo from "@/shared/ui/TimeAgo";
+import {
+  AuthorName,
+  Avatar,
+  Header,
+  Text,
+  Wrapper,
+} from "./CommentCard.styled";
 
 function CommentCard({ comment }) {
   const { content, authorId, createdAt } = comment;

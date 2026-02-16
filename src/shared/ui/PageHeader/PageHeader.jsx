@@ -1,16 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import SortMenu from "@/shared/assets/components/post/SortMenu/SortMenu";
+import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
 import {
   ActionButton,
   IconWrapper,
 } from "@/shared/assets/components/post/Actions/Actions.styled";
-import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
 import {
   Wrapper,
   Title,
   TabsWrapper,
   Tab,
   TabIndicator,
+  TabContent,
 } from "./PageHeader.styled";
 
 export default function PageHeader({
@@ -19,6 +22,10 @@ export default function PageHeader({
   tabs,
   activeTab,
   onTabChange,
+  sortBy,
+  onSortChange,
+  showSortMenu,
+  onToggleSortMenu,
 }) {
   const navigate = useNavigate();
 
@@ -39,16 +46,41 @@ export default function PageHeader({
     return (
       <Wrapper $tabs>
         <TabsWrapper>
-          {tabs.map((tab) => (
-            <Tab
-              key={tab.id}
-              $active={activeTab === tab.id}
-              onClick={() => onTabChange(tab.id)}
-            >
-              {tab.label}
-              {activeTab === tab.id && <TabIndicator />}
-            </Tab>
-          ))}
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            const isForYou = tab.id === "foryou";
+            const showSort = isActive && isForYou && sortBy;
+
+            const handleTabClick = () => {
+              if (isActive && isForYou) {
+                onToggleSortMenu?.(!showSortMenu);
+              } else {
+                onTabChange(tab.id);
+              }
+            };
+
+            return (
+              <Tab
+                key={tab.id}
+                $active={isActive}
+                onClick={handleTabClick}
+                $menuOpen={showSort && showSortMenu}
+              >
+                <TabContent>
+                  {tab.label}
+                  {showSort && (
+                    <SortMenu
+                      activeSort={sortBy}
+                      onSortChange={onSortChange}
+                      isOpen={showSortMenu}
+                      onToggle={onToggleSortMenu}
+                    />
+                  )}
+                  {isActive && <TabIndicator />}
+                </TabContent>
+              </Tab>
+            );
+          })}
         </TabsWrapper>
       </Wrapper>
     );
@@ -68,4 +100,8 @@ PageHeader.propTypes = {
   ),
   activeTab: PropTypes.string,
   onTabChange: PropTypes.func,
+  sortBy: PropTypes.string,
+  onSortChange: PropTypes.func,
+  showSortMenu: PropTypes.bool,
+  onToggleSortMenu: PropTypes.func,
 };
