@@ -1,8 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import MainIconSvg from "@/shared/assets/logo/WiDi.svg?react";
+// import MainIconSvg from "@/shared/assets/logo/WiDi.svg?react";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
 import MenuIcon from "@/shared/assets/icons/menu.svg?react";
 import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
@@ -21,12 +21,13 @@ import {
   HeaderWrapper,
   MenuMiddleWrapper,
   LogoWrapper,
-  Title,
+  // Title,
   IconWrapper,
   HeaderSearch,
   MenuSideWrapper,
   SubmitBtn,
-  CancelBtn
+  CancelBtn,
+  LogoType,
 } from "./HeaderStyled";
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
@@ -43,13 +44,17 @@ export default function AuthMenu() {
     dispatch(actionMenu());
   }
   const menuItems = [
-    { path: '/', name: 'Home Page', icon: <HomeIcon /> },
-    { path: '/favorite', name: 'Bookmarks', icon: <BookMarkIcon /> },
-    { path: '/follow', name: 'Follow', icon: <FollowIcon /> },
-    { path: '/users/:id', name: 'Profile', icon: <ProfileIcon /> },
-    { path: '/chat', name: 'Messenger', icon: <SmsIcon /> },
-    { path: '/notifications', name: 'Notifications', icon: <NotificationIcon /> },
-  ]
+    { path: "/", name: "Home Page", icon: <HomeIcon /> },
+    { path: "/favorite", name: "Bookmarks", icon: <BookMarkIcon /> },
+    { path: "/follow", name: "Follow", icon: <FollowIcon /> },
+    { path: "/users/:id", name: "Profile", icon: <ProfileIcon /> },
+    { path: "/chat", name: "Messenger", icon: <SmsIcon /> },
+    {
+      path: "/notifications",
+      name: "Notifications",
+      icon: <NotificationIcon />,
+    },
+  ];
   function closeModal() {
     setModal(!modal);
   }
@@ -59,9 +64,7 @@ export default function AuthMenu() {
   return (
     <>
       <ModalWindow closeModal={closeModal} isOpen={modal}>
-        <p style={{ color: "#fff" }}>
-          Do you really want to exit WiDi?
-        </p>
+        <p style={{ color: "#fff" }}>Do you really want to exit Tereveni?</p>
         <SubmitBtn onClick={logOut}>Yes</SubmitBtn>
         <CancelBtn onClick={closeModal}>Cancel</CancelBtn>
       </ModalWindow>
@@ -70,8 +73,18 @@ export default function AuthMenu() {
           <HeaderWrapper>
             <LogoWrapper>
               <NavLink to="/">
-                <MainIconSvg />
-                <Title>WiDi</Title>
+                <LogoType>
+                  <img
+                    src="src/shared/assets/logo/logo.png"
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                </LogoType>
+                {/* <MainIconSvg /> */}
+                {/* <Title>WiDi</Title> */}
               </NavLink>
               <HeaderSearch
                 size="10"
@@ -82,22 +95,25 @@ export default function AuthMenu() {
             <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
               <MenuMiddleWrapper>
-                {menuItems.map(item => (
+                {menuItems.map((item) => (
                   <div key={item.path}>
-                    <NavLink to={item.path} onClick={() => dispatch(closeMenu())}>
+                    <NavLink
+                      to={item.path}
+                      onClick={() => dispatch(closeMenu())}
+                    >
                       {item.icon}
                       {item.name}
                     </NavLink>
                   </div>
                 ))}
-                <NavLink
+                <Link
                   onClick={() => {
                     (closeModal(), dispatch(closeMenu()));
                   }}
                 >
                   <LogOutIcon />
                   LogOut
-                </NavLink>
+                </Link>
               </MenuMiddleWrapper>
             )}
           </HeaderWrapper>
@@ -107,10 +123,18 @@ export default function AuthMenu() {
         <Heder>
           <HeaderWrapper>
             <LogoWrapper>
-              <NavLink to="/">
-                <MainIconSvg />
-                <Title>WiDi</Title>
-              </NavLink>
+              <Link to="/">
+                <LogoType>
+                  <img
+                    src="src/shared/assets/logo/logo-2.png"
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                </LogoType>
+              </Link>
               <HeaderSearch
                 size="10"
                 placeholder="Search Post..."
@@ -118,7 +142,7 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              {menuItems.slice(0, 3).map(item => (
+              {menuItems.slice(0, 3).map((item) => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -130,7 +154,7 @@ export default function AuthMenu() {
               ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-              {menuItems.slice(3, 6).map(item => (
+              {menuItems.slice(3, 6).map((item) => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -140,12 +164,12 @@ export default function AuthMenu() {
                   </NavLink>
                 </div>
               ))}
-              <NavLink onClick={() => closeModal()}>
+              <Link onClick={() => closeModal()}>
                 <IconWrapper>
                   <LogOutIcon />
                   <Name>LogOut</Name>
                 </IconWrapper>
-              </NavLink>
+              </Link>
             </MenuSideWrapper>
           </HeaderWrapper>
         </Heder>
@@ -154,10 +178,20 @@ export default function AuthMenu() {
         <Heder>
           <HeaderWrapper>
             <LogoWrapper>
-              <NavLink to="/">
-                <MainIconSvg />
-                <Title>WiDi</Title>
-              </NavLink>
+              <Link to="/">
+                <LogoType>
+                  <img
+                    src="src/shared/assets/logo/logo-2.png"
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                </LogoType>
+                {/* <MainIconSvg /> */}
+                {/* <Title>Tereveni</Title> */}
+              </Link>
               <HeaderSearch
                 size="10"
                 placeholder="Search Post..."
@@ -165,7 +199,7 @@ export default function AuthMenu() {
               />
             </LogoWrapper>
             <MenuMiddleWrapper>
-              {menuItems.slice(0, 3).map(item => (
+              {menuItems.slice(0, 3).map((item) => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -177,7 +211,7 @@ export default function AuthMenu() {
               ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
-              {menuItems.slice(3, 6).map(item => (
+              {menuItems.slice(3, 6).map((item) => (
                 <div key={item.path}>
                   <NavLink to={item.path}>
                     <IconWrapper>
@@ -187,12 +221,12 @@ export default function AuthMenu() {
                   </NavLink>
                 </div>
               ))}
-              <NavLink onClick={() => closeModal()}>
-                <IconWrapper>
+              <Link onClick={() => closeModal()}>
+                <IconWrapper $logOut>
                   <LogOutIcon />
                   <Name>LogOut</Name>
                 </IconWrapper>
-              </NavLink>
+              </Link>
             </MenuSideWrapper>
           </HeaderWrapper>
         </Heder>

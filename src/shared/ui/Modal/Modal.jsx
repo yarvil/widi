@@ -1,16 +1,11 @@
 import React from "react";
 import Close from "@/shared/assets/icons/x-icon.svg?react";
 import PropTypes from "prop-types";
-import MainLogo from '@/shared/assets/logo/WiDi.svg?react'
-import {
-  ModalWrapper,
-  Modal,
-  ModalContent,
-  CloseButton,
-} from "./Modal.styled";
-import { LogoWrapper, Title } from "../Header/HeaderStyled";
+// import MainLogo from "@/shared/assets/logo/WiDi.svg?react";
+import { ModalWrapper, Modal, ModalContent, CloseButton } from "./Modal.styled";
+import { LogoType, LogoWrapper } from "../Header/HeaderStyled";
 export default function ModalWindow(props) {
-  const { isOpen, closeModal,children } = props;
+  const { isOpen, closeModal, children } = props;
   return (
     <>
       {isOpen && (
@@ -21,8 +16,17 @@ export default function ModalWindow(props) {
             </CloseButton>
             <ModalContent>
               <LogoWrapper>
-                <MainLogo />
-                <Title>WiDi</Title>
+                <LogoType>
+                  <img
+                    src="src/shared/assets/logo/logo-2.png"
+                    alt=""
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                </LogoType>
+                {/* <Title>WiDi</Title> */}
               </LogoWrapper>
               {children}
             </ModalContent>
@@ -34,8 +38,7 @@ export default function ModalWindow(props) {
 }
 
 ModalWindow.propTypes = {
-  
   isOpen: PropTypes.func,
   closeModal: PropTypes.func,
-  children:PropTypes.node,
+  children: PropTypes.node,
 };

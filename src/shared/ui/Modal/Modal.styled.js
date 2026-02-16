@@ -18,8 +18,8 @@ export const Modal = styled.div`
   position: relative;
   overflow: hidden auto;
   border: 1px solid #2f3336;
-  width:300px;
-  max-width:100%;
+  width: 300px;
+  max-width: 100%;
   padding: 40px;
   background-color: #000;
   border-radius: 10px;
@@ -28,15 +28,12 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-
 `;
 export const CloseButton = styled.button`
   position: absolute;
   border: none;
   background-color: inherit;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 5px;
   cursor: pointer;
 `;
-
-
