@@ -20,7 +20,7 @@ import Loader from "@/app/store/authentication/Loader";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 import CommentCard from "./components/CommentCard/CommentCard";
 import CreatePostForm from "@/pages/feed/components/CreatePostForm/CreatePostForm";
-import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
+import { PostCardWrapper } from "@/shared/components/post/PostCard/PostCard.styled";
 
 export default function PostPage() {
   const dispatch = useDispatch();

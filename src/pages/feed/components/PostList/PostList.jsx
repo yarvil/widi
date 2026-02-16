@@ -13,8 +13,8 @@ import {
 } from "@/app/store/posts/postsSelectors";
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 import Loader from "@/app/store/authentication/Loader";
-import PostCard from "@/shared/assets/components/post/PostCard/PostCard";
-import { PostCardWrapper } from "@/shared/assets/components/post/PostCard/PostCard.styled";
+import PostCard from "@/shared/components/post/PostCard/PostCard";
+import { PostCardWrapper } from "@/shared/components/post/PostCard/PostCard.styled";
 import { LoadMoreButton, NewPostsButton } from "./PostList.styled";
 
 export default function PostList({ variant = "following", sortBy = "latest" }) {

@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
   display: flex;
   gap: 12px;
   padding: 16px;
-  border-bottom: 1px solid #2f3336;
 `;
 
 export const Avatar = styled.img`

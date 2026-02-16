@@ -49,9 +49,8 @@ const ConversationListComponent = ({
   const { threads, activeConversationId } = useSelector((state) => state.chat);
   // otherUsers Было в селекторе state.chat
 
-  const allUsers = users;
   const currentUser = useSelector((state) => state.auth.user);
-  const otherUsers = allUsers.filter((user) => user.id !== currentUser.id);
+  const otherUsers = users.filter((user) => user.id !== currentUser.id);
 
   const isConversation =
     !Array.isArray(threads) || threads.length >= otherUsers.length;

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import usePostActions from "@/hooks/usePostActions";
 import TimeAgo from "@/shared/ui/TimeAgo";
-import Actions from "@/shared/assets/components/post/Actions/Actions";
+import Actions from "@/shared/components/post/Actions/Actions";
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
 import {

@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import SortMenu from "@/shared/assets/components/post/SortMenu/SortMenu";
+import SortMenu from "@/shared/components/post/SortMenu/SortMenu";
 import ArrowBack from "shared/assets/icons/arrow-left.svg?react";
 import {
   ActionButton,
   IconWrapper,
-} from "@/shared/assets/components/post/Actions/Actions.styled";
+} from "@/shared/components/post/Actions/Actions.styled";
 import {
   Wrapper,
   Title,

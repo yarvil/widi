@@ -4,17 +4,17 @@ import PropTypes from "prop-types";
 import useUser from "@/hooks/useUser";
 import usePostActions from "@/hooks/usePostActions";
 import PostDate from "../PostDate";
-import Actions from "@/shared/assets/components/post/Actions/Actions";
-import EditPostModal from "@/shared/assets/components/post/PostCard/EditPostModal";
-import PostMenu from "@/shared/assets/components/post/PostMenu/PostMenu";
+import Actions from "@/shared/components/post/Actions/Actions";
+import EditPostModal from "@/shared/components/post/PostCard/EditPostModal";
+import PostMenu from "@/shared/components/post/PostMenu/PostMenu";
 import {
   AuthorName,
   Text,
   Media,
   MediaWrapper,
   AuthorCounts,
-} from "@/shared/assets/components/post/PostCard/PostCard.styled";
-import { Avatar } from "@/shared/assets/components/post/PostCard/PostCard.styled";
+} from "@/shared/components/post/PostCard/PostCard.styled";
+import { Avatar } from "@/shared/components/post/PostCard/PostCard.styled";
 import {
   FullPostWrapper,
   PostHeader,

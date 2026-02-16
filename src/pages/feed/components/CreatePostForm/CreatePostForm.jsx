@@ -13,7 +13,7 @@ import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import {
   ActionButton,
   IconWrapper,
-} from "@/shared/assets/components/post/Actions/Actions.styled";
+} from "@/shared/components/post/Actions/Actions.styled";
 import {
   FormWrapper,
   Avatar,
