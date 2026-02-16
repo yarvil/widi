@@ -173,7 +173,7 @@ const chatSlice = createSlice({
         });
 
         if (!exists) {
-          state.conversations.unshift(action.payload);
+          state.threads.unshift(action.payload);
         }
         state.activeConversationId = action.payload.id;
       })
