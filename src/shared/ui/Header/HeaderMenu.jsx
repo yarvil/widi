@@ -75,7 +75,7 @@ export default function AuthMenu() {
               <NavLink to="/">
                 <LogoType>
                   <img
-                    src="src/shared/assets/logo/logo.png"
+                    src="/public/logo/logo.png"
                     alt=""
                     style={{
                       width: "100%",
@@ -126,7 +126,7 @@ export default function AuthMenu() {
               <Link to="/">
                 <LogoType>
                   <img
-                    src="src/shared/assets/logo/logo-2.png"
+                    src="/public/logo/logo-2.png"
                     alt=""
                     style={{
                       width: "100%",
@@ -181,7 +181,7 @@ export default function AuthMenu() {
               <Link to="/">
                 <LogoType>
                   <img
-                    src="src/shared/assets/logo/logo-2.png"
+                    src="/public/logo/logo-2.png"
                     alt=""
                     style={{
                       width: "100%",
