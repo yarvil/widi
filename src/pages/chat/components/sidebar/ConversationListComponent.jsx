@@ -7,6 +7,8 @@ import {
   createNewConversation,
 } from "@/app/store/chat/slices/chatSlice";
 
+import { formatTime } from "../../utils/chatHelper";
+
 import {
   Sidebar,
   SidebarHeader,
@@ -38,7 +40,11 @@ import {
 import SearchIconSvg from "@/shared/assets/icons/search.svg";
 // import SearchIconSvg from "@/shared/icons/search.svg";
 import OptionsIcon from "@/shared/assets/icons/ellipsis-vertical.svg?react";
-import { createNewThread, loadUsers } from "@/app/store/chat/chatThunks";
+import {
+  createNewThread,
+  loadUsers,
+  loadThreads,
+} from "@/app/store/chat/chatThunks";
 
 const ConversationListComponent = ({
   handleChatList,
@@ -66,6 +72,10 @@ const ConversationListComponent = ({
   }, [dispatch]);
 
   useEffect(() => {
+    dispatch(loadThreads());
+  }, [dispatch]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (chatMenuRef.current && !chatMenuRef.current.contains(event.target)) {
         setOpenMenuId(null);
@@ -81,8 +91,11 @@ const ConversationListComponent = ({
     };
   }, [openMenuId]);
 
+  console.log(threads);
   const filteredThreads = threads.filter((conv) =>
-    conv.participants[1].firstName.toLowerCase().includes(search.toLowerCase()),
+    conv?.otherParticipant?.username
+      ?.toLowerCase()
+      .includes(search.toLowerCase()),
   );
 
   const filteredNewParticipants =
@@ -138,15 +151,15 @@ const ConversationListComponent = ({
           >
             <Avatar>
               {/* Временная заглушка в виде первых двух букв для аватарки */}
-              {conv.participants[1].firstName.slice(0, 2)}
+              {conv?.otherParticipant?.username.slice(0, 2)}
               {/* Пока что у бека нет возможности отобразить онлайн человек или нет */}
               <OnlineIndicator online={conv.isOnline} />
             </Avatar>
             <ConversationInfo>
               <ConversationName>
-                {conv.participants[1].firstName}
+                {conv.otherParticipant.username}
                 <ConversationDetails>
-                  <Timestamp>{conv.timestamp}</Timestamp>
+                  <Timestamp>{formatTime(conv.updatedAt)}</Timestamp>
                   <ConversationOptions
                     onClick={(event) => handleOpenConvOptions(conv.id, event)}
                   >
