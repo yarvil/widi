@@ -3,12 +3,12 @@ import styled from "styled-components";
 export const PostCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid #2f3336;
 `;
 
 export const PostContainer = styled.div`
   display: flex;
   padding-inline: 16px;
+  border: 1px solid #2f3336;
   gap: 12px;
   transition: 0.2s;
   &:hover {
