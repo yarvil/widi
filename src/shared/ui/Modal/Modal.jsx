@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 // import MainLogo from "@/shared/assets/logo/WiDi.svg?react";
 import { ModalWrapper, Modal, ModalContent, CloseButton } from "./Modal.styled";
 import { LogoType, LogoWrapper } from "../Header/HeaderStyled";
+import logo from "@/shared/assets/logo/logo-2.png";
+
 export default function ModalWindow(props) {
   const { isOpen, closeModal, children } = props;
   return (
@@ -18,7 +20,7 @@ export default function ModalWindow(props) {
               <LogoWrapper>
                 <LogoType>
                   <img
-                    src="src/shared/assets/logo/logo-2.png"
+                    src={logo}
                     alt=""
                     style={{
                       width: "100%",
