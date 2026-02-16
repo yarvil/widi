@@ -4,6 +4,13 @@ export function calculateUnreadCount(messages, currentUserId) {
   }
 
   return messages.filter(
-    (message) => message.senderId !== currentUserId && message.isRead === false
+    (message) => message.senderId !== currentUserId && message.isRead === false,
   ).length;
 }
+
+export const formatTime = (dateString) => {
+  return new Date(dateString).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
