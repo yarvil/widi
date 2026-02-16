@@ -1,24 +1,40 @@
 import { useRoutes } from "react-router-dom";
-
-import FeedPage from "@/pages/feed/FeedPage";
-import PostPage from "@/pages/post/PostPage";
+import { lazy, Suspense } from "react";
+import Loader from "../store/authentication/Loader";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import NotificationList from "@/pages/Notifications/NotificationsList";
-import FavoriteList from "@/pages/FavoriteList/FavoriteList";
-import {
-  AuthPage,
-  LoginPage,
-  RegisterPage,
-  ForgotPasswordPage,
-  ResetPasswordPage,
-  VerificationPage,
-  OAuth2Callback,
-} from "@/pages/auth";
-import NotFoundPage from "@/pages/notFound/NotFoundPage";
-import UnauthorizedPage from "@/pages/unauthorized/UnauthorizedPage";
-import ChatPage from "@/pages/chat/ChatPage";
-import FollowPage from "@/pages/follow/FollowPage";
+
+const FeedPage = lazy(() => import("@/pages/feed/FeedPage"));
+const PostPage = lazy(() => import("@/pages/post/PostPage"));
+const NotificationList = lazy(
+  () => import("@/pages/Notifications/NotificationsList"),
+);
+const FavoriteList = lazy(() => import("@/pages/FavoriteList/FavoriteList"));
+
+const AuthPage = lazy(() => import("@/pages/auth/authPage/AuthPage"));
+const LoginPage = lazy(() => import("@/pages/auth/loginPage/LoginPage"));
+const RegisterPage = lazy(
+  () => import("@/pages/auth/RegisterPage/RegisterPage"),
+);
+const ForgotPasswordPage = lazy(
+  () => import("@/pages/auth/forgotPasswordPage/ForgotPasswordPage"),
+);
+const ResetPasswordPage = lazy(
+  () => import("@/pages/auth/resetPasswordPage/ResetPasswordPage"),
+);
+const VerificationPage = lazy(
+  () => import("@/pages/auth/verificationPage/verificationPage"),
+);
+const OAuth2Callback = lazy(
+  () => import("@/pages/auth/oAuth2Callback/OAuth2Callback"),
+);
+
+const NotFoundPage = lazy(() => import("@/pages/notFound/NotFoundPage"));
+const UnauthorizedPage = lazy(
+  () => import("@/pages/unauthorized/UnauthorizedPage"),
+);
+const ChatPage = lazy(() => import("@/pages/chat/ChatPage"));
+const FollowPage = lazy(() => import("@/pages/follow/FollowPage"));
 
 const RootRouter = [
   {
@@ -140,4 +156,6 @@ const RootRouter = [
   },
 ];
 
-export const AppRouter = () => useRoutes(RootRouter);
+export const AppRouter = () => {
+  return <Suspense fallback={<Loader />}>{useRoutes(RootRouter)}</Suspense>;
+};
