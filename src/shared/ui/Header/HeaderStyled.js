@@ -71,8 +71,12 @@ export const HeaderWrapper = styled.div`
   margin: 0 auto;
   padding: 5px;
   align-items: center;
-  justify-content: center;
-  gap: 35px;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    justify-content: center;
+    gap: 35px;
+  }
 `;
 export const MenuSideWrapper = styled.div`
   display: flex;
