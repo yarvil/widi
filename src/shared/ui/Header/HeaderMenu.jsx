@@ -29,6 +29,8 @@ import {
   CancelBtn,
   LogoType,
 } from "./HeaderStyled";
+import mobileLogo from "@/shared/assets/logo/logo.png";
+import desktopLogo from "@/shared/assets/logo/logo-2.png";
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logout } from "@/app/store/authentication/authSlice";
@@ -75,7 +77,7 @@ export default function AuthMenu() {
               <NavLink to="/">
                 <LogoType>
                   <img
-                    src="/public/logo/logo.png"
+                    src={mobileLogo}
                     alt=""
                     style={{
                       width: "100%",
@@ -126,7 +128,7 @@ export default function AuthMenu() {
               <Link to="/">
                 <LogoType>
                   <img
-                    src="/public/logo/logo-2.png"
+                    src={desktopLogo}
                     alt=""
                     style={{
                       width: "100%",
@@ -181,7 +183,7 @@ export default function AuthMenu() {
               <Link to="/">
                 <LogoType>
                   <img
-                    src="/public/logo/logo-2.png"
+                    src={desktopLogo}
                     alt=""
                     style={{
                       width: "100%",
