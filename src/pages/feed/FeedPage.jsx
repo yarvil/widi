@@ -7,11 +7,14 @@ import PageWrapper from "shared/ui/PageWrapper";
 
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState("following");
+  const [sortBy, setSortBy] = useState("latest");
+  const [showSortMenu, setShowSortMenu] = useState(false);
 
   const tabs = [
     { id: "following", label: "Following" },
     { id: "foryou", label: "For you" },
   ];
+
   return (
     <>
       <PageWrapper>
@@ -20,10 +23,14 @@ export default function FeedPage() {
           tabs={tabs}
           activeTab={activeTab}
           onTabChange={setActiveTab}
+          sortBy={activeTab === "foryou" ? sortBy : null}
+          onSortChange={setSortBy}
+          showSortMenu={showSortMenu}
+          onToggleSortMenu={setShowSortMenu}
         />
         <CreatePostForm />
         {activeTab === "following" && <PostList />}
-        {activeTab === "foryou" && <PostList variant="feed" />}
+        {activeTab === "foryou" && <PostList variant="feed" sortBy={sortBy} />}
       </PageWrapper>
     </>
   );

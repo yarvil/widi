@@ -40,16 +40,24 @@ export const Tab = styled.div`
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: rgba(231, 233, 234, 0.1);
+    background-color: ${(props) =>
+      props.$menuOpen ? "transparent" : "rgba(231, 233, 234, 0.1)"};
   }
+`;
+
+export const TabContent = styled.span`
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 `;
 
 export const TabIndicator = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: -100%;
   left: 50%;
   transform: translateX(-50%);
-  width: 60px;
+  width: 100%;
   height: 4px;
   background-color: rgb(29, 155, 240);
   border-radius: 2px 2px 0 0;

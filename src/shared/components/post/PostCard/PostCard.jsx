@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import usePostActions from "@/hooks/usePostActions";
+import TimeAgo from "@/shared/ui/TimeAgo";
+import Actions from "@/shared/components/post/Actions/Actions";
+import EditPostModal from "./EditPostModal";
+import PostMenu from "../PostMenu/PostMenu";
 import {
   Avatar,
   Content,
@@ -14,11 +19,6 @@ import {
   AvatarWrapper,
   UserInfo,
 } from "./PostCard.styled";
-import TimeAgo from "@/shared/ui/TimeAgo";
-import Actions from "@/shared/assets/components/post/Actions/Actions";
-import EditPostModal from "./EditPostModal";
-import PostMenu from "../PostMenu/PostMenu";
-import usePostActions from "@/hooks/usePostActions";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
   const { postId, avatar, createdTime, name, authorId, text, media } = post;
@@ -34,7 +34,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
   } = usePostActions({
     postId,
     authorId,
-    following: post.following,
+    following: post.isFollowing,
   });
 
   return (
@@ -95,7 +95,7 @@ PostCard.propTypes = {
     authorId: PropTypes.string,
     text: PropTypes.string,
     media: PropTypes.string,
-    following: PropTypes.bool,
+    isFollowing: PropTypes.bool,
     saved: PropTypes.bool,
   }),
   withTopLine: PropTypes.bool,

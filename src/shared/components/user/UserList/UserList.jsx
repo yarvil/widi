@@ -3,25 +3,25 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchUsersThunk } from "@/app/store/users/usersSlice";
 import { selectUsers } from "@/app/store/users/usersSelectors";
-import UserCard from "../UserCard/UserCard";
-import { selectFollowingStatus } from "@/app/store/follows/followsSelectors";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
+import { selectFollowingStatus } from "@/app/store/follows/followsSelectors";
+import UserCard from "../UserCard/UserCard";
 
 export default function UserList() {
-  const users = useSelector(selectUsers);
-  const followingStatus = useSelector(selectFollowingStatus);
-  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
+  const users = useSelector(selectUsers);
+  const isFollowing = useSelector(selectFollowingStatus);
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
     dispatch(fetchUsersThunk());
   }, [dispatch]);
 
   useEffect(() => {
-    if (Object.keys(followingStatus).length > 0) {
+    if (Object.keys(isFollowing).length > 0) {
       dispatch(fetchUsersThunk());
     }
-  }, [followingStatus, dispatch]);
+  }, [isFollowing, dispatch]);
 
   const filteredUsers = users.filter((user) => user.id !== currentUser?.id);
 

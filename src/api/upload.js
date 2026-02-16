@@ -1,13 +1,7 @@
-import { apiRequest } from "@/pages/auth/sendRequest";
+import { fetchGet } from "@/pages/auth/sendRequest";
 
 export async function uploadPostImage(file) {
-  //! ВИДАЛИТИ КОЛИ ЗАПРАЦЮЄ БЕК
-  // if (import.meta.env.DEV) {
-  //   return URL.createObjectURL(file);
-  // }
-  //!---------------------------
-
-  const params = await apiRequest("GET", "api/upload/signature/post");
+  const params = await fetchGet("api/upload/signature/post");
 
   const formData = new FormData();
   formData.append("file", file);

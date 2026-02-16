@@ -97,3 +97,11 @@ export const MediaActions = styled.div`
   padding-top: 12px;
   border-top: 1px solid #2f3336;
 `;
+
+export const MediaWrapper = styled.div`
+  position: relative;
+  margin-block: 10px;
+  border-radius: 16px;
+  border: 1px solid #2f3336;
+  min-height: 60px;
+`;

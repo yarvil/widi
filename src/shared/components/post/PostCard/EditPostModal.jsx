@@ -9,12 +9,13 @@ import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import {
   ActionButton,
   IconWrapper,
-} from "@/shared/assets/components/post/Actions/Actions.styled";
+} from "@/shared/components/post/Actions/Actions.styled";
 import {
   CloseButton,
   Content,
   Header,
   MediaActions,
+  MediaWrapper,
   Modal,
   Overlay,
   SaveButton,
@@ -27,6 +28,7 @@ function EditPostModal({ post, onClose }) {
   const [media, setMedia] = useState(null);
   const [currentImage, setCurrentImage] = useState(post.media);
   const [saving, setSaving] = useState(false);
+
   const dispatch = useDispatch();
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -123,15 +125,7 @@ function EditPostModal({ post, onClose }) {
           />
 
           {displayImage && (
-            <div
-              style={{
-                position: "relative",
-                marginBlock: "10px",
-                borderRadius: "16px",
-                border: "1px solid #2f3336",
-                minHeight: "60px",
-              }}
-            >
+            <MediaWrapper>
               <img
                 src={displayImage}
                 style={{ maxWidth: "100%", padding: "20px" }}
@@ -139,19 +133,14 @@ function EditPostModal({ post, onClose }) {
               />
               <ActionButton
                 type="button"
-                style={{
-                  position: "absolute",
-                  color: "white",
-                  top: 5,
-                  right: 5,
-                }}
+                $closeMedia
                 onClick={handleRemoveMedia}
               >
                 <IconWrapper>
                   <RemoveIcon />
                 </IconWrapper>
               </ActionButton>
-            </div>
+            </MediaWrapper>
           )}
 
           <MediaActions>
