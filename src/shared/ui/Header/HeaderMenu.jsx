@@ -1,8 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-// import MainIconSvg from "@/shared/assets/logo/WiDi.svg?react";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
 import MenuIcon from "@/shared/assets/icons/menu.svg?react";
 import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
@@ -26,6 +24,8 @@ import {
   MenuSideWrapper,
   LogoType,
   Title,
+  MenuItem,
+  LogOutButton
 } from "./HeaderStyled";
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 
@@ -37,7 +37,6 @@ export default function AuthMenu() {
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  // const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1024px)");
   const isDesktop = useMediaQuery("(min-width: 769px)");
   function showBurgerMenu() {
     dispatch(actionMenu());
@@ -94,25 +93,33 @@ export default function AuthMenu() {
             <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
               <MenuMiddleWrapper>
+                <Link to="/" onClick={()=>dispatch(closeMenu())}>
+                  <LogoWrapper>
+                    <LogoType>
+                      <MobileLogo/>
+                    </LogoType>
+                    <Title>Tereveni</Title>
+                  </LogoWrapper>
+                </Link>
                 {menuItems.map((item) => (
                   <div key={item.path}>
-                    <NavLink
+                    <MenuItem
                       to={item.path}
                       onClick={() => dispatch(closeMenu())}
                     >
                       {item.icon}
                       {item.name}
-                    </NavLink>
+                    </MenuItem>
                   </div>
                 ))}
-                <Link
+                <LogOutButton style={{ marginBottom: '0px' }}
                   onClick={() => {
                     (closeModal(), dispatch(closeMenu()));
                   }}
                 >
                   <LogOutIcon />
                   LogOut
-                </Link>
+                </LogOutButton>
               </MenuMiddleWrapper>
             )}
           </HeaderWrapper>

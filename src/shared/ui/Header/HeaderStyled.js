@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const LogoType = styled.div`
   svg {
@@ -124,21 +125,60 @@ export const HeaderSearch = styled.input`
   }
 `;
 export const MenuMiddleWrapper = styled.div`
-  display: flex;
+ display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  gap: 5px;
-  @media (min-width: 769px) {
-    flex-direction: row;
-    position: static;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    background: #000;
+    padding: 80px 20px 20px;
+    gap: 8px;
+    border-left: 1px solid #2f3336;
   }
 
+  @media (min-width: 769px) {
+    position: static;
+    flex-direction: row;
+    height: auto;
+    padding: 0;
+    width: auto;
+    border: none;
+  }
   .active {
     color: rgb(29, 155, 240);
   }
 `;
+export const LogOutButton = styled.button`
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: #f4212e;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(244, 33, 46, 0.1);
+  }
+`;
+export const MenuItem = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #e7e9ea;
+  transition: background 0.2s ease;
+`;
+
 export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
