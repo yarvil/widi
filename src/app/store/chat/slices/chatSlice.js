@@ -10,11 +10,7 @@ const initialState = {
   threads: [],
   messages: {},
   activeConversationId: null,
-  currentUser: {
-    id: "user-1",
-    name: "Я",
-    avatar: "😊",
-  },
+  currentUser: {},
   otherUsers: [],
   loading: false,
   error: null,
@@ -24,7 +20,7 @@ const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    setActiveConversation: (state, action) => {
+    setActiveConversationId: (state, action) => {
       state.activeConversationId = action.payload;
     },
 
@@ -127,7 +123,7 @@ const chatSlice = createSlice({
 });
 
 export const {
-  setActiveConversation,
+  setActiveConversationId,
   setCurrentUser,
   sendMessage,
   deleteConversation,
