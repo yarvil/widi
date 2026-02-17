@@ -7,6 +7,7 @@ export const FormWrapper = styled.div`
   gap: 12px;
   border-bottom: 1px solid #2f3336;
 `;
+
 export const FormContainer = styled.form`
   display: flex;
   padding: 0 16px 10px 16px;
