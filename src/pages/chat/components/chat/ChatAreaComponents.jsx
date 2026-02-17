@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessagesByThreads } from "@/app/store/chat/chatThunks";
-import { sendMessage } from "@/app/store/chat/slices/chatSlice";
+import { sendMessage, setCurrentUser } from "@/app/store/chat/slices/chatSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 
 import {
@@ -26,24 +26,23 @@ import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
-  const { threads, messages, activeConversationId } = useSelector(
+
+  const { threads, messages, activeConversationId, currentUser } = useSelector(
     (state) => state.chat,
   );
-
-  const currentUser = useSelector(selectCurrentUser);
+  const authUser = useSelector(selectCurrentUser);
   const [inputValue, setInputValue] = useState("");
-
-  useEffect(() => {
-    if (!activeConversationId) return;
-
-    dispatch(loadMessagesByThreads(activeConversationId));
-  }, [activeConversationId, dispatch]);
 
   const activeConversation = threads.find(
     (thread) => thread.id === activeConversationId,
   );
   const currentMessages = messages[activeConversationId] || [];
-  console.log(currentMessages);
+
+  useEffect(() => {
+    dispatch(setCurrentUser(authUser));
+    if (!activeConversationId) return;
+    dispatch(loadMessagesByThreads(activeConversationId));
+  }, [activeConversationId, authUser, dispatch]);
 
   const handleSend = () => {
     if (inputValue.trim()) {

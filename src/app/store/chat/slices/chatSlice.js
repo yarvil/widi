@@ -28,6 +28,10 @@ const chatSlice = createSlice({
       state.activeConversationId = action.payload;
     },
 
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
+    },
+
     sendMessage: (state, action) => {
       const { conversationId, content } = action.payload;
 
@@ -122,6 +126,10 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setActiveConversation, sendMessage, deleteConversation } =
-  chatSlice.actions;
+export const {
+  setActiveConversation,
+  setCurrentUser,
+  sendMessage,
+  deleteConversation,
+} = chatSlice.actions;
 export default chatSlice.reducer;
