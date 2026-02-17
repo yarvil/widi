@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const LogoType = styled.div`
-  width: auto;
-  height: 50px;
+  svg {
+    height: 50px;
+    width: auto;
+  }
 `;
 
 export const IconWrapper = styled.div`
@@ -50,7 +52,7 @@ export const Name = styled.span`
 export const Heder = styled.header`
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 99;
   background: #000;
   border-bottom: 1px solid #2f3336;
   padding-block: 10px;
@@ -73,7 +75,7 @@ export const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     justify-content: center;
     gap: 35px;
   }
@@ -141,25 +143,16 @@ export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 3px;
 `;
-export const SubmitBtn = styled.div`
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #2f3336;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-export const CancelBtn = styled(SubmitBtn)`
-  color: #fff;
-  background-color: #000;
-  margin-top: 0;
-  margin-bottom: 0;
-`;
+
 export const Title = styled.h1`
   color: #fff;
-  font-size: 20px;
+  font-size: 32px;
+  font-family: "Style Script", cursive;
+  margin-block: 0;
+`;
+
+export const ModalText = styled.p`
+  color: rgb(231, 233, 234);
 `;

@@ -2,18 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
 
 const ButtonStyled = styled(NavLink)`
-  border: 0;
-  padding: 5px 11px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
   cursor: pointer;
   color: #fff;
-  border-radius: 50%;
-  border: 1px solid #c1c0c0d6;
-  font-size: 20px;
   position: absolute;
   top: 10px;
-  left: 10px;
+  right: 10px;
 
   &:hover {
     border-radius: 50%;
@@ -31,7 +30,7 @@ const ButtonStyled = styled(NavLink)`
 function ButtonClose({ type = "button", $style = "", to, ...props }) {
   return (
     <ButtonStyled type={type} to={to} $style={$style} {...props}>
-      X
+      <CloseIcon />
     </ButtonStyled>
   );
 }
