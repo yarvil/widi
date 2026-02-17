@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessagesByThreads } from "@/app/store/chat/chatThunks";
 import { sendMessage } from "@/app/store/chat/slices/chatSlice";
+import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 
 import {
   EmptyState,
@@ -22,13 +23,14 @@ import {
 import { Avatar, OnlineIndicator } from "../sidebar/styles";
 
 import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
-// import ArrowLeftIcon from "@/shared/icons/arrow-left.png";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
-  const { threads, messages, activeConversationId, currentUser } = useSelector(
+  const { threads, messages, activeConversationId } = useSelector(
     (state) => state.chat,
   );
+
+  const currentUser = useSelector(selectCurrentUser);
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
@@ -37,7 +39,9 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     dispatch(loadMessagesByThreads(activeConversationId));
   }, [activeConversationId, dispatch]);
 
-  const activeConversation = threads.find((c) => c.id === activeConversationId);
+  const activeConversation = threads.find(
+    (thread) => thread.id === activeConversationId,
+  );
   const currentMessages = messages[activeConversationId] || [];
   console.log(currentMessages);
 
@@ -78,18 +82,18 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     <ChatArea $isChatListOpen={isChatListOpen}>
       <ChatHeader>
         <BackToListButton
-          // src={ArrowLeftIcon}
+          src={ArrowLeftIcon}
           onClick={handleChatList}
           alt="Back to chat list"
         >
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          {activeConversation.participants[0].firstName.slice(0, 2)}
+          {currentUser.firstName.slice(0, 2)}
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
-          <h3>{activeConversation.participants[0].firstName}</h3>
+          <h3>{currentUser.firstName}</h3>
           <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
         </ChatHeaderInfo>
       </ChatHeader>
@@ -117,7 +121,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           onKeyPress={handleKeyPress}
         />
         <SendButton onClick={handleSend} disabled={!inputValue.trim()}>
-          Отправить
+          Send
         </SendButton>
       </InputArea>
     </ChatArea>

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import usePostActions from "@/hooks/usePostActions";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "@/shared/components/post/Actions/Actions";
+import ModalWindow from "@/shared/ui/Modal/Modal";
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
 import {
@@ -31,6 +32,9 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
     handleDelete,
     handleFollow,
     closeEditModal,
+    showDeleteModal,
+    openDeleteModal,
+    closeDeleteModal,
   } = usePostActions({
     postId,
     authorId,
@@ -65,7 +69,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
               variant={menuVariant}
               isFollowing={isFollowing}
               onEdit={handleEdit}
-              onDelete={handleDelete}
+              onDelete={openDeleteModal}
               onFollow={handleFollow}
             />
           </Header>
@@ -82,6 +86,18 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
       </PostContainer>
 
       {showEditModal && <EditPostModal post={post} onClose={closeEditModal} />}
+      {showDeleteModal && (
+        <ModalWindow
+          title="Delete post?"
+          desc="This can't be undone and it will be removed from your profile."
+          primaryText="Delete"
+          primaryClick={handleDelete}
+          secondaryText="Cancel"
+          secondaryClick={closeDeleteModal}
+          closeModal={closeDeleteModal}
+          dangerBtn
+        />
+      )}
     </>
   );
 }

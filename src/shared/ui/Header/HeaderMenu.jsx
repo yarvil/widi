@@ -21,16 +21,13 @@ import {
   HeaderWrapper,
   MenuMiddleWrapper,
   LogoWrapper,
-  // Title,
   IconWrapper,
   HeaderSearch,
   MenuSideWrapper,
-  SubmitBtn,
-  CancelBtn,
   LogoType,
+  Title,
 } from "./HeaderStyled";
-import mobileLogo from "@/shared/assets/logo/logo.png";
-import desktopLogo from "@/shared/assets/logo/logo-2.png";
+import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logout } from "@/app/store/authentication/authSlice";
@@ -40,8 +37,8 @@ export default function AuthMenu() {
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1024px)");
-  const isDesktop = useMediaQuery("(min-width: 1025px)");
+  // const isTablet = useMediaQuery("(min-width: 769px) and (max-width: 1024px)");
+  const isDesktop = useMediaQuery("(min-width: 769px)");
   function showBurgerMenu() {
     dispatch(actionMenu());
   }
@@ -65,35 +62,35 @@ export default function AuthMenu() {
   }
   return (
     <>
-      <ModalWindow closeModal={closeModal} isOpen={modal}>
-        <p style={{ color: "#fff" }}>Do you really want to exit Tereveni?</p>
-        <SubmitBtn onClick={logOut}>Yes</SubmitBtn>
-        <CancelBtn onClick={closeModal}>Cancel</CancelBtn>
-      </ModalWindow>
+      {modal && (
+        <ModalWindow
+          logo
+          title="Log out of Tereveni?"
+          desc="You can always log back in at any time."
+          closeModal={closeModal}
+          isOpen={modal}
+          primaryText="Yes"
+          secondaryText="Cancel"
+          primaryClick={logOut}
+          secondaryClick={closeModal}
+        />
+      )}
       {isMobile && (
         <Heder>
           <HeaderWrapper>
-            <LogoWrapper>
-              <NavLink to="/">
+            <Link to="/">
+              <LogoWrapper>
                 <LogoType>
-                  <img
-                    src={mobileLogo}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
+                  <MobileLogo />
                 </LogoType>
-                {/* <MainIconSvg /> */}
-                {/* <Title>WiDi</Title> */}
-              </NavLink>
-              <HeaderSearch
-                size="10"
-                placeholder="Search Post..."
-                onChange={(e) => dispatch(setSearchValue(e.target.value))}
-              />
-            </LogoWrapper>
+                <Title>Tereveni</Title>
+              </LogoWrapper>
+            </Link>
+            <HeaderSearch
+              size="10"
+              placeholder="Search Post..."
+              onChange={(e) => dispatch(setSearchValue(e.target.value))}
+            />
             <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
               <MenuMiddleWrapper>
@@ -121,85 +118,46 @@ export default function AuthMenu() {
           </HeaderWrapper>
         </Heder>
       )}
-      {isTablet && (
-        <Heder>
-          <HeaderWrapper>
-            <LogoWrapper>
-              <Link to="/">
-                <LogoType>
-                  <img
-                    src={desktopLogo}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                </LogoType>
-              </Link>
-              <HeaderSearch
-                size="10"
-                placeholder="Search Post..."
-                onChange={(e) => dispatch(setSearchValue(e.target.value))}
-              />
-            </LogoWrapper>
-            <MenuMiddleWrapper>
-              {menuItems.slice(0, 3).map((item) => (
-                <div key={item.path}>
-                  <NavLink to={item.path}>
-                    <IconWrapper>
-                      {item.icon}
-                      <Name>{item.name}</Name>
-                    </IconWrapper>
-                  </NavLink>
-                </div>
-              ))}
-            </MenuMiddleWrapper>
-            <MenuSideWrapper>
-              {menuItems.slice(3, 6).map((item) => (
-                <div key={item.path}>
-                  <NavLink to={item.path}>
-                    <IconWrapper>
-                      {item.icon}
-                      <Name>{item.name}</Name>
-                    </IconWrapper>
-                  </NavLink>
-                </div>
-              ))}
-              <Link onClick={() => closeModal()}>
-                <IconWrapper>
-                  <LogOutIcon />
-                  <Name>LogOut</Name>
-                </IconWrapper>
-              </Link>
-            </MenuSideWrapper>
-          </HeaderWrapper>
-        </Heder>
-      )}
       {isDesktop && (
         <Heder>
           <HeaderWrapper>
-            <LogoWrapper>
-              <Link to="/">
+            <Link to="/">
+              <LogoWrapper>
                 <LogoType>
-                  <img
-                    src={desktopLogo}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
+                  <MobileLogo />
                 </LogoType>
-                {/* <MainIconSvg /> */}
-                {/* <Title>Tereveni</Title> */}
-              </Link>
-              <HeaderSearch
-                size="10"
-                placeholder="Search Post..."
-                onChange={(e) => dispatch(setSearchValue(e.target.value))}
-              />
-            </LogoWrapper>
+                <Title>Tereveni</Title>
+              </LogoWrapper>
+            </Link>
+            <HeaderSearch
+              size="10"
+              placeholder="Search Post..."
+              onChange={(e) => dispatch(setSearchValue(e.target.value))}
+            />
+            {isMobile && <MenuIcon onClick={showBurgerMenu} />}
+            {isShow && (
+              <MenuMiddleWrapper>
+                {menuItems.map((item) => (
+                  <div key={item.path}>
+                    <NavLink
+                      to={item.path}
+                      onClick={() => dispatch(closeMenu())}
+                    >
+                      {item.icon}
+                      {item.name}
+                    </NavLink>
+                  </div>
+                ))}
+                <Link
+                  onClick={() => {
+                    (closeModal(), dispatch(closeMenu()));
+                  }}
+                >
+                  <LogOutIcon />
+                  LogOut
+                </Link>
+              </MenuMiddleWrapper>
+            )}
             <MenuMiddleWrapper>
               {menuItems.slice(0, 3).map((item) => (
                 <div key={item.path}>

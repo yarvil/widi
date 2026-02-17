@@ -1,4 +1,4 @@
-import { fetchMessages } from "@/api/messages";
+import { fetchMessages } from "@/api/threads";
 import { fetchThreads, createThread } from "@/api/threads";
 import { fetchUsers } from "@/api/users";
 import { createAsyncThunk } from "@reduxjs/toolkit";
