@@ -41,6 +41,11 @@ export async function savePostApi(postId, body = null) {
 export async function unsavePostApi(postId) {
   return await fetchDelete(`api/posts/${postId}/save`);
 }
+
 export async function fetchSavedPostsApi(page = 0, size = 20) {
   return await fetchGet(`api/posts/saved?page=${page}&size=${size}`);
+}
+
+export async function fetchUserPosts(userId, page = 0, size = 20) {
+  return await fetchGet(`api/posts/user/${userId}?page=${page}&size=${size}`);
 }
