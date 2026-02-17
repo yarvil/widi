@@ -253,7 +253,7 @@ function RegisterPage() {
               {...getFieldProps("confirmPassword")}
             />
           </Label>
-          <Button type="submit" $style="margin-top: 10px;">
+          <Button $primary type="submit" $style="margin-top: 10px;">
             Зареєструватися
           </Button>
         </Form>

@@ -1,46 +1,80 @@
 import React from "react";
-import Close from "@/shared/assets/icons/x-icon.svg?react";
 import PropTypes from "prop-types";
-// import MainLogo from "@/shared/assets/logo/WiDi.svg?react";
-import { ModalWrapper, Modal, ModalContent, CloseButton } from "./Modal.styled";
-import { LogoType, LogoWrapper } from "../Header/HeaderStyled";
-import logo from "@/shared/assets/logo/logo-2.png";
+
+import Close from "@/shared/assets/icons/x-icon.svg?react";
+import LogoIcon from "@/shared/assets/logo/logotype.svg?react";
+import {
+  ModalWrapper,
+  Modal,
+  ModalContent,
+  CloseButton,
+  Title,
+  LogoType,
+  LogoWrapper,
+  PrimaryButton,
+  SecondaryButton,
+  ModalTitle,
+  ModalDesc,
+  ActionsWrapper,
+} from "./Modal.styled";
 
 export default function ModalWindow(props) {
-  const { isOpen, closeModal, children } = props;
+  const {
+    logo,
+    closeModal,
+    children,
+    title,
+    desc,
+    primaryText,
+    primaryClick,
+    secondaryText,
+    secondaryClick,
+    dangerBtn,
+  } = props;
   return (
     <>
-      {isOpen && (
-        <ModalWrapper>
-          <Modal>
-            <CloseButton>
-              <Close onClick={closeModal} />
-            </CloseButton>
-            <ModalContent>
+      <ModalWrapper onClick={closeModal}>
+        <Modal onClick={(e) => e.stopPropagation()}>
+          <CloseButton>
+            <Close onClick={closeModal} />
+          </CloseButton>
+          <ModalContent>
+            {logo && (
               <LogoWrapper>
                 <LogoType>
-                  <img
-                    src={logo}
-                    alt=""
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
+                  <LogoIcon />
                 </LogoType>
-                {/* <Title>WiDi</Title> */}
+                <Title>Tereveni</Title>
               </LogoWrapper>
-              {children}
-            </ModalContent>
-          </Modal>
-        </ModalWrapper>
-      )}
+            )}
+
+            <ModalTitle>{title}</ModalTitle>
+            <ModalDesc>{desc}</ModalDesc>
+            {children}
+            <ActionsWrapper>
+              <PrimaryButton $danger={dangerBtn} onClick={primaryClick}>
+                {primaryText}
+              </PrimaryButton>
+              <SecondaryButton onClick={secondaryClick}>
+                {secondaryText}
+              </SecondaryButton>
+            </ActionsWrapper>
+          </ModalContent>
+        </Modal>
+      </ModalWrapper>
     </>
   );
 }
 
 ModalWindow.propTypes = {
-  isOpen: PropTypes.func,
   closeModal: PropTypes.func,
   children: PropTypes.node,
+  logo: PropTypes.bool,
+  title: PropTypes.string,
+  desc: PropTypes.string,
+  primaryText: PropTypes.string,
+  primaryClick: PropTypes.string,
+  secondaryText: PropTypes.string,
+  secondaryClick: PropTypes.string,
+  dangerBtn: PropTypes.bool,
 };
