@@ -36,10 +36,19 @@ export async function apiRequest(method, url, body = null) {
 
     if (response.status === 204) return null;
 
+    const contentType = response.headers.get("content-type");
     const text = await response.text();
     if (!text || text.trim() === "") return null;
 
-    return JSON.parse(text);
+    if (contentType && contentType.includes("text/plain")) {
+      return text.trim();
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      return text.trim();
+    }
   } catch (error) {
     if (!error.response) {
       error.response = {
