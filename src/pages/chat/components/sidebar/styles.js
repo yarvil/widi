@@ -17,7 +17,7 @@ export const Sidebar = styled.div`
 `;
 
 export const SidebarHeader = styled.div`
-  padding-block: 20px;
+  padding: 20px;
   border-bottom: 1px solid #e4e6eb;
   color: black;
 
