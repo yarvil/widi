@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+export const LogoType = styled.div`
+  width: auto;
+  height: 50px;
+`;
+
 export const IconWrapper = styled.div`
   position: relative;
   width: 40px;
@@ -48,6 +53,7 @@ export const Heder = styled.header`
   z-index: 1000;
   background: #000;
   border-bottom: 1px solid #2f3336;
+  padding-block: 10px;
   a {
     text-decoration: none;
     color: #fff;
@@ -56,7 +62,7 @@ export const Heder = styled.header`
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding: 10px;
+    /* padding: 10px; */
   }
 `;
 export const HeaderWrapper = styled.div`
@@ -66,10 +72,20 @@ export const HeaderWrapper = styled.div`
   padding: 5px;
   align-items: center;
   justify-content: space-between;
+
+  @media (min-width: 768px) {
+    justify-content: center;
+    gap: 35px;
+  }
 `;
 export const MenuSideWrapper = styled.div`
   display: flex;
   gap: 5px;
+
+  .active {
+    color: ${(props) =>
+      props.$logOut ? "rgb(244, 33, 46)" : "rgb(29, 155, 240)"};
+  }
 `;
 export const HeaderSearch = styled.input`
   width: 180px;
@@ -115,6 +131,10 @@ export const MenuMiddleWrapper = styled.div`
   @media (min-width: 769px) {
     flex-direction: row;
     position: static;
+  }
+
+  .active {
+    color: rgb(29, 155, 240);
   }
 `;
 export const LogoWrapper = styled.div`
