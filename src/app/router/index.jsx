@@ -35,6 +35,7 @@ const UnauthorizedPage = lazy(
 );
 const ChatPage = lazy(() => import("@/pages/chat/ChatPage"));
 const FollowPage = lazy(() => import("@/pages/follow/FollowPage"));
+const ProfilePage = lazy(() => import("@/pages/profile/ProfilePage"));
 
 const RootRouter = [
   {
@@ -57,7 +58,15 @@ const RootRouter = [
     path: "/users/:id",
     element: (
       <PrivateRoute>
-        <h1>User Profile Page</h1>
+        <ProfilePage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <PrivateRoute>
+        <ProfilePage />
       </PrivateRoute>
     ),
   },

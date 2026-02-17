@@ -8,6 +8,7 @@ import {
 } from "@/app/store/posts/postsSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { uploadPostImage } from "@/api/upload";
+import Avatar from "@/shared/ui/Avatar/Avatar";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
 import {
@@ -16,13 +17,11 @@ import {
 } from "@/shared/components/post/Actions/Actions.styled";
 import {
   FormWrapper,
-  Avatar,
   Content,
   TextArea,
   Actions,
   Button,
   FormContainer,
-  AvatarWrapper,
   ReplyingText,
   RightAction,
   CharCounter,
@@ -96,6 +95,11 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     if (fileInputRef.current) fileInputRef.current.value = null;
   };
 
+  const initials = currentUser
+    ? `${currentUser.firstName?.[0] || ""}${currentUser.lastName?.[0] || ""}`.trim() ||
+      "?"
+    : "?";
+
   return (
     <FormWrapper $isReply={isReply}>
       {isReply && isExpanded && (
@@ -112,11 +116,13 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
           style={{ display: "none" }}
           onChange={handleMediaUpload}
         />
-        {currentUser && (
-          <AvatarWrapper>
-            <Avatar src={currentUser.avatarUrl} />
-          </AvatarWrapper>
-        )}
+        <Avatar
+          src={currentUser?.avatarUrl}
+          alt={currentUser?.firstName}
+          initials={initials}
+          size={50}
+          linkTo={`/users/${currentUser?.id}`}
+        />
         <Content>
           <TextArea
             ref={textAreaRef}
