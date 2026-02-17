@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchUsers, searchUsers } from "@/api/users";
+import {
+  fetchUsers,
+  searchUsers,
+  fetchUserById,
+  updateUserProfile,
+} from "@/api/users";
 
 export const fetchUsersThunk = createAsyncThunk(
   "users/fetchUsers",
@@ -15,11 +20,26 @@ export const searchUsersThunk = createAsyncThunk(
   },
 );
 
+export const fetchUserByIdThunk = createAsyncThunk(
+  "users/fetchUserById",
+  async (userId) => {
+    return await fetchUserById(userId);
+  },
+);
+
+export const updateUserProfileThunk = createAsyncThunk(
+  "users/updateUserProfile",
+  async (data) => {
+    return await updateUserProfile(data);
+  },
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
     searchResults: [],
+    currentProfile: null,
     loading: false,
     error: null,
   },
@@ -50,6 +70,30 @@ const usersSlice = createSlice({
         state.searchResults = action.payload;
       })
       .addCase(searchUsersThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(fetchUserByIdThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentProfile = action.payload;
+      })
+      .addCase(fetchUserByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateUserProfileThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserProfileThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentProfile = action.payload;
+      })
+      .addCase(updateUserProfileThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

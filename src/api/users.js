@@ -15,3 +15,54 @@ export async function searchUsers(query) {
 export async function updateUserProfile(data) {
   return await fetchPatch(data, "api/user/update");
 }
+export async function uploadAvatar(file) {
+  const params = await fetchGet("api/upload/signature/avatar");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", params.apiKey);
+  formData.append("timestamp", params.timestamp);
+  formData.append("signature", params.signature);
+  formData.append("folder", params.folder);
+
+  const uploadResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${params.cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+
+  if (!uploadResponse.ok) {
+    throw new Error("Upload to Cloudinary failed");
+  }
+
+  const result = await uploadResponse.json();
+  return result.secure_url;
+}
+
+export async function uploadBackground(file) {
+  const params = await fetchGet("api/upload/signature/background");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", params.apiKey);
+  formData.append("timestamp", params.timestamp);
+  formData.append("signature", params.signature);
+  formData.append("folder", params.folder);
+
+  const uploadResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${params.cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+
+  if (!uploadResponse.ok) {
+    throw new Error("Upload to Cloudinary failed");
+  }
+
+  const result = await uploadResponse.json();
+  return result.secure_url;
+}

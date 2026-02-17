@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
@@ -11,6 +11,7 @@ import NotificationIcon from "@/shared/assets/icons/bell.svg?react";
 import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
 import { selectorIsShow } from "@/app/store/header/headerSelectors";
 import { actionMenu, closeMenu } from "@/app/store/header/headerSlice";
+import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { useMediaQuery } from "@/hooks/useMedia";
 import ModalWindow from "../Modal/Modal";
 import {
@@ -25,7 +26,7 @@ import {
   LogoType,
   Title,
   MenuItem,
-  LogOutButton
+  LogOutButton,
 } from "./HeaderStyled";
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 
@@ -34,6 +35,8 @@ import { logout } from "@/app/store/authentication/authSlice";
 
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
+  const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -41,11 +44,25 @@ export default function AuthMenu() {
   function showBurgerMenu() {
     dispatch(actionMenu());
   }
+  const handleProfileClick = (e) => {
+    e.preventDefault();
+    if (currentUser?.id) {
+      navigate(`/users/${currentUser.id}`);
+    } else {
+      navigate("/profile");
+    }
+    dispatch(closeMenu());
+  };
   const menuItems = [
     { path: "/", name: "Home Page", icon: <HomeIcon /> },
     { path: "/favorite", name: "Bookmarks", icon: <BookMarkIcon /> },
     { path: "/follow", name: "Follow", icon: <FollowIcon /> },
-    { path: "/users/:id", name: "Profile", icon: <ProfileIcon /> },
+    {
+      path: "/profile",
+      name: "Profile",
+      icon: <ProfileIcon />,
+      isCustom: true,
+    },
     { path: "/chat", name: "Messenger", icon: <SmsIcon /> },
     {
       path: "/notifications",
@@ -93,10 +110,10 @@ export default function AuthMenu() {
             <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
               <MenuMiddleWrapper>
-                <Link to="/" onClick={()=>dispatch(closeMenu())}>
+                <Link to="/" onClick={() => dispatch(closeMenu())}>
                   <LogoWrapper>
                     <LogoType>
-                      <MobileLogo/>
+                      <MobileLogo />
                     </LogoType>
                     <Title>Tereveni</Title>
                   </LogoWrapper>
@@ -112,7 +129,8 @@ export default function AuthMenu() {
                     </MenuItem>
                   </div>
                 ))}
-                <LogOutButton style={{ marginBottom: '0px' }}
+                <LogOutButton
+                  style={{ marginBottom: "0px" }}
                   onClick={() => {
                     (closeModal(), dispatch(closeMenu()));
                   }}
@@ -146,13 +164,26 @@ export default function AuthMenu() {
               <MenuMiddleWrapper>
                 {menuItems.map((item) => (
                   <div key={item.path}>
-                    <NavLink
-                      to={item.path}
-                      onClick={() => dispatch(closeMenu())}
-                    >
-                      {item.icon}
-                      {item.name}
-                    </NavLink>
+                    {item.isCustom ? (
+                      <Link
+                        to={item.path}
+                        onClick={(e) => {
+                          handleProfileClick(e);
+                          dispatch(closeMenu());
+                        }}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <NavLink
+                        to={item.path}
+                        onClick={() => dispatch(closeMenu())}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </NavLink>
+                    )}
                   </div>
                 ))}
                 <Link
@@ -168,24 +199,42 @@ export default function AuthMenu() {
             <MenuMiddleWrapper>
               {menuItems.slice(0, 3).map((item) => (
                 <div key={item.path}>
-                  <NavLink to={item.path}>
-                    <IconWrapper>
-                      {item.icon}
-                      <Name>{item.name}</Name>
-                    </IconWrapper>
-                  </NavLink>
+                  {item.isCustom ? (
+                    <Link to={item.path} onClick={handleProfileClick}>
+                      <IconWrapper>
+                        {item.icon}
+                        <Name>{item.name}</Name>
+                      </IconWrapper>
+                    </Link>
+                  ) : (
+                    <NavLink to={item.path}>
+                      <IconWrapper>
+                        {item.icon}
+                        <Name>{item.name}</Name>
+                      </IconWrapper>
+                    </NavLink>
+                  )}
                 </div>
               ))}
             </MenuMiddleWrapper>
             <MenuSideWrapper>
               {menuItems.slice(3, 6).map((item) => (
                 <div key={item.path}>
-                  <NavLink to={item.path}>
-                    <IconWrapper>
-                      {item.icon}
-                      <Name>{item.name}</Name>
-                    </IconWrapper>
-                  </NavLink>
+                  {item.isCustom ? (
+                    <Link to={item.path} onClick={handleProfileClick}>
+                      <IconWrapper>
+                        {item.icon}
+                        <Name>{item.name}</Name>
+                      </IconWrapper>
+                    </Link>
+                  ) : (
+                    <NavLink to={item.path}>
+                      <IconWrapper>
+                        {item.icon}
+                        <Name>{item.name}</Name>
+                      </IconWrapper>
+                    </NavLink>
+                  )}
                 </div>
               ))}
               <Link onClick={() => closeModal()}>
