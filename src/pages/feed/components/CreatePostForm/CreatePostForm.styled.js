@@ -14,20 +14,6 @@ export const FormContainer = styled.form`
   gap: 12px;
 `;
 
-export const AvatarWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4px;
-`;
-
-export const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
 export const Content = styled.div`
   display: flex;
   flex-direction: column;

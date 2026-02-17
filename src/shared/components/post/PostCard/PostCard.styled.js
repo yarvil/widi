@@ -29,13 +29,6 @@ export const AvatarWrapper = styled.div`
   margin-top: ${(props) => (props.$withTopLine ? 0 : "12px")};
 `;
 
-export const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
 export const Content = styled.div`
   display: flex;
   flex-direction: column;

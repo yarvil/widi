@@ -7,8 +7,8 @@ import Actions from "@/shared/components/post/Actions/Actions";
 import ModalWindow from "@/shared/ui/Modal/Modal";
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
+import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
-  Avatar,
   Content,
   Header,
   AuthorName,
@@ -41,17 +41,27 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
     following: post.isFollowing,
   });
 
+  const getInitials = () => {
+    if (!name) return "?";
+    const parts = name.split(" ");
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name[0]?.toUpperCase() || "?";
+  };
+
   return (
     <>
       <PostContainer>
         <AvatarWrapper $withTopLine={withTopLine}>
           {withTopLine && <ReplyLine $topLine={withTopLine} />}
-          <Link
-            style={{ display: "flex", padding: "4px" }}
-            to={`/users/${authorId}`}
-          >
-            <Avatar src={avatar} />
-          </Link>
+          <Avatar
+            src={avatar}
+            alt={name}
+            initials={getInitials()}
+            size={50}
+            linkTo={`/users/${authorId}`}
+          />
           {withBottomLine && <ReplyLine />}
         </AvatarWrapper>
         <Content>

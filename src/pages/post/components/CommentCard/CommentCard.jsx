@@ -2,21 +2,25 @@ import PropTypes from "prop-types";
 
 import useUser from "@/hooks/useUser";
 import TimeAgo from "@/shared/ui/TimeAgo";
-import {
-  AuthorName,
-  Avatar,
-  Header,
-  Text,
-  Wrapper,
-} from "./CommentCard.styled";
+import Avatar from "@/shared/ui/Avatar/Avatar";
+import { AuthorName, Header, Text, Wrapper } from "./CommentCard.styled";
 
 function CommentCard({ comment }) {
   const { content, authorId, createdAt } = comment;
   const { user } = useUser(authorId);
 
+  const initials = user
+    ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.trim() || "?"
+    : "?";
+
   return (
     <Wrapper>
-      {user?.avatarUrl && <Avatar src={user.avatarUrl} />}
+      <Avatar
+        src={user?.avatarUrl}
+        initials={initials}
+        size={40}
+        linkTo={`/users/${authorId}`}
+      />
       <div>
         <Header>
           <AuthorName>
