@@ -7,6 +7,16 @@ import { sendMessage, setCurrentUser } from "@/app/store/chat/slices/chatSlice";
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 
 import {
+  selectThreads,
+  selectActiveMessages,
+  selectActiveConversationId,
+  selectActiveThread,
+} from "@/app/store/chat/selectors";
+
+import { Avatar, OnlineIndicator } from "../sidebar/styles";
+import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
+
+import {
   EmptyState,
   ChatArea,
   ChatHeader,
@@ -20,23 +30,22 @@ import {
   SendButton,
   BackToListButton,
 } from "./styles";
-import { Avatar, OnlineIndicator } from "../sidebar/styles";
-
-import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 
 const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
   const dispatch = useDispatch();
 
-  const { threads, messages, activeConversationId, currentUser } = useSelector(
-    (state) => state.chat,
-  );
+  const activeConversationId = useSelector(selectActiveConversationId);
+  const threads = useSelector(selectThreads);
+  const currentUser = useSelector(selectCurrentUser);
+  const currentMessages = useSelector(selectActiveMessages);
+  const currentThread = useSelector(selectActiveThread);
+
   const authUser = useSelector(selectCurrentUser);
   const [inputValue, setInputValue] = useState("");
 
   const activeConversation = threads.find(
     (thread) => thread.id === activeConversationId,
   );
-  const currentMessages = messages[activeConversationId] || [];
 
   useEffect(() => {
     dispatch(setCurrentUser(authUser));
@@ -88,11 +97,11 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          {currentUser.firstName.slice(0, 2)}
+          {currentThread.otherParticipant.username.slice(0, 2)}
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
-          <h3>{currentUser.firstName}</h3>
+          <h3>{currentThread.otherParticipant.username}</h3>
           <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
         </ChatHeaderInfo>
       </ChatHeader>
