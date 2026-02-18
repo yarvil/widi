@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const SelectStyled = styled.select`
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 2px solid #8282822e;
   background-color: transparent;
   color: white;
   width: 100%;

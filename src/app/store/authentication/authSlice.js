@@ -20,11 +20,8 @@ const getInitialState = () => {
 
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const state = getState();
-      const token = state.auth.token;
-
       const response = await fetchGet("api/user/me");
 
       return { isAuthenticated: true, user: response };

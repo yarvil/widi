@@ -36,7 +36,7 @@ const InputStyled = styled.input`
 
 const Error = styled.span`
   color: red;
-  font-size: clamp(12px, 3vw, 14px);
+  font-size: clamp(12px, 2vw, 14px);
   letter-spacing: 1px;
   padding-left: 6px;
   transition: all 0.3s ease;

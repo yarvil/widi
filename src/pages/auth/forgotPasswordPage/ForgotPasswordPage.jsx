@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import forgotPasswordSchema from "../schemas/forgotPasswordSchema";
@@ -27,12 +26,12 @@ function ForgotPasswordPage() {
       validationSchema: forgotPasswordSchema,
       onSubmit: async (values) => {
         try {
-          const data = await fetchGet();
+          const data = await fetchGet("api/auth/forgot-password");
 
           const currentUser = data.find((user) => user.email === values.email);
           if (!currentUser) {
             dispatch(
-              showStatusMessage({ message: "Invalid email", type: "error" })
+              showStatusMessage({ message: "Invalid email", type: "error" }),
             );
             resetForm();
             return;
@@ -43,11 +42,11 @@ function ForgotPasswordPage() {
           dispatch(
             showStatusMessage({
               error: error,
-            })
+            }),
           );
         }
       },
-    }
+    },
   );
 
   return (

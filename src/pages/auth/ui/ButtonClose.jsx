@@ -9,19 +9,13 @@ const ButtonStyled = styled(NavLink)`
   justify-content: center;
   padding: 10px;
   cursor: pointer;
-  color: #fff;
   position: absolute;
   top: 10px;
   right: 10px;
 
   &:hover {
     border-radius: 50%;
-    color: rgba(255, 254, 254, 0.589);
     background-color: #8282822e;
-  }
-
-  &:active {
-    color: rgba(255, 255, 255, 0.198);
   }
 
   ${({ $style }) => $style};
