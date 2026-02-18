@@ -50,6 +50,8 @@ export default function PostPage() {
     dispatch(fetchCommentsThunk(postId));
   }, [postId, dispatch, feedPosts]);
 
+  console.log(post);
+
   return (
     <PageWrapper>
       <PageHeader variant="back" title="Post" />

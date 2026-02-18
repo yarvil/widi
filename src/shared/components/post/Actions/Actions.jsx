@@ -80,7 +80,7 @@ function Actions({ post, withBorder }) {
           onClick={item.onClick}
         >
           <IconWrapper>{item.icon}</IconWrapper>
-          <Count $show={item.counter}>{item.counter}</Count>
+          {item.counter && <Count $show={item.counter}>{item.counter}</Count>}
         </ActionButton>
       ))}
     </ActionsWrapper>
