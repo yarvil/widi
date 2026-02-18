@@ -11,7 +11,7 @@ import {
   ButtonClose,
   Legend,
 } from "../ui";
-import { fetchGet } from "../sendRequest";
+import { fetchGet } from "../../../api/client";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchGet } from "@/pages/auth/sendRequest";
+import { fetchGet } from "@/api/client";
 
 const getInitialState = () => {
   const remember = localStorage.getItem("remember") === "true" || false;

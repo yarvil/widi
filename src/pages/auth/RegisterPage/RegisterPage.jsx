@@ -14,7 +14,7 @@ import {
   Select,
   Option,
 } from "../ui";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { checkAuth, setUserEmail } from "@/app/store/authentication/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

@@ -14,7 +14,7 @@ import {
   getMyFollowing,
   getMyFollowers,
 } from "@/api/follows";
-import { fetchGet } from "@/pages/auth/sendRequest";
+import { fetchGet } from "@/api/client";
 import { fetchUserPosts } from "@/api/posts";
 
 import PageWrapper from "@/shared/ui/PageWrapper";

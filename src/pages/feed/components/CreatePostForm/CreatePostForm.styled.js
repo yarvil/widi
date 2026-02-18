@@ -32,7 +32,7 @@ export const TextArea = styled.textarea`
   outline: none;
   font-size: 20px;
   min-height: 40px;
-  margin-top: 10px;
+  margin-block: 10px;
 `;
 
 export const MediaWrapper = styled.div`

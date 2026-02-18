@@ -1,4 +1,4 @@
-import { fetchDelete, fetchGet, fetchPost } from "@/pages/auth/sendRequest";
+import { fetchDelete, fetchGet, fetchPost } from "@/api/client";
 
 export async function followUser(targetUserId, body = null) {
   return await fetchPost(body, `api/follow/${targetUserId}`);

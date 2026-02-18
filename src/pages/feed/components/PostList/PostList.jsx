@@ -83,7 +83,7 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
     });
 
   if (loading && posts.length === 0) {
-    return <Loader />;
+    return <Loader full={false} />;
   }
 
   return (
