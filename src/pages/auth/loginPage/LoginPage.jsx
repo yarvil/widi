@@ -1,9 +1,24 @@
 import React from "react";
-import styled from "styled-components";
 import { useFormik } from "formik";
 import loginSchema from "../schemas/loginSchema";
-import { ContainerForm, Form, Input, Label, Button, ButtonClose } from "../ui";
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  PageWrapper,
+  LogotypeWrapper,
+  Title,
+  ContainerForm,
+  Form,
+  Input,
+  InputName,
+  InputError,
+  Label,
+  Button,
+  ButtonClose,
+  Legend,
+} from "../ui/AuthPage.styled";
+import { NavigationLink, CheckBoxWrapper } from "../ui/LoginPage.styled";
+import Logotype from "@/shared/assets/logo/logotype.svg?react";
+import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
+import { useNavigate } from "react-router-dom";
 import { fetchPost } from "../sendRequest";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,29 +31,6 @@ import {
   selectRemember,
 } from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
-
-const Title = styled.h2`
-  color: #fff;
-  font-size: 26px;
-  margin-block: 10px;
-`;
-
-const NavLinkStyled = styled(NavLink)`
-  /* display: block; */
-  font-size: 16px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  color: #1e9ee3;
-
-  &:hover {
-    color: #1169c7;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -63,8 +55,7 @@ function LoginPage() {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       try {
-        const data = await fetchPost(values, "api/auth/login");
-        console.log(data);
+        await fetchPost(values, "api/auth/login");
 
         dispatch(setUserEmail(values.email));
         dispatch(setRemember(values.remember));
@@ -98,60 +89,69 @@ function LoginPage() {
   });
   return (
     <>
-      <ContainerForm>
-        <ButtonClose to="/auth" />
-        <Title>Вхід</Title>
-        <Form onSubmit={handleSubmit}>
-          <Label
-            htmlFor="email"
-            text="Пошта"
-            isError={touched.email && errors.email}
-          >
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              isError={touched.email && errors.email}
-              errorMessage={errors.email}
-              {...getFieldProps("email")}
-            />
-          </Label>
-          <Label
-            htmlFor="password"
-            text="Пароль"
-            isError={touched.password && errors.password}
-          >
-            <Input
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="current-password"
-              isError={touched.password && errors.password}
-              errorMessage={errors.password}
-              {...getFieldProps("password")}
-            />
-          </Label>
-          <Wrapper>
-            <Label htmlFor="remember" $style="flex-direction: row; gap: 5px; ">
+      <PageWrapper>
+        <LogotypeWrapper>
+          <Logotype />
+          <Title>Tereveni</Title>
+        </LogotypeWrapper>
+        <ContainerForm>
+          <ButtonClose to="/auth">
+            <CloseIcon />
+          </ButtonClose>
+          <Legend>Вхід</Legend>
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="email" $isError={touched.email && errors.email}>
+              <InputName>Пошта</InputName>
               <Input
-                type="checkbox"
-                name="rememberMe"
-                id="remember"
-                $style="margin: 0; accent-color: #0e9f34; 
-              "
-                checked={values.remember}
-                onChange={(e) => setFieldValue("remember", e.target.checked)}
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                $isError={touched.email && errors.email}
+                {...getFieldProps("email")}
               />
-              Запамятати мене
+              {touched.email && <InputError>{errors.email}</InputError>}
             </Label>
-          </Wrapper>
-          <NavLinkStyled to="/forgot-password">Забули пароль?</NavLinkStyled>
-          <Button $primary type="submit">
-            Увійти
-          </Button>
-        </Form>
-      </ContainerForm>
+            <Label
+              htmlFor="password"
+              $isError={touched.password && errors.password}
+            >
+              <InputName>Пароль</InputName>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="current-password"
+                $isError={touched.password && errors.password}
+                {...getFieldProps("password")}
+              />
+              {touched.password && <InputError>{errors.password}</InputError>}
+            </Label>
+            <CheckBoxWrapper>
+              <Label
+                htmlFor="remember"
+                $style="flex-direction: row; gap: 5px; "
+              >
+                <Input
+                  type="checkbox"
+                  name="rememberMe"
+                  id="remember"
+                  $style="accent-color: #0e9f34;"
+                  checked={values.remember}
+                  onChange={(e) => setFieldValue("remember", e.target.checked)}
+                />
+                Запам`ятати мене
+              </Label>
+            </CheckBoxWrapper>
+            <NavigationLink to="/forgot-password">
+              Забули пароль?
+            </NavigationLink>
+            <Button $primary type="submit" $style="margin-top: 5px;">
+              Увійти
+            </Button>
+          </Form>
+        </ContainerForm>
+      </PageWrapper>
     </>
   );
 }

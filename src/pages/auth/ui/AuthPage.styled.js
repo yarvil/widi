@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
 
-export const WrapperPage = styled.div`
+export const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -74,7 +73,7 @@ export const Legend = styled.legend`
 `;
 
 export const SubTitle = styled.h2`
-  margin-block: 30px 10px;
+  margin-block: 20px 10px;
   color: rgb(239, 243, 244);
   font-size: 16px;
 `;
@@ -175,9 +174,10 @@ export const Input = styled.input`
         border: 2px solid red;
       }
     `};
+  ${({ $style }) => $style};
 `;
 
-export const Error = styled.span`
+export const InputError = styled.span`
   color: red;
   font-size: clamp(12px, 2vw, 14px);
   letter-spacing: 1px;
@@ -209,12 +209,13 @@ export const Button = styled.button`
   &:active {
     background-color: #ffffff79;
   }
+
+  ${({ $style }) => $style};
 `;
 
 export const ButtonClose = styled(Link)`
   display: flex;
   justify-content: center;
-  background-image: ${CloseIcon};
   padding: 10px;
   cursor: pointer;
   position: absolute;
@@ -247,66 +248,6 @@ export const ButtonLink = styled(Link)`
     background-color: ${(props) =>
       props.$primary ? "rgb(215, 219, 220)" : "rgba(239, 243, 244, 0.1)"};
   }
-`;
-
-export const Option = styled.option`
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background-color: black;
-  padding: 10px;
-  cursor: pointer;
-  max-height: 50px;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-
-  ${({ $style = "" }) => $style};
-`;
-
-export const Select = styled.select`
-  border-radius: 4px;
-  border: 2px solid #8282822e;
-  background-color: transparent;
-  color: white;
-  width: 100%;
-  flex: 1;
-  padding: clamp(12px, 3vw, 18px) clamp(2px, 1vw, 8px) clamp(4px, 1vw, 8px)
-    clamp(2px, 1vw, 8px);
-  font-size: clamp(12px, 2.5vw, 16px);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #ffffff;
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: black;
-    border-radius: 4px;
-    border: 2px solid #ffffff;
-  }
-
-  &:focus {
-    border: 2px solid rgb(29, 155, 240);
-  }
-
-  ${({ $isError }) =>
-    $isError &&
-    `
-        border: 2px solid red;
-
-        &:focus {
-            border: 2px solid red;
-        }
-    `};
-
-  ${({ $style = "" }) => $style};
 `;
 
 export const Img = styled.img`

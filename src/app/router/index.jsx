@@ -25,9 +25,6 @@ const ResetPasswordPage = lazy(
 const VerificationPage = lazy(
   () => import("@/pages/auth/verificationPage/verificationPage"),
 );
-const OAuth2Callback = lazy(
-  () => import("@/pages/auth/oAuth2Callback/OAuth2Callback"),
-);
 
 const NotFoundPage = lazy(() => import("@/pages/notFound/NotFoundPage"));
 const UnauthorizedPage = lazy(
@@ -122,15 +119,6 @@ const RootRouter = [
       </PublicRoute>
     ),
   },
-  {
-    path: "/oauth2/callback",
-    element: (
-      <PublicRoute>
-        <OAuth2Callback />
-      </PublicRoute>
-    ),
-  },
-
   {
     path: "*",
     element: <NotFoundPage />,
