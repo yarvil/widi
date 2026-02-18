@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { fetchPost } from "../sendRequest/index.js";
 import resetPasswordSchema from "../schemas/resetPasswordSchema.js";
 import {
   ContainerForm,
@@ -24,15 +24,15 @@ function ResetPasswordPage() {
       confirmPassword: "",
     },
     validationSchema: resetPasswordSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       try {
-        const { confirmPassword, ...user } = values;
+        fetchPost(values, "api/auth/reset-password");
 
         dispatch(
           showStatusMessage({
             message: "Пароль успішно змінено!",
             type: "success",
-          })
+          }),
         );
 
         return navigate("/login");
@@ -40,7 +40,7 @@ function ResetPasswordPage() {
         dispatch(
           showStatusMessage({
             error: error,
-          })
+          }),
         );
       }
     },

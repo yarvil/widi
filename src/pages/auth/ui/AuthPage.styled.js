@@ -1,12 +1,48 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
 
 export const WrapperPage = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   padding-inline: 16px;
   height: 100vh;
+  gap: 10px;
+  flex: 1 1 auto;
+
+  @media (min-width: 860px) {
+    flex-direction: row;
+    gap: 50px;
+  }
+`;
+
+export const LogotypeWrapper = styled.div`
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    height: 120px;
+    width: auto;
+  }
+  @media (min-width: 860px) {
+    svg {
+      height: clamp(160px, calc(-17.931px + 20.69vw), 280px);
+      width: auto;
+    }
+  }
+`;
+
+export const Title = styled.h2`
+  color: #fff;
+  font-size: clamp(4rem, -3.4138rem + 13.7931vw, 9rem);
+  line-height: 80%;
+  font-family: "Style Script", cursive;
+  margin-block: 0;
 `;
 
 export const ContainerForm = styled.div`
@@ -16,10 +52,10 @@ export const ContainerForm = styled.div`
   gap: 10px;
   position: relative;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #2f3336;
 
-  border-radius: 10px;
-  width: 380px;
+  border-radius: 16px;
+  width: clamp(280px, calc(251.429px + 8.929vw), 380px);
 `;
 
 export const Form = styled.form`
@@ -37,46 +73,37 @@ export const Legend = styled.legend`
   letter-spacing: 1px;
 `;
 
-export const Input = styled.input`
-  outline: none;
-  border: 2px solid #8282822e;
-  color: white;
-  background-color: transparent;
-  border-radius: 5px;
-  padding: clamp(12px, 2.5vw, 20px) clamp(12px, 3vw, 20px) clamp(6px, 1vw, 8px)
-    clamp(10px, 2.5vw, 14px);
-  transition: all 0.3s ease;
-
-  &[type="password"] {
-    letter-spacing: 2px;
-  }
-
-  &:focus {
-    border: 2px solid rgb(29, 155, 240);
-  }
-
-  ${({ $isError }) =>
-    $isError &&
-    `
-      color: #d20d0d;
-      border: 2px solid red;
-  
-      &:focus {
-        border: 2px solid red;
-      }
-    `};
+export const SubTitle = styled.h2`
+  margin-block: 30px 10px;
+  color: rgb(239, 243, 244);
+  font-size: 16px;
 `;
 
-export const InputName = styled.p`
-  padding-left: 5px;
-  font-size: clamp(10px, 2.5vw, 12px);
-  opacity: 0.5;
-  margin: 0;
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  transition: color 0.3s ease;
+export const SubText = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-inline: 0;
+
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 16px;
+
+  &::before,
+  &::after {
+    content: "";
+    flex-grow: 1;
+    border-bottom: 1px solid rgb(47, 51, 54);
+  }
+  &::before {
+    margin-right: 10px;
+  }
+  &::after {
+    margin-left: 10px;
+  }
 `;
+
 export const Label = styled.label`
   display: flex;
   flex-direction: column;
@@ -109,52 +136,47 @@ export const Label = styled.label`
   `};
 `;
 
-export const Button = styled.button`
-  border: 0;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  font-weight: 500;
-
-  &:hover {
-    background-color: #fafafaa0;
-  }
-
-  &:active {
-    background-color: #ffffff79;
-  }
-
-  ${({ $style }) => $style};
-`;
-
-export const ButtonClose = styled(NavLink)`
-  padding: 5px 11px;
-  border-radius: 50%;
-  font-size: 20px;
+export const InputName = styled.p`
+  padding-left: 5px;
+  font-size: clamp(10px, 2.5vw, 12px);
+  opacity: 0.5;
+  margin: 0;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  &::after {
-    content: "X";
-    border: 0;
-    padding: 5px 11px;
-    cursor: pointer;
-    color: #fff;
-    border-radius: 50%;
-    border: 1px solid #c1c0c0d6;
-    font-size: 20px;
-    position: absolute;
-    top: 0px;
-    left: 0px;
+  top: 2px;
+  left: 2px;
+  transition: color 0.3s ease;
+`;
+
+export const Input = styled.input`
+  outline: none;
+  border: 2px solid #8282822e;
+  color: white;
+  background-color: transparent;
+  border-radius: 5px;
+  padding: clamp(12px, 2.5vw, 20px) clamp(12px, 3vw, 20px) clamp(6px, 1vw, 8px)
+    clamp(10px, 2.5vw, 14px);
+  transition: all 0.3s ease;
+
+  &[type="password"] {
+    letter-spacing: 2px;
   }
 
-  &:hover {
-    border-radius: 50%;
-    background-color: #8282822e;
+  &:focus {
+    border: 2px solid rgb(29, 155, 240);
   }
+
+  ${({ $isError }) =>
+    $isError &&
+    `
+      color: #d20d0d;
+      border: 2px solid red;
+  
+      &:focus {
+        border: 2px solid red;
+      }
+    `};
 `;
+
 export const Error = styled.span`
   color: red;
   font-size: clamp(12px, 2vw, 14px);
@@ -162,6 +184,71 @@ export const Error = styled.span`
   padding-left: 6px;
   transition: all 0.3s ease;
 `;
+
+export const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  border-radius: 9999px;
+  border: ${(props) =>
+    props.$primary ? "transparent" : "1px solid rgb(83, 100, 113)"};
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.$primary ? "rgb(239, 243, 244)" : "transparent"};
+  color: ${(props) =>
+    props.$primary ? "rgb(15, 20, 25)" : "rgb(239, 243, 244)"};
+  font-weight: 500;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$primary ? "rgb(193, 197, 198)" : "rgba(239, 243, 244, 0.1)"};
+  }
+
+  &:active {
+    background-color: #ffffff79;
+  }
+`;
+
+export const ButtonClose = styled(Link)`
+  display: flex;
+  justify-content: center;
+  background-image: ${CloseIcon};
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: #8282822e;
+  }
+`;
+
+export const ButtonLink = styled(Link)`
+  color: rgb(15, 20, 25);
+  border-radius: 9999px;
+  padding: 10px 20px;
+  background-color: rgb(239, 243, 244);
+  font-weight: 500;
+  border: ${(props) =>
+    props.$primary ? "transparent" : "1px solid rgb(83, 100, 113)"};
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: ${(props) =>
+    props.$primary ? "rgb(239, 243, 244)" : "transparent"};
+  color: ${(props) =>
+    props.$primary ? "rgb(15, 20, 25)" : "rgb(239, 243, 244)"};
+  font-weight: 500;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$primary ? "rgb(215, 219, 220)" : "rgba(239, 243, 244, 0.1)"};
+  }
+`;
+
 export const Option = styled.option`
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -174,6 +261,7 @@ export const Option = styled.option`
 
   ${({ $style = "" }) => $style};
 `;
+
 export const Select = styled.select`
   border-radius: 4px;
   border: 2px solid #8282822e;
@@ -219,4 +307,11 @@ export const Select = styled.select`
     `};
 
   ${({ $style = "" }) => $style};
+`;
+
+export const Img = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 100%;
 `;
