@@ -8,7 +8,7 @@ import { updateUserProfileThunk } from "@/app/store/users/usersSlice";
 import { uploadAvatar, uploadBackground } from "@/api/users";
 
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
-import Input from "@/pages/auth/ui/Input";
+import { Input } from "@/pages/auth/ui/AuthPage.styled";
 import {
   EditContainer,
   HeaderImageWrapper,

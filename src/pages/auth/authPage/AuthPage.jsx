@@ -2,7 +2,7 @@ import React from "react";
 import Logotype from "@/shared/assets/logo/logotype.svg?react";
 
 import {
-  WrapperPage,
+  PageWrapper,
   LogotypeWrapper,
   Title,
   ContainerForm,
@@ -21,7 +21,7 @@ function AuthPage() {
   }
 
   return (
-    <WrapperPage>
+    <PageWrapper>
       <LogotypeWrapper>
         <Logotype />
         <Title>Tereveni</Title>
@@ -42,7 +42,7 @@ function AuthPage() {
         <SubTitle>Вже зареєстровані?</SubTitle>
         <ButtonLink to="/login">Увійти</ButtonLink>
       </ContainerForm>
-    </WrapperPage>
+    </PageWrapper>
   );
 }
 
