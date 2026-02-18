@@ -36,7 +36,9 @@ function AuthPage() {
           Увійти через Google
         </Button>
         <SubText>або</SubText>
-        <ButtonLink to="/register">Зареєструватися</ButtonLink>
+        <ButtonLink $primary to="/register">
+          Зареєструватися
+        </ButtonLink>
         <SubTitle>Вже зареєстровані?</SubTitle>
         <ButtonLink to="/login">Увійти</ButtonLink>
       </ContainerForm>
