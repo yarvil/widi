@@ -19,7 +19,7 @@ import {
 import { Option, Select, DateWrapper } from "../ui/RegisterPage.styled";
 import Logotype from "@/shared/assets/logo/logotype.svg?react";
 import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { checkAuth, setUserEmail } from "@/app/store/authentication/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";

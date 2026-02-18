@@ -18,7 +18,7 @@ import {
 } from "../ui/AuthPage.styled";
 import Logotype from "@/shared/assets/logo/logotype.svg?react";
 import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 

@@ -87,7 +87,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
             <Text>{text}</Text>
             {media && (
               <MediaWrapper>
-                <Media src={media} />
+                <Media src={media} loading="lazy" />
               </MediaWrapper>
             )}
           </Link>

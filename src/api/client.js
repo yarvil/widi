@@ -46,7 +46,7 @@ export async function apiRequest(method, url, body = null) {
 
     try {
       return JSON.parse(text);
-    } catch (e) {
+    } catch {
       return text.trim();
     }
   } catch (error) {

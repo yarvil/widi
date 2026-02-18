@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { fetchPost } from "../sendRequest/index.js";
+import { fetchPost } from "../../../api/client.js";
 import resetPasswordSchema from "../schemas/resetPasswordSchema.js";
 import {
   PageWrapper,

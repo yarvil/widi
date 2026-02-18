@@ -19,7 +19,7 @@ import {
 import Logotype from "@/shared/assets/logo/logotype.svg?react";
 import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
 import { useNavigate } from "react-router-dom";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserEmail } from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
