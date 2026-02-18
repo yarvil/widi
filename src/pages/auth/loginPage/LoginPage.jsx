@@ -63,7 +63,7 @@ function LoginPage() {
       remember: remember || false,
     },
     validationSchema: loginSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
         const data = await fetchPost(values, "api/auth/login");
         console.log(data);
@@ -79,7 +79,6 @@ function LoginPage() {
           localStorage.removeItem("remember");
         }
 
-        // localStorage.setItem("token", JSON.stringify(currentUser.token));
         await dispatch(checkAuth());
 
         dispatch(
@@ -146,7 +145,7 @@ function LoginPage() {
                 checked={values.remember}
                 onChange={(e) => setFieldValue("remember", e.target.checked)}
               />
-              Запам'ятати мене
+              Запамятати мене
             </Label>
           </Wrapper>
           <NavLinkStyled to="/forgot-password">Забули пароль?</NavLinkStyled>

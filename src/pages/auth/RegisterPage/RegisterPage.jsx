@@ -55,8 +55,7 @@ function RegisterPage() {
     validationSchema: registerSchema,
     onSubmit: async (values) => {
       try {
-        const { confirmPassword, birthDay, birthMonth, birthYear, ...user } =
-          values;
+        const { ...user } = values;
 
         const response = await fetchPost(user, "api/auth/register");
 
@@ -70,7 +69,7 @@ function RegisterPage() {
         }
         const currentUser = await dispatch(checkAuth());
 
-        if (!currentUser.user) {
+        if (!currentUser.ok) {
           dispatch(
             showStatusMessage({
               message: "Помилка при отриманні даних користувача",

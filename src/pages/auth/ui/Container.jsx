@@ -26,12 +26,7 @@ const Container = styled.div`
 
   ${({ $styleContainer }) => $styleContainer};
 `;
-function ContainerForm({
-  children,
-  $styleWrapper = "",
-  $styleContainer = "",
-  ...props
-}) {
+function ContainerForm({ children, $styleWrapper = "", $styleContainer = "" }) {
   return (
     <Wrapper $styleWrapper={$styleWrapper}>
       <Container $styleContainer={$styleContainer}>{children}</Container>
