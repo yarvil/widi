@@ -46,14 +46,15 @@ export async function apiRequest(method, url, body = null) {
 
     try {
       return JSON.parse(text);
-    } catch (e) {
+    } catch {
       return text.trim();
     }
   } catch (error) {
     if (!error.response) {
       error.response = {
         status: 0,
-        message: "Перевірте інтернет підключення",
+        message:
+          "Сервіс тимчасово недоступний, або перевірте інтернет підключення",
       };
     }
     throw error;

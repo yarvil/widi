@@ -12,7 +12,7 @@ import {
   Legend,
 } from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUserEmail } from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";

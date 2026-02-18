@@ -2,17 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import loginSchema from "../schemas/loginSchema";
-import {
-  ContainerForm,
-  Form,
-  Input,
-  Label,
-  Button,
-  ButtonClose,
-  Legend,
-} from "../ui";
+import { ContainerForm, Form, Input, Label, Button, ButtonClose } from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setRemember,
@@ -69,7 +61,7 @@ function LoginPage() {
       remember: remember || false,
     },
     validationSchema: loginSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: async (values) => {
       try {
         const data = await fetchPost(values, "api/auth/login");
         console.log(data);
@@ -85,7 +77,6 @@ function LoginPage() {
           localStorage.removeItem("remember");
         }
 
-        // localStorage.setItem("token", JSON.stringify(currentUser.token));
         await dispatch(checkAuth());
 
         dispatch(
@@ -152,7 +143,7 @@ function LoginPage() {
                 checked={values.remember}
                 onChange={(e) => setFieldValue("remember", e.target.checked)}
               />
-              Запам'ятати мене
+              Запамятати мене
             </Label>
           </Wrapper>
           <NavLinkStyled to="/forgot-password">Забули пароль?</NavLinkStyled>

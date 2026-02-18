@@ -1,4 +1,4 @@
-import { apiRequest } from "@/pages/auth/sendRequest";
+import { apiRequest } from "@/api/client";
 
 export async function fetchThreads() {
   return await apiRequest("GET", "api/chat/threads");

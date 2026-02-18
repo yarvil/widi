@@ -1,4 +1,4 @@
-import { fetchGet, fetchPost } from "@/pages/auth/sendRequest";
+import { fetchGet, fetchPost } from "@/api/client";
 
 export async function fetchComments(postId) {
   return await fetchGet(`api/comments/${postId}`);
