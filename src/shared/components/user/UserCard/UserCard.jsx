@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
 import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
-import { Avatar, AvatarWrapper } from "../../post/PostCard/PostCard.styled";
+import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   FollowButton,
   UserCardWrapper,
@@ -31,13 +31,18 @@ export default function UserCard({
     dispatch(toggleFollowThunk({ userId: id, isFollowing }));
   };
 
+  const initials =
+    `${firstName?.[0] || ""}${lastName?.[0] || ""}`.trim() || "?";
+
   return (
     <UserCardWrapper>
-      <AvatarWrapper>
-        <Link style={{ display: "flex", padding: "4px" }} to={`/users/${id}`}>
-          <Avatar src={avatarUrl} />
-        </Link>
-      </AvatarWrapper>
+      <Avatar
+        src={avatarUrl}
+        alt={firstName}
+        initials={initials}
+        size={50}
+        linkTo={`/users/${id}`}
+      />
       <UserInformation>
         <div>
           <Link to={`/users/${id}`}>

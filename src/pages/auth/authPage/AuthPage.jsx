@@ -1,66 +1,48 @@
 import React from "react";
-import styled from "styled-components";
-import { NavLink, useNavigate } from "react-router-dom";
-import { ContainerForm, Button, Legend } from "../ui";
-import { useDispatch } from "react-redux";
+import Logotype from "@/shared/assets/logo/logotype.svg?react";
 
-const NavLinkStyled = styled(NavLink)`
-  display: inline-block;
-  margin-top: 10px;
-  color: #1e9ee3;
-
-  &:hover {
-    color: #1169c7;
-  }
-
-  &:active {
-    color: #0f39a1;
-  }
-
-  ${({ $style }) => $style};
-`;
-
-const Img = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border-radius: 100%;
-`;
+import {
+  PageWrapper,
+  LogotypeWrapper,
+  Title,
+  ContainerForm,
+  Button,
+  ButtonLink,
+  Legend,
+  SubText,
+  SubTitle,
+  Img,
+} from "../ui/AuthPage.styled";
 
 function AuthPage() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   function googleLogin() {
     window.location.href =
       "https://step-project-api.onrender.com/oauth2/authorization/google";
   }
 
-  function loginPage() {
-    navigate("/login");
-  }
-
   return (
-    <ContainerForm>
-      <Legend>Вхід до WiDi</Legend>
-      <Button
-        onClick={googleLogin}
-        $style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px"
-      >
-        <Img
-          src="https://developers.google.com/identity/images/g-logo.png"
-          alt="Google logo"
-        />
-        Увійти через Google
-      </Button>
-      <Legend $style="width: 100%; display: flex; justify-content: center; align-items: center; margin-inline: 0;  &::before, &::after {content: ''; flex-grow: 1;  border-bottom: 1px solid rgb(83, 100, 113) ; } &::before { margin-right: 10px; } &::after { margin-left: 10px; }">
-        або
-      </Legend>
-      <Button onClick={loginPage}>Увійти</Button>
-      <p>
-        Ще немає облікового запису?
-        <NavLinkStyled to="/register">Зареєструватися</NavLinkStyled>
-      </p>
-    </ContainerForm>
+    <PageWrapper>
+      <LogotypeWrapper>
+        <Logotype />
+        <Title>Tereveni</Title>
+      </LogotypeWrapper>
+      <ContainerForm>
+        <Legend>Потеревенимо?</Legend>
+        <Button $primary onClick={googleLogin}>
+          <Img
+            src="https://developers.google.com/identity/images/g-logo.png"
+            alt="Google logo"
+          />
+          Увійти через Google
+        </Button>
+        <SubText>або</SubText>
+        <ButtonLink $primary to="/register">
+          Зареєструватися
+        </ButtonLink>
+        <SubTitle>Вже зареєстровані?</SubTitle>
+        <ButtonLink to="/login">Увійти</ButtonLink>
+      </ContainerForm>
+    </PageWrapper>
   );
 }
 

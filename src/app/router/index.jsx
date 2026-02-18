@@ -25,9 +25,6 @@ const ResetPasswordPage = lazy(
 const VerificationPage = lazy(
   () => import("@/pages/auth/verificationPage/verificationPage"),
 );
-const OAuth2Callback = lazy(
-  () => import("@/pages/auth/oAuth2Callback/OAuth2Callback"),
-);
 
 const NotFoundPage = lazy(() => import("@/pages/notFound/NotFoundPage"));
 const UnauthorizedPage = lazy(
@@ -35,6 +32,7 @@ const UnauthorizedPage = lazy(
 );
 const ChatPage = lazy(() => import("@/pages/chat/ChatPage"));
 const FollowPage = lazy(() => import("@/pages/follow/FollowPage"));
+const ProfilePage = lazy(() => import("@/pages/profile/ProfilePage"));
 
 const RootRouter = [
   {
@@ -57,7 +55,15 @@ const RootRouter = [
     path: "/users/:id",
     element: (
       <PrivateRoute>
-        <h1>User Profile Page</h1>
+        <ProfilePage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <PrivateRoute>
+        <ProfilePage />
       </PrivateRoute>
     ),
   },
@@ -113,15 +119,6 @@ const RootRouter = [
       </PublicRoute>
     ),
   },
-  {
-    path: "/oauth2/callback",
-    element: (
-      <PublicRoute>
-        <OAuth2Callback />
-      </PublicRoute>
-    ),
-  },
-
   {
     path: "*",
     element: <NotFoundPage />,

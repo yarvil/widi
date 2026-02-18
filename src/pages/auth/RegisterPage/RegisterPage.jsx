@@ -1,31 +1,30 @@
 import React from "react";
 import { useEffect } from "react";
-import styled from "styled-components";
 import { useFormik } from "formik";
 import registerSchema from "../schemas/registerSchema";
 import {
+  PageWrapper,
+  LogotypeWrapper,
+  Title,
   ContainerForm,
   Form,
   Input,
+  InputName,
+  InputError,
   Label,
   Button,
   ButtonClose,
   Legend,
-  Select,
-  Option,
-} from "../ui";
-import { fetchPost } from "../sendRequest";
+} from "../ui/AuthPage.styled";
+import { Option, Select, DateWrapper } from "../ui/RegisterPage.styled";
+import Logotype from "@/shared/assets/logo/logotype.svg?react";
+import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
+import { fetchPost } from "../../../api/client";
 import { checkAuth, setUserEmail } from "@/app/store/authentication/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 import { DAYS, MONTHS, YEARS } from "./dateConstants";
-
-const DateContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: clamp(6px, 2vw, 12px);
-`;
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -55,8 +54,7 @@ function RegisterPage() {
     validationSchema: registerSchema,
     onSubmit: async (values) => {
       try {
-        const { confirmPassword, birthDay, birthMonth, birthYear, ...user } =
-          values;
+        const { ...user } = values;
 
         const response = await fetchPost(user, "api/auth/register");
 
@@ -68,16 +66,8 @@ function RegisterPage() {
             }),
           );
         }
-        const currentUser = await dispatch(checkAuth());
 
-        if (!currentUser.user) {
-          dispatch(
-            showStatusMessage({
-              message: "Помилка при отриманні даних користувача",
-              type: "error",
-            }),
-          );
-        }
+        await dispatch(checkAuth());
 
         dispatch(setUserEmail(values.email));
         navigate("/");
@@ -102,162 +92,184 @@ function RegisterPage() {
       setFieldTouched("birthDate", true);
       validateField("birthDate");
     }
-  }, [values.birthDay, values.birthMonth, values.birthYear, setFieldValue]);
+  }, [
+    values.birthDay,
+    values.birthMonth,
+    values.birthYear,
+    setFieldValue,
+    setFieldTouched,
+    validateField,
+  ]);
 
   return (
     <>
-      <ContainerForm>
-        <ButtonClose to="/auth" />
-        <Legend>Реєстрація</Legend>
-        <Form onSubmit={handleSubmit}>
-          <Label
-            htmlFor="firstName"
-            text="Ім'я"
-            isError={touched.firstName && errors.firstName}
-          >
-            <Input
-              type="text"
-              name="firstName"
-              id="firstName"
-              autoComplete="given-name"
-              isError={touched.firstName && errors.firstName}
-              errorMessage={errors.firstName}
-              {...getFieldProps("firstName")}
-            />
-          </Label>
-          <Label
-            htmlFor="lastName"
-            text="Прізвище"
-            isError={touched.lastName && errors.lastName}
-          >
-            <Input
-              type="text"
-              name="lastName"
-              id="lastName"
-              autoComplete="family-name"
-              isError={touched.lastName && errors.lastName}
-              errorMessage={errors.lastName}
-              {...getFieldProps("lastName")}
-            />
-          </Label>
-          <Label
-            htmlFor="email"
-            text="Електронна пошта"
-            isError={touched.email && errors.email}
-          >
-            <Input
-              type="email"
-              name="email"
-              id="email"
-              autoComplete="email"
-              isError={touched.email && errors.email}
-              errorMessage={errors.email}
-              {...getFieldProps("email")}
-            />
-          </Label>
+      <PageWrapper>
+        <LogotypeWrapper>
+          <Logotype />
+          <Title>Tereveni</Title>
+        </LogotypeWrapper>
+        <ContainerForm>
+          <ButtonClose to="/auth">
+            <CloseIcon />
+          </ButtonClose>
+          <Legend>Реєстрація</Legend>
+          <Form onSubmit={handleSubmit}>
+            <Label
+              htmlFor="firstName"
+              $isError={touched.firstName && errors.firstName}
+            >
+              <InputName>Ім`я</InputName>
+              <Input
+                type="text"
+                name="firstName"
+                id="firstName"
+                autoComplete="given-name"
+                $isError={touched.firstName && errors.firstName}
+                {...getFieldProps("firstName")}
+              />
+              {touched.firstName && <InputError>{errors.firstName}</InputError>}
+            </Label>
 
-          <DateContainer>
             <Label
-              htmlFor="birthDay"
-              text="День"
-              isError={touched.birthDay && errors.birthDay}
+              htmlFor="lastName"
+              $isError={touched.lastName && errors.lastName}
             >
-              <Select
-                name="birthDay"
-                id="birthDay"
-                isError={touched.birthDay && errors.birthDay}
-                {...getFieldProps("birthDay")}
-              >
-                {DAYS.map(({ value, nameElement, disabled }) => (
-                  <Option key={value} value={value} disabled={disabled}>
-                    {nameElement}
-                  </Option>
-                ))}
-                )
-              </Select>
+              <InputName>Прізвище</InputName>
+              <Input
+                type="text"
+                name="lastName"
+                id="lastName"
+                autoComplete="family-name"
+                $isError={touched.lastName && errors.lastName}
+                {...getFieldProps("lastName")}
+              />
+              {touched.lastName && <InputError>{errors.lastName}</InputError>}
             </Label>
-            <Label
-              htmlFor="birthMonth"
-              text="Місяць"
-              isError={touched.birthMonth && errors.birthMonth}
-            >
-              <Select
-                name="birthMonth"
-                id="birthMonth"
-                isError={touched.birthMonth && errors.birthMonth}
-                {...getFieldProps("birthMonth")}
-              >
-                {MONTHS.map(({ value, nameElement, disabled }) => (
-                  <Option key={value} value={value} disabled={disabled}>
-                    {nameElement}
-                  </Option>
-                ))}
-              </Select>
+
+            <Label htmlFor="email" $isError={touched.email && errors.email}>
+              <InputName>Електронна пошта</InputName>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                autoComplete="email"
+                $isError={touched.email && errors.email}
+                {...getFieldProps("email")}
+              />
+              {touched.email && <InputError>{errors.email}</InputError>}
             </Label>
-            <Label
-              htmlFor="birthYear"
-              text="Рік"
-              isError={touched.birthYear && errors.birthYear}
-            >
-              <Select
-                name="birthYear"
-                id="birthYear"
-                isError={touched.birthYear && errors.birthYear}
-                {...getFieldProps("birthYear")}
+
+            <DateWrapper>
+              <Label
+                htmlFor="birthDay"
+                $isError={touched.birthDay && errors.birthDay}
               >
-                {YEARS.map(({ value, nameElement, disabled }) => (
-                  <Option key={value} value={value} disabled={disabled}>
-                    {nameElement}
-                  </Option>
-                ))}
-              </Select>
-            </Label>
-          </DateContainer>
-          <Input
-            type="text"
-            name="birthDate"
-            id="birthDate"
-            $style="display: none;"
-            value={values.birthDate}
-            isError={touched.birthDate && errors.birthDate}
-            errorMessage={errors.birthDate}
-            {...getFieldProps("birthDate")}
-          />
-          <Label
-            htmlFor="password"
-            text="Пароль"
-            isError={touched.password && errors.password}
-          >
+                <InputName>Дата</InputName>
+                <Select
+                  name="birthDay"
+                  id="birthDay"
+                  $isError={touched.birthDay && errors.birthDay}
+                  {...getFieldProps("birthDay")}
+                >
+                  {DAYS.map(({ value, nameElement, disabled }) => (
+                    <Option key={value} value={value} disabled={disabled}>
+                      {nameElement}
+                    </Option>
+                  ))}
+                  )
+                </Select>
+              </Label>
+
+              <Label
+                htmlFor="birthMonth"
+                $isError={touched.birthMonth && errors.birthMonth}
+              >
+                <InputName>Місяць</InputName>
+                <Select
+                  name="birthMonth"
+                  id="birthMonth"
+                  $isError={touched.birthMonth && errors.birthMonth}
+                  {...getFieldProps("birthMonth")}
+                >
+                  {MONTHS.map(({ value, nameElement, disabled }) => (
+                    <Option key={value} value={value} disabled={disabled}>
+                      {nameElement}
+                    </Option>
+                  ))}
+                </Select>
+              </Label>
+
+              <Label
+                htmlFor="birthYear"
+                $isError={touched.birthYear && errors.birthYear}
+              >
+                <InputName>Рік</InputName>
+                <Select
+                  name="birthYear"
+                  id="birthYear"
+                  $isError={touched.birthYear && errors.birthYear}
+                  {...getFieldProps("birthYear")}
+                >
+                  {YEARS.map(({ value, nameElement, disabled }) => (
+                    <Option key={value} value={value} disabled={disabled}>
+                      {nameElement}
+                    </Option>
+                  ))}
+                </Select>
+              </Label>
+            </DateWrapper>
+
             <Input
-              type="password"
-              name="password"
-              id="password"
-              autoComplete="new-password"
-              isError={touched.password && errors.password}
-              errorMessage={errors.password}
-              {...getFieldProps("password")}
+              type="text"
+              name="birthDate"
+              id="birthDate"
+              $style="display: none;"
+              value={values.birthDate}
+              $isError={touched.birthDate && errors.birthDate}
+              {...getFieldProps("birthDate")}
             />
-          </Label>
-          <Label
-            htmlFor="confirmPassword"
-            text="Підтвердження паролю"
-            isError={touched.confirmPassword && errors.confirmPassword}
-          >
-            <Input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              autoComplete="new-password"
-              isError={touched.confirmPassword && errors.confirmPassword}
-              errorMessage={errors.confirmPassword}
-              {...getFieldProps("confirmPassword")}
-            />
-          </Label>
-          <Button type="submit" $style="margin-top: 10px;">
-            Зареєструватися
-          </Button>
-        </Form>
-      </ContainerForm>
+            {touched.birthDate && <InputError>{errors.birthDate}</InputError>}
+
+            <Label
+              htmlFor="password"
+              $isError={touched.password && errors.password}
+            >
+              <InputName>Пароль</InputName>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="new-password"
+                $isError={touched.password && errors.password}
+                {...getFieldProps("password")}
+              />
+              {touched.password && <InputError>{errors.password}</InputError>}
+            </Label>
+
+            <Label
+              htmlFor="confirmPassword"
+              $isError={touched.confirmPassword && errors.confirmPassword}
+            >
+              <InputName>Підтвердження паролю</InputName>
+              <Input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                autoComplete="new-password"
+                $isError={touched.confirmPassword && errors.confirmPassword}
+                {...getFieldProps("confirmPassword")}
+              />
+              {touched.confirmPassword && (
+                <InputError>{errors.confirmPassword}</InputError>
+              )}
+            </Label>
+
+            <Button $primary type="submit">
+              Зареєструватися
+            </Button>
+          </Form>
+        </ContainerForm>
+      </PageWrapper>
     </>
   );
 }

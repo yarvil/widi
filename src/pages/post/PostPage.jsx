@@ -50,10 +50,12 @@ export default function PostPage() {
     dispatch(fetchCommentsThunk(postId));
   }, [postId, dispatch, feedPosts]);
 
+  console.log(post);
+
   return (
     <PageWrapper>
       <PageHeader variant="back" title="Post" />
-      {!post ? <Loader /> : <FullPost post={post} />}
+      {!post ? <Loader full={false} /> : <FullPost post={post} />}
       {post && (
         <CreatePostForm parentId={postId} isReply={true} username={post.name} />
       )}

@@ -1,17 +1,28 @@
-import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const SelectStyled = styled.select`
-  border-radius: 4px;
+export const Option = styled.option`
+  border-radius: 10px;
   border: 1px solid #ccc;
+  background-color: black;
+  padding: 10px;
+  cursor: pointer;
+  max-height: 50px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+
+  ${({ $style = "" }) => $style};
+`;
+
+export const Select = styled.select`
+  border-radius: 4px;
+  border: 2px solid #8282822e;
   background-color: transparent;
   color: white;
   width: 100%;
-  flex: 1;
-  padding: clamp(12px, 3vw, 18px) clamp(2px, 1vw, 8px) clamp(4px, 1vw, 8px)
-    clamp(2px, 1vw, 8px);
-  font-size: clamp(12px, 2.5vw, 16px);
+  flex: 1 1 auto;
+  padding: clamp(12px, 3vw, 18px) clamp(0px, 1vw, 4px) clamp(4px, 1vw, 8px)
+    clamp(0px, 1vw, 4px);
+  font-size: clamp(12px, 2.4vw, 16px);
   cursor: pointer;
   transition: all 0.3s ease;
   overflow-y: scroll;
@@ -49,18 +60,9 @@ const SelectStyled = styled.select`
   ${({ $style = "" }) => $style};
 `;
 
-function Select({ isError = false, $style = "", children, ...props }) {
-  return (
-    <SelectStyled $isError={isError} $style={$style} {...props}>
-      {children}
-    </SelectStyled>
-  );
-}
-
-Select.propTypes = {
-  isError: PropTypes.bool,
-  $style: PropTypes.string,
-  children: PropTypes.node,
-};
-
-export default Select;
+export const DateWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(6px, 2vw, 12px);
+  flex: 1 1 auto;
+`;

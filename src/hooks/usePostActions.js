@@ -13,6 +13,7 @@ export default function usePostActions({
   onDeleteSuccess,
 }) {
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
 
@@ -23,10 +24,9 @@ export default function usePostActions({
   const menuVariant = isMyPost ? "owner" : "other";
 
   const handleDelete = async () => {
-    if (window.confirm("Delete this post?")) {
-      await dispatch(deletePostThunk(postId));
-      onDeleteSuccess?.();
-    }
+    await dispatch(deletePostThunk(postId));
+    setShowDeleteModal(false);
+    onDeleteSuccess?.();
   };
 
   const handleEdit = () => {
@@ -41,6 +41,9 @@ export default function usePostActions({
     setShowEditModal(false);
   };
 
+  const openDeleteModal = () => setShowDeleteModal(true);
+  const closeDeleteModal = () => setShowDeleteModal(false);
+
   return {
     menuVariant,
     isFollowing,
@@ -49,5 +52,8 @@ export default function usePostActions({
     handleDelete,
     handleFollow,
     closeEditModal,
+    showDeleteModal,
+    openDeleteModal,
+    closeDeleteModal,
   };
 }
