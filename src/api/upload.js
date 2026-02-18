@@ -1,4 +1,4 @@
-import { fetchGet } from "@/pages/auth/sendRequest";
+import { fetchGet } from "@/api/client";
 
 export async function uploadPostImage(file) {
   const params = await fetchGet("api/upload/signature/post");

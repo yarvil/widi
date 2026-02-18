@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -5,13 +6,19 @@ const LoaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
+  margin-top: 20px;
+
+  ${(props) =>
+    props.$full &&
+    `
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    `}
 `;
 
 const Spinner = styled.div`
@@ -28,12 +35,16 @@ const Spinner = styled.div`
   }
 `;
 
-const Loader = () => {
+const Loader = ({ full = true }) => {
   return (
-    <LoaderContainer>
+    <LoaderContainer $full={full}>
       <Spinner />
     </LoaderContainer>
   );
 };
 
 export default Loader;
+
+Loader.propTypes = {
+  full: PropTypes.bool,
+};

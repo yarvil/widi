@@ -7,12 +7,10 @@ import {
   fetchMyFeed,
   updatePostApi,
   deletePostApi,
-  savePostApi,
-  unsavePostApi,
   fetchSavedPostsApi,
 } from "@/api/posts";
 import { fetchComments, createCommentApi } from "@/api/comments";
-import { toggleLikeApi } from "@/api/likes";
+import { savePostApi, toggleLikeApi, unsavePostApi } from "@/api/actions";
 
 export const fetchFeedThunk = createAsyncThunk(
   "posts/fetchFeed",
@@ -21,20 +19,10 @@ export const fetchFeedThunk = createAsyncThunk(
   },
 );
 
-export const toggleSaveThunk = createAsyncThunk(
-  "posts/toggleSave",
-  async ({ postId, saved }, { rejectWithValue }) => {
-    try {
-      if (saved) {
-        await unsavePostApi(postId);
-        return { postId, saved: false };
-      } else {
-        await savePostApi(postId);
-        return { postId, saved: true };
-      }
-    } catch {
-      return rejectWithValue({ postId, saved });
-    }
+export const fetchMyFeedThunk = createAsyncThunk(
+  "posts/fetchMyFeed",
+  async (page = 0) => {
+    return await fetchMyFeed(page);
   },
 );
 
@@ -42,13 +30,6 @@ export const fetchPostThunk = createAsyncThunk(
   "posts/fetchPost",
   async (postId) => {
     return await fetchCurPost(postId);
-  },
-);
-
-export const fetchMyFeedThunk = createAsyncThunk(
-  "posts/fetchMyFeed",
-  async (page = 0) => {
-    return await fetchMyFeed(page);
   },
 );
 
@@ -102,6 +83,23 @@ export const toggleLikeThunk = createAsyncThunk(
       return await toggleLikeApi(postId, userId);
     } catch {
       return rejectWithValue({ postId });
+    }
+  },
+);
+
+export const toggleSaveThunk = createAsyncThunk(
+  "posts/toggleSave",
+  async ({ postId, saved }, { rejectWithValue }) => {
+    try {
+      if (saved) {
+        await unsavePostApi(postId);
+        return { postId, saved: false };
+      } else {
+        await savePostApi(postId);
+        return { postId, saved: true };
+      }
+    } catch {
+      return rejectWithValue({ postId, saved });
     }
   },
 );

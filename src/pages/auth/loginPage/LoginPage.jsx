@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import loginSchema from "../schemas/loginSchema";
 import { ContainerForm, Form, Input, Label, Button, ButtonClose } from "../ui";
 import { NavLink, useNavigate } from "react-router-dom";
-import { fetchPost } from "../sendRequest";
+import { fetchPost } from "../../../api/client";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setRemember,

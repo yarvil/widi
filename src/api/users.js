@@ -1,4 +1,4 @@
-import { fetchGet, fetchPatch } from "@/pages/auth/sendRequest";
+import { fetchGet, fetchPatch } from "@/api/client";
 
 export async function fetchUsers() {
   return await fetchGet("api/user");
