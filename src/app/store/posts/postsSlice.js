@@ -23,13 +23,17 @@ export const fetchFeedThunk = createAsyncThunk(
 
 export const toggleSaveThunk = createAsyncThunk(
   "posts/toggleSave",
-  async ({ postId, saved }) => {
-    if (saved) {
-      await unsavePostApi(postId);
-      return { postId, saved: false };
-    } else {
-      await savePostApi(postId);
-      return { postId, saved: true };
+  async ({ postId, saved }, { rejectWithValue }) => {
+    try {
+      if (saved) {
+        await unsavePostApi(postId);
+        return { postId, saved: false };
+      } else {
+        await savePostApi(postId);
+        return { postId, saved: true };
+      }
+    } catch {
+      return rejectWithValue({ postId, saved });
     }
   },
 );
@@ -93,8 +97,12 @@ export const fetchSavedPostsThunk = createAsyncThunk(
 
 export const toggleLikeThunk = createAsyncThunk(
   "posts/toggleLike",
-  async ({ postId, userId }) => {
-    return await toggleLikeApi(postId, userId);
+  async ({ postId, userId }, { rejectWithValue }) => {
+    try {
+      return await toggleLikeApi(postId, userId);
+    } catch {
+      return rejectWithValue({ postId });
+    }
   },
 );
 
@@ -270,50 +278,121 @@ const postsSlice = createSlice({
         }
       })
       // --- Toggle like ---
+      .addCase(toggleLikeThunk.pending, (state, action) => {
+        const { postId } = action.meta.arg;
+
+        const updatePost = (post) => {
+          if (post.postId === postId) {
+            post.liked = !post.liked;
+            post.likesCount += post.liked ? 1 : -1;
+          }
+        };
+
+        state.feedPosts.forEach(updatePost);
+        state.myFeedPosts.forEach(updatePost);
+        if (state.currentPost?.postId === postId) {
+          updatePost(state.currentPost);
+        }
+      })
       .addCase(toggleLikeThunk.fulfilled, (state, action) => {
         const { postId, liked, totalLikes } = action.payload;
 
-        const inFeed = state.feedPosts.find((p) => p.postId === postId);
-        if (inFeed) {
-          inFeed.liked = liked;
-          inFeed.likesCount = totalLikes;
-        }
+        const syncPost = (post) => {
+          if (post.postId === postId) {
+            post.liked = liked;
+            post.likesCount = totalLikes;
+          }
+        };
 
-        const inMyFeed = state.myFeedPosts.find((p) => p.postId === postId);
-        if (inMyFeed) {
-          inMyFeed.liked = liked;
-          inMyFeed.likesCount = totalLikes;
-        }
-
+        state.feedPosts.forEach(syncPost);
+        state.myFeedPosts.forEach(syncPost);
         if (state.currentPost?.postId === postId) {
-          state.currentPost.liked = liked;
-          state.currentPost.likesCount = totalLikes;
+          syncPost(state.currentPost);
+        }
+      })
+      .addCase(toggleLikeThunk.rejected, (state, action) => {
+        if (action.payload) {
+          const { postId } = action.payload;
+
+          const revertPost = (post) => {
+            if (post.postId === postId) {
+              post.liked = !post.liked;
+              post.likesCount += post.liked ? 1 : -1;
+            }
+          };
+
+          state.feedPosts.forEach(revertPost);
+          state.myFeedPosts.forEach(revertPost);
+          if (state.currentPost?.postId === postId) {
+            revertPost(state.currentPost);
+          }
         }
       })
       // --- Save post ---
+      .addCase(toggleSaveThunk.pending, (state, action) => {
+        const { postId, saved } = action.meta.arg;
+
+        const updatePost = (post) => {
+          if (post.postId === postId) {
+            post.saved = !saved;
+          }
+        };
+
+        state.feedPosts.forEach(updatePost);
+        state.myFeedPosts.forEach(updatePost);
+        state.savedPosts.forEach(updatePost);
+
+        if (state.currentPost?.postId === postId) {
+          state.currentPost.saved = !saved;
+        }
+
+        if (saved) {
+          state.savedPosts = state.savedPosts.filter(
+            (p) => p.postId !== postId,
+          );
+        }
+      })
       .addCase(toggleSaveThunk.fulfilled, (state, action) => {
         const { postId, saved } = action.payload;
-        const update = (arr) => {
-          arr?.forEach((p) => {
-            if (p.postId === postId) {
-              p.saved = saved;
-            }
-          });
+
+        const syncPost = (post) => {
+          if (post.postId === postId) {
+            post.saved = saved;
+          }
         };
-        update(state.feedPosts);
-        update(state.myFeedPosts);
-        update(state.savedPosts);
+
+        state.feedPosts.forEach(syncPost);
+        state.myFeedPosts.forEach(syncPost);
+        state.savedPosts.forEach(syncPost);
 
         if (state.currentPost?.postId === postId) {
           state.currentPost.saved = saved;
         }
+
         if (!saved) {
           state.savedPosts = state.savedPosts.filter(
             (p) => p.postId !== postId,
           );
         }
       })
+      .addCase(toggleSaveThunk.rejected, (state, action) => {
+        if (action.payload) {
+          const { postId, saved: oldSaved } = action.payload;
 
+          const revertPost = (post) => {
+            if (post.postId === postId) {
+              post.saved = oldSaved;
+            }
+          };
+
+          state.feedPosts.forEach(revertPost);
+          state.myFeedPosts.forEach(revertPost);
+
+          if (state.currentPost?.postId === postId) {
+            state.currentPost.saved = oldSaved;
+          }
+        }
+      })
       .addCase(fetchSavedPostsThunk.fulfilled, (state, action) => {
         state.savedPosts = action.payload.content.map((p) => ({
           ...normalizePost(p),
