@@ -4,10 +4,11 @@ import PropTypes from "prop-types";
 import usePostActions from "@/hooks/usePostActions";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Actions from "@/shared/components/post/Actions/Actions";
+import ModalWindow from "@/shared/ui/Modal/Modal";
 import EditPostModal from "./EditPostModal";
 import PostMenu from "../PostMenu/PostMenu";
+import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
-  Avatar,
   Content,
   Header,
   AuthorName,
@@ -31,23 +32,36 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
     handleDelete,
     handleFollow,
     closeEditModal,
+    showDeleteModal,
+    openDeleteModal,
+    closeDeleteModal,
   } = usePostActions({
     postId,
     authorId,
     following: post.isFollowing,
   });
 
+  const getInitials = () => {
+    if (!name) return "?";
+    const parts = name.split(" ");
+    if (parts.length >= 2) {
+      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    }
+    return name[0]?.toUpperCase() || "?";
+  };
+
   return (
     <>
       <PostContainer>
         <AvatarWrapper $withTopLine={withTopLine}>
           {withTopLine && <ReplyLine $topLine={withTopLine} />}
-          <Link
-            style={{ display: "flex", padding: "4px" }}
-            to={`/users/${authorId}`}
-          >
-            <Avatar src={avatar} />
-          </Link>
+          <Avatar
+            src={avatar}
+            alt={name}
+            initials={getInitials()}
+            size={50}
+            linkTo={`/users/${authorId}`}
+          />
           {withBottomLine && <ReplyLine />}
         </AvatarWrapper>
         <Content>
@@ -65,7 +79,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
               variant={menuVariant}
               isFollowing={isFollowing}
               onEdit={handleEdit}
-              onDelete={handleDelete}
+              onDelete={openDeleteModal}
               onFollow={handleFollow}
             />
           </Header>
@@ -82,6 +96,18 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
       </PostContainer>
 
       {showEditModal && <EditPostModal post={post} onClose={closeEditModal} />}
+      {showDeleteModal && (
+        <ModalWindow
+          title="Delete post?"
+          desc="This can't be undone and it will be removed from your profile."
+          primaryText="Delete"
+          primaryClick={handleDelete}
+          secondaryText="Cancel"
+          secondaryClick={closeDeleteModal}
+          closeModal={closeDeleteModal}
+          dangerBtn
+        />
+      )}
     </>
   );
 }

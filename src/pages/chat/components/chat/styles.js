@@ -35,6 +35,7 @@ export const ChatHeader = styled.div`
 export const BackToListButton = styled.button`
   width: 0;
   transition: 0.5s ease;
+  display: none;
 
   @media (max-width: 768px) {
     display: flex;

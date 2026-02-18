@@ -9,7 +9,6 @@ export const PostCardWrapper = styled.div`
 export const PostContainer = styled.div`
   display: flex;
   padding-inline: 16px;
-  /* border: 1px solid #2f3336; */
   gap: 12px;
   transition: 0.2s;
   &:hover {
@@ -28,13 +27,6 @@ export const AvatarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: ${(props) => (props.$withTopLine ? 0 : "12px")};
-`;
-
-export const Avatar = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 `;
 
 export const Content = styled.div`
@@ -76,6 +68,7 @@ export const Text = styled.p`
   margin-block: 0 5px;
   font-size: 16px;
   color: #d9d9d9;
+  white-space: pre-wrap;
 `;
 
 export const MediaWrapper = styled.div`

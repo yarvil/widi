@@ -7,6 +7,7 @@ import PostDate from "../PostDate";
 import Actions from "@/shared/components/post/Actions/Actions";
 import EditPostModal from "@/shared/components/post/PostCard/EditPostModal";
 import PostMenu from "@/shared/components/post/PostMenu/PostMenu";
+import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   AuthorName,
   Text,
@@ -14,7 +15,6 @@ import {
   MediaWrapper,
   AuthorCounts,
 } from "@/shared/components/post/PostCard/PostCard.styled";
-import { Avatar } from "@/shared/components/post/PostCard/PostCard.styled";
 import {
   FullPostWrapper,
   PostHeader,
@@ -42,11 +42,21 @@ function FullPost({ post }) {
     onDeleteSuccess: () => navigate("/"),
   });
 
+  const initials = user
+    ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.trim() || "?"
+    : "?";
+
   return (
     <>
       <FullPostWrapper>
         <PostHeader>
-          <Avatar src={avatar} />
+          <Avatar
+            src={avatar}
+            alt={name}
+            initials={initials}
+            size={50}
+            linkTo={`/users/${authorId}`}
+          />
           <UserInfo>
             <PostAuthor>
               <Link to={`/users/${authorId}`}>

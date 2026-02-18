@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+
+export const LogoType = styled.div`
+  svg {
+    height: 50px;
+    width: auto;
+  }
+`;
 
 export const IconWrapper = styled.div`
   position: relative;
@@ -45,9 +53,10 @@ export const Name = styled.span`
 export const Heder = styled.header`
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 99;
   background: #000;
   border-bottom: 1px solid #2f3336;
+  padding-block: 10px;
   a {
     text-decoration: none;
     color: #fff;
@@ -56,7 +65,7 @@ export const Heder = styled.header`
     border-radius: 10px;
     display: flex;
     align-items: center;
-    padding: 10px;
+    /* padding: 10px; */
   }
 `;
 export const HeaderWrapper = styled.div`
@@ -66,10 +75,20 @@ export const HeaderWrapper = styled.div`
   padding: 5px;
   align-items: center;
   justify-content: space-between;
+
+  @media (min-width: 769px) {
+    justify-content: center;
+    gap: 35px;
+  }
 `;
 export const MenuSideWrapper = styled.div`
   display: flex;
   gap: 5px;
+
+  .active {
+    color: ${(props) =>
+      props.$logOut ? "rgb(244, 33, 46)" : "rgb(29, 155, 240)"};
+  }
 `;
 export const HeaderSearch = styled.input`
   width: 180px;
@@ -106,40 +125,74 @@ export const HeaderSearch = styled.input`
   }
 `;
 export const MenuMiddleWrapper = styled.div`
-  display: flex;
+ display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  gap: 5px;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    background: #000;
+    padding: 80px 20px 20px;
+    gap: 8px;
+    border-left: 1px solid #2f3336;
+  }
+
   @media (min-width: 769px) {
-    flex-direction: row;
     position: static;
+    flex-direction: row;
+    height: auto;
+    padding: 0;
+    width: auto;
+    border: none;
+  }
+  .active {
+    color: rgb(29, 155, 240);
   }
 `;
+export const LogOutButton = styled.button`
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: #f4212e;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(244, 33, 46, 0.1);
+  }
+`;
+export const MenuItem = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #e7e9ea;
+  transition: background 0.2s ease;
+`;
+
 export const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 3px;
 `;
-export const SubmitBtn = styled.div`
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #2f3336;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 10px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-`;
-export const CancelBtn = styled(SubmitBtn)`
-  color: #fff;
-  background-color: #000;
-  margin-top: 0;
-  margin-bottom: 0;
-`;
+
 export const Title = styled.h1`
   color: #fff;
-  font-size: 20px;
+  font-size: 32px;
+  font-family: "Style Script", cursive;
+  margin-block: 0;
+`;
+
+export const ModalText = styled.p`
+  color: rgb(231, 233, 234);
 `;

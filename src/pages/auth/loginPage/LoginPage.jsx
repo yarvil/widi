@@ -25,6 +25,12 @@ import {
 } from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
+const Title = styled.h2`
+  color: #fff;
+  font-size: 26px;
+  margin-block: 10px;
+`;
+
 const NavLinkStyled = styled(NavLink)`
   /* display: block; */
   font-size: 16px;
@@ -102,7 +108,7 @@ function LoginPage() {
     <>
       <ContainerForm>
         <ButtonClose to="/auth" />
-        <Legend>Вхід до WiDi</Legend>
+        <Title>Вхід</Title>
         <Form onSubmit={handleSubmit}>
           <Label
             htmlFor="email"
@@ -149,7 +155,9 @@ function LoginPage() {
             </Label>
           </Wrapper>
           <NavLinkStyled to="/forgot-password">Забули пароль?</NavLinkStyled>
-          <Button type="submit">Увійти</Button>
+          <Button $primary type="submit">
+            Увійти
+          </Button>
         </Form>
       </ContainerForm>
     </>

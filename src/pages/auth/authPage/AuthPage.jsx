@@ -1,8 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ContainerForm, Button, Legend } from "../ui";
 import { useDispatch } from "react-redux";
+
+const SubTitle = styled.h2`
+  margin-block: 30px 10px;
+  color: rgb(239, 243, 244);
+  font-size: 16px;
+`;
+
+const LinkButton = styled(Link)`
+  color: rgb(15, 20, 25);
+  border-radius: 9999px;
+  padding: 10px 20px;
+  background-color: rgb(239, 243, 244);
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgb(215, 219, 220);
+  }
+`;
 
 const NavLinkStyled = styled(NavLink)`
   display: inline-block;
@@ -41,10 +59,11 @@ function AuthPage() {
 
   return (
     <ContainerForm>
-      <Legend>Вхід до WiDi</Legend>
+      <Legend>Потеревенимо?</Legend>
       <Button
+        $primary
         onClick={googleLogin}
-        $style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px"
+        $style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px"
       >
         <Img
           src="https://developers.google.com/identity/images/g-logo.png"
@@ -52,14 +71,12 @@ function AuthPage() {
         />
         Увійти через Google
       </Button>
-      <Legend $style="width: 100%; display: flex; justify-content: center; align-items: center; margin-inline: 0;  &::before, &::after {content: ''; flex-grow: 1;  border-bottom: 1px solid rgb(83, 100, 113) ; } &::before { margin-right: 10px; } &::after { margin-left: 10px; }">
-        або
+      <Legend $style="width: 100%; display: flex; justify-content: center; align-items: center; margin-inline: 0;  &::before, &::after {content: ''; flex-grow: 1;  border-bottom: 1px solid rgb(47, 51, 54) ; } &::before { margin-right: 10px; } &::after { margin-left: 10px; }">
+        <span>або</span>
       </Legend>
+      <LinkButton to="/register">Зареєструватися</LinkButton>
+      <SubTitle>Вже зареєстровані?</SubTitle>
       <Button onClick={loginPage}>Увійти</Button>
-      <p>
-        Ще немає облікового запису?
-        <NavLinkStyled to="/register">Зареєструватися</NavLinkStyled>
-      </p>
     </ContainerForm>
   );
 }
