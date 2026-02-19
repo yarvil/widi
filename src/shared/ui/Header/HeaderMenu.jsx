@@ -6,6 +6,7 @@ import MenuIcon from "@/shared/assets/icons/menu.svg?react";
 import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
 import LogOutIcon from "@/shared/assets/icons/log-out.svg?react";
 import HomeIcon from "@/shared/assets/icons/house.svg?react";
+import CloseIcon from '@/shared/assets/icons/x-icon.svg?react'
 import ProfileIcon from "@/shared/assets/icons/circle-user-round.svg?react";
 import NotificationIcon from "@/shared/assets/icons/bell.svg?react";
 import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
@@ -27,11 +28,15 @@ import {
   Title,
   MenuItem,
   LogOutButton,
+  TitleMob,
+  CloseButton,
+  MenuOverlay
 } from "./HeaderStyled";
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logout } from "@/app/store/authentication/authSlice";
+
 
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
@@ -109,36 +114,40 @@ export default function AuthMenu() {
             />
             <MenuIcon onClick={showBurgerMenu} />
             {isShow && (
-              <MenuMiddleWrapper>
-                <Link to="/" onClick={() => dispatch(closeMenu())}>
-                  <LogoWrapper>
-                    <LogoType>
-                      <MobileLogo />
-                    </LogoType>
-                    <Title>Tereveni</Title>
-                  </LogoWrapper>
-                </Link>
-                {menuItems.map((item) => (
-                  <div key={item.path}>
-                    <MenuItem
-                      to={item.path}
-                      onClick={() => dispatch(closeMenu())}
-                    >
-                      {item.icon}
-                      {item.name}
-                    </MenuItem>
-                  </div>
-                ))}
-                <LogOutButton
-                  style={{ marginBottom: "0px" }}
-                  onClick={() => {
-                    (closeModal(), dispatch(closeMenu()));
-                  }}
-                >
-                  <LogOutIcon />
-                  LogOut
-                </LogOutButton>
-              </MenuMiddleWrapper>
+              <>
+                <MenuOverlay onClick={() => dispatch(closeMenu())} />
+                <MenuMiddleWrapper>
+                  <CloseButton onClick={() => dispatch(closeMenu())}><CloseIcon /></CloseButton>
+                  <Link to="/" onClick={() => dispatch(closeMenu())}>
+                    <LogoWrapper>
+                      <LogoType>
+                        <MobileLogo />
+                      </LogoType>
+                      <TitleMob>Tereveni</TitleMob>
+                    </LogoWrapper>
+                  </Link>
+                  {menuItems.map((item) => (
+                    <div key={item.path}>
+                      <MenuItem
+                        to={item.path}
+                        onClick={() => dispatch(closeMenu())}
+                      >
+                        {item.icon}
+                        {item.name}
+                      </MenuItem>
+                    </div>
+                  ))}
+                  <LogOutButton
+                    style={{ marginBottom: "0px" }}
+                    onClick={() => {
+                      (closeModal(), dispatch(closeMenu()));
+                    }}
+                  >
+                    <LogOutIcon />
+                    LogOut
+                  </LogOutButton>
+                </MenuMiddleWrapper>
+              </>
             )}
           </HeaderWrapper>
         </Heder>
@@ -221,12 +230,12 @@ export default function AuthMenu() {
               {menuItems.slice(3, 6).map((item) => (
                 <div key={item.path}>
                   {item.isCustom ? (
-                    <Link to={item.path} onClick={handleProfileClick}>
-                      <IconWrapper>
+                    <NavLink to={`/users/${currentUser.id}`} onClick={handleProfileClick}>
+                      <IconWrapper >
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>
-                    </Link>
+                    </NavLink>
                   ) : (
                     <NavLink to={item.path}>
                       <IconWrapper>
@@ -240,7 +249,7 @@ export default function AuthMenu() {
               <Link onClick={() => closeModal()}>
                 <IconWrapper $logOut>
                   <LogOutIcon />
-                  <Name>LogOut</Name>
+                  <Name >LogOut</Name>
                 </IconWrapper>
               </Link>
             </MenuSideWrapper>
