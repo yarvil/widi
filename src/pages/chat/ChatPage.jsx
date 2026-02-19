@@ -12,8 +12,6 @@ import ConversationListComponent from "./components/sidebar/ConversationListComp
 const ChatPage = () => {
   const dispatch = useDispatch();
 
-  const userId = useSelector((state) => state.chat.currentUser.id);
-
   const [isMobileChatOpen, setIsMobileChatOpen] = useState(true);
 
   const handleOpenChatlist = () => {
@@ -23,12 +21,6 @@ const ChatPage = () => {
   useEffect(() => {
     dispatch(fetchUsersThunk());
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   if (!userId) return;
-
-  //   dispatch(loadConversations(userId));
-  // }, [userId, dispatch]);
 
   const users = useSelector(selectUsers);
 
