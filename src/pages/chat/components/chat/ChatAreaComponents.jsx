@@ -56,7 +56,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      handleSend(inputValue);
     }
   };
 
