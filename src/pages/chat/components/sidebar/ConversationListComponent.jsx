@@ -169,7 +169,7 @@ const ConversationListComponent = ({
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
-              <ConversationName>
+              <ConversationName active={thread.id === activeConversationId}>
                 {thread.otherParticipant.username.slice(0, 9)}
                 <ConversationDetails>
                   <Timestamp>{formatTime(thread.updatedAt)}</Timestamp>
@@ -180,7 +180,7 @@ const ConversationListComponent = ({
                   </ConversationOptions>
                 </ConversationDetails>
               </ConversationName>
-              <LastMessage>
+              <LastMessage active={thread.id === activeConversationId}>
                 <LastMessageText>{thread.lastMessage}</LastMessageText>
                 {thread.unreadCount > 0 && (
                   <UnreadBadge>{thread.unreadCount}</UnreadBadge>
