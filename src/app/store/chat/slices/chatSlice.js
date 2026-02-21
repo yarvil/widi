@@ -29,49 +29,45 @@ const chatSlice = createSlice({
     },
 
     sendMessage: (state, action) => {
-      const { conversationId, content } = action.payload;
+      const { threadId, content } = action.payload;
 
       const newMessage = {
-        id: `m${Date.now()}`,
-        threadId: "",
-        senderId: "user-1",
-        senderUsername: "",
+        id: `temp-${Date.now()}`, // временный id
+        threadId: threadId,
+        senderId: state.currentUser.id,
+        senderUsername: state.currentUser.username,
         content,
-        createdAt: new Date().toISOString().slice(0, 19),
+        createdAt: new Date().toISOString(),
         messageType: "TEXT",
+        status: "sending",
       };
 
-      if (!state.messages[conversationId]) {
-        state.messages[conversationId] = [];
-      }
+      if (!state.messages[threadId]) state.messages[threadId] = [];
+      state.messages[threadId].push(newMessage);
 
-      state.messages[conversationId].push(newMessage);
-
-      // Обновляем последнее сообщение в списке чатов
-      const conv = state.threads.find((c) => c.id === conversationId);
-      if (conv) {
-        conv.lastMessage = content;
-        conv.timestamp = newMessage.timestamp;
+      // Обновляем последний message в threads
+      const thread = state.threads.find((t) => t.id === threadId);
+      if (thread) {
+        thread.lastMessage = content;
+        thread.updatedAt = newMessage.createdAt;
       }
     },
 
     receiveMessage: (state, action) => {
-      // Имитация получения сообщения (для будущего WebSocket)
-      const { conversationId, message } = action.payload;
+      const { threadId, message } = action.payload;
 
-      if (!state.messages[conversationId]) {
-        state.messages[conversationId] = [];
+      if (!state.messages[threadId]) state.messages[threadId] = [];
+
+      // Проверяем, нет ли дубликата
+      if (!state.messages[threadId].some((m) => m.id === message.id)) {
+        state.messages[threadId].push(message);
       }
 
-      state.messages[conversationId].push(message);
-
-      const conv = state.threads.find((c) => c.id === conversationId);
-      if (conv) {
-        conv.lastMessage = message.content;
-        conv.timestamp = message.timestamp;
-        if (conversationId !== state.activeConversationId) {
-          conv.unreadCount += 1;
-        }
+      // Обновляем последний message в threads
+      const thread = state.threads.find((t) => t.id === threadId);
+      if (thread) {
+        thread.lastMessage = message.content;
+        thread.updatedAt = message.createdAt;
       }
     },
 
@@ -118,6 +114,7 @@ const chatSlice = createSlice({
       .addCase(loadMessagesByThreads.fulfilled, (state, action) => {
         const { conversationId, messages } = action.payload;
         state.messages[conversationId] = messages;
+        console.log(state.messages[conversationId], "smsk");
       });
   },
 });
@@ -126,6 +123,7 @@ export const {
   setActiveConversationId,
   setCurrentUser,
   sendMessage,
+  receiveMessage,
   deleteConversation,
 } = chatSlice.actions;
 export default chatSlice.reducer;
