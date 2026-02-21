@@ -18,7 +18,7 @@ import {
 
 export default function PageHeader({
   variant = "back",
-  title = "Post",
+  title = "Пост",
   tabs,
   activeTab,
   onTabChange,

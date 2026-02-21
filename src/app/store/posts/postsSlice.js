@@ -110,6 +110,7 @@ const normalizePost = (post) => {
     postId: post.id,
     createdTime: post.createdAt,
     authorId: post.author.id,
+    // username: post.author.username,
     name: `${post.author.firstName} ${post.author.lastName}`,
     avatar: post.author.avatarUrl,
     text: post.content,
@@ -223,8 +224,11 @@ const postsSlice = createSlice({
       })
       // --- Create post ---
       .addCase(createPostThunk.fulfilled, (state, action) => {
-        state.feedPosts.unshift(normalizePost(action.payload));
-        state.myFeedPosts.unshift(normalizePost(action.payload));
+        const newPost = normalizePost(action.payload);
+        newPost.isJustCreated = true;
+
+        state.feedPosts.unshift(newPost);
+        state.myFeedPosts.unshift(newPost);
       })
       // --- Update post ---
       .addCase(updatePostThunk.fulfilled, (state, action) => {

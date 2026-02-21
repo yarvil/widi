@@ -54,7 +54,7 @@ export default function PostPage() {
 
   return (
     <PageWrapper>
-      <PageHeader variant="back" title="Post" />
+      <PageHeader variant="back" />
       {!post ? <Loader full={false} /> : <FullPost post={post} />}
       {post && (
         <CreatePostForm parentId={postId} isReply={true} username={post.name} />

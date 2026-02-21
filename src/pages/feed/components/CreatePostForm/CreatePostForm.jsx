@@ -20,13 +20,13 @@ import {
   Content,
   TextArea,
   Actions,
-  Button,
   FormContainer,
   ReplyingText,
   RightAction,
   CharCounter,
   MediaWrapper,
 } from "./CreatePostForm.styled";
+import Button from "@/shared/ui/Button/Button";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
   const [text, setText] = useState("");
@@ -40,7 +40,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
   const textAreaRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const placeholder = isReply ? "Post your reply" : "What's happening?";
+  const placeholder = isReply ? "Опублікувати відповідь" : "Що відбувається?";
 
   const handleChange = (e) => {
     const element = e.target;
@@ -104,7 +104,7 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
     <FormWrapper $isReply={isReply}>
       {isReply && isExpanded && (
         <ReplyingText>
-          Replying to
+          У відповідь
           <span> @{username}</span>
         </ReplyingText>
       )}
@@ -166,8 +166,12 @@ function CreatePostForm({ parentId = null, isReply = false, username }) {
                     {text.length > 0 && `${text.length}/280`}
                   </CharCounter>
                 )}
-                <Button type="submit" disabled={!text.trim() || uploading}>
-                  {uploading ? "Uploading..." : isReply ? "Reply" : "Post"}
+                <Button disabled={!text.trim() || uploading} type="submit">
+                  {uploading
+                    ? "Завантаження..."
+                    : isReply
+                      ? "Відповісти"
+                      : "Опублікувати пост"}
                 </Button>
               </RightAction>
             </Actions>

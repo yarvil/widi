@@ -15,10 +15,15 @@ import {
 
 const MENU_VARIANTS = {
   owner: (handlers) => [
-    { id: "edit", label: "Edit", icon: EditIcon, onClick: handlers.onEdit },
+    {
+      id: "edit",
+      label: "Редагувати",
+      icon: EditIcon,
+      onClick: handlers.onEdit,
+    },
     {
       id: "delete",
-      label: "Delete",
+      label: "Видалити",
       icon: TrashIcon,
       onClick: handlers.onDelete,
       danger: true,
@@ -27,7 +32,7 @@ const MENU_VARIANTS = {
   other: (handlers, isFollowing) => [
     {
       id: "follow",
-      label: isFollowing ? "Unfollow" : "Follow",
+      label: isFollowing ? "Відписатись" : "Підписатись",
       icon: isFollowing ? UnfollowIcon : FollowIcon,
       onClick: handlers.onFollow,
     },
