@@ -98,11 +98,11 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
       {showEditModal && <EditPostModal post={post} onClose={closeEditModal} />}
       {showDeleteModal && (
         <ModalWindow
-          title="Delete post?"
-          desc="This can't be undone and it will be removed from your profile."
-          primaryText="Delete"
+          title="Видалити пост?"
+          desc="Пост буде видалено з вашого профілю, стрічок усіх профілів, які вас читають, і з результатів пошуку. Цю дію не можна скасувати. "
+          primaryText="Видалити"
           primaryClick={handleDelete}
-          secondaryText="Cancel"
+          secondaryText="Скасувати"
           secondaryClick={closeDeleteModal}
           closeModal={closeDeleteModal}
           dangerBtn
@@ -115,6 +115,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
 PostCard.propTypes = {
   post: PropTypes.shape({
     postId: PropTypes.string,
+    // username: PropTypes.string,
     avatar: PropTypes.string,
     createdTime: PropTypes.string,
     name: PropTypes.string,

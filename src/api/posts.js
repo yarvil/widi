@@ -1,10 +1,10 @@
 import { fetchDelete, fetchGet, fetchPatch, fetchPost } from "@/api/client";
 
-export async function fetchFeed(page = 0, size = 20) {
+export async function fetchFeed(page = 0, size = 10) {
   return await fetchGet(`api/posts/recommended?page=${page}&size=${size}`);
 }
 
-export async function fetchMyFeed(page = 0, size = 20) {
+export async function fetchMyFeed(page = 0, size = 10) {
   return await fetchGet(`api/posts/feed?page=${page}&size=${size}`);
 }
 

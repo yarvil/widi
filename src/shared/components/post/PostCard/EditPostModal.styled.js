@@ -26,9 +26,16 @@ export const Modal = styled.div`
 export const Header = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
   border-bottom: 1px solid #2f3336;
   gap: 24px;
+`;
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const CloseButton = styled.button`
@@ -43,33 +50,17 @@ export const CloseButton = styled.button`
     width: 20px;
     height: 20px;
   }
+
+  &:hover {
+    border-radius: 50%;
+    background-color: #8282822e;
+  }
 `;
 
 export const Title = styled.h2`
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-`;
-
-export const SaveButton = styled.button`
-  margin-left: auto;
-  border-radius: 36px;
-  padding: 8px 20px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  border: transparent;
-  background-color: rgb(29, 155, 240);
-  color: #fff;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:not(:disabled):hover {
-    background-color: rgb(26, 140, 216);
-  }
 `;
 
 export const Content = styled.div`
