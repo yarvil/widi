@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: 20px;
   position: sticky;
-  top: 86px;
+  top: 85px;
   background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(12px);
   border-bottom: ${(props) => (props.$tabs ? "1px solid #2f3336" : "none")};

@@ -6,12 +6,12 @@ import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
 import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
 import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
-  FollowButton,
   UserCardWrapper,
   UserFullName,
   Counters,
   UserInformation,
 } from "./UserCard.styled";
+import Button from "@/shared/ui/Button/Button";
 
 export default function UserCard({
   avatarUrl,
@@ -50,20 +50,23 @@ export default function UserCard({
               {firstName} {lastName}
             </UserFullName>
           </Link>
-          <Counters>Followers: {followersCount}</Counters>
-          <Counters>Posts: {postsCount}</Counters>
+          <Counters>Підписники: {followersCount}</Counters>
+          <Counters>Пости: {postsCount}</Counters>
         </div>
         <div>
-          <FollowButton $following={isFollowing} onClick={handleFollowClick}>
+          <Button
+            variant={isFollowing ? "secondaryDanger" : "primary"}
+            onClick={handleFollowClick}
+          >
             {isFollowing ? (
               <>
-                <span className="default-text">Following</span>
-                <span className="hover-text">Unfollow</span>
+                <span className="default-text">Підписки</span>
+                <span className="hover-text">Відписатись</span>
               </>
             ) : (
-              "Follow"
+              "Підписатись"
             )}
-          </FollowButton>
+          </Button>
         </div>
       </UserInformation>
     </UserCardWrapper>
@@ -72,6 +75,7 @@ export default function UserCard({
 
 UserCard.propTypes = {
   id: PropTypes.string,
+  // username: PropTypes.string,
   avatarUrl: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
