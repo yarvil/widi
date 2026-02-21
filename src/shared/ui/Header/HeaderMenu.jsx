@@ -59,19 +59,19 @@ export default function AuthMenu() {
     dispatch(closeMenu());
   };
   const menuItems = [
-    { path: "/", name: "Home Page", icon: <HomeIcon /> },
-    { path: "/favorite", name: "Bookmarks", icon: <BookMarkIcon /> },
-    { path: "/follow", name: "Follow", icon: <FollowIcon /> },
+    { path: "/", name: "Головна", icon: <HomeIcon /> },
+    { path: "/favorite", name: "Збережені", icon: <BookMarkIcon /> },
+    { path: "/follow", name: "Підписки", icon: <FollowIcon /> },
     {
       path: "/profile",
-      name: "Profile",
+      name: "Профіль",
       icon: <ProfileIcon />,
       isCustom: true,
     },
-    { path: "/chat", name: "Messenger", icon: <SmsIcon /> },
+    { path: "/chat", name: "Месенджер", icon: <SmsIcon /> },
     {
       path: "/notifications",
-      name: "Notifications",
+      name: "Сповіщення",
       icon: <NotificationIcon />,
     },
   ];
@@ -86,12 +86,12 @@ export default function AuthMenu() {
       {modal && (
         <ModalWindow
           logo
-          title="Log out of Tereveni?"
-          desc="You can always log back in at any time."
+          title="Вийти з Tereveni?"
+          desc="Ви завжди можете знову увійти в систему в будь-який час."
           closeModal={closeModal}
           isOpen={modal}
-          primaryText="Yes"
-          secondaryText="Cancel"
+          primaryText="Так"
+          secondaryText="Відміна"
           primaryClick={logOut}
           secondaryClick={closeModal}
         />
@@ -109,7 +109,7 @@ export default function AuthMenu() {
             </Link>
             <HeaderSearch
               size="10"
-              placeholder="Search Post..."
+              placeholder="Пошук поста..."
               onChange={(e) => dispatch(setSearchValue(e.target.value))}
             />
             <MenuIcon onClick={showBurgerMenu} />
@@ -165,7 +165,7 @@ export default function AuthMenu() {
             </Link>
             <HeaderSearch
               size="10"
-              placeholder="Search Post..."
+              placeholder="Пошук поста..."
               onChange={(e) => dispatch(setSearchValue(e.target.value))}
             />
             {isMobile && <MenuIcon onClick={showBurgerMenu} />}
@@ -201,7 +201,7 @@ export default function AuthMenu() {
                   }}
                 >
                   <LogOutIcon />
-                  LogOut
+                  Вийти
                 </Link>
               </MenuMiddleWrapper>
             )}
@@ -249,7 +249,7 @@ export default function AuthMenu() {
               <Link onClick={() => closeModal()}>
                 <IconWrapper $logOut>
                   <LogOutIcon />
-                  <Name >LogOut</Name>
+                  <Name>Вийти</Name>
                 </IconWrapper>
               </Link>
             </MenuSideWrapper>

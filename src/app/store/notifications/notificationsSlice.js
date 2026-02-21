@@ -45,6 +45,10 @@ const notificationSlice = createSlice({
       state.notifications = state.notifications.filter(
         n => n.id !== action.payload
       );
+    },
+    addNotification: (state, action) => {
+      const normalized = normalizeNotifications(action.payload);
+      state.myFeedNotifications.unshift(normalized); 
     }
 
   },
@@ -68,5 +72,5 @@ const notificationSlice = createSlice({
       })
   },
 })
-export const { removeNotification } = notificationSlice.actions
+export const { removeNotification,addNotification } = notificationSlice.actions
 export default notificationSlice.reducer
