@@ -31,7 +31,7 @@ import {
   BackToListButton,
 } from "./styles";
 
-const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
+const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
   const dispatch = useDispatch();
 
   const activeConversationId = useSelector(selectActiveConversationId);
@@ -52,19 +52,6 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     if (!activeConversationId) return;
     dispatch(loadMessagesByThreads(activeConversationId));
   }, [activeConversationId, authUser, dispatch]);
-
-  const handleSend = () => {
-    if (inputValue.trim()) {
-      dispatch(
-        sendMessage({
-          conversationId: activeConversationId,
-          content: inputValue,
-          senderUsername: "",
-        }),
-      );
-      setInputValue("");
-    }
-  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -128,7 +115,19 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <SendButton onClick={handleSend} disabled={!inputValue.trim()}>
+        <SendButton
+          onClick={() => {
+            handleSend(inputValue);
+            dispatch(
+              sendMessage({
+                threadId: activeConversationId,
+                content: inputValue,
+              }),
+            );
+            setInputValue("");
+          }}
+          disabled={!inputValue.trim()}
+        >
           Send
         </SendButton>
       </InputArea>
@@ -139,6 +138,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
 ChatAreaComponent.propTypes = {
   handleChatList: PropTypes.func.isRequired,
   isChatListOpen: PropTypes.bool.isRequired,
+  handleSend: PropTypes.func,
 };
 
 export default ChatAreaComponent;
