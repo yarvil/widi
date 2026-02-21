@@ -53,6 +53,7 @@ export function useWebSocket() {
       (msg) => {
         const data = JSON.parse(msg.body);
         onMessage(data);
+        console.log("RAW MESSAGE:", msg.body);
       },
     );
 
