@@ -15,7 +15,7 @@ export const ChatArea = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
-  padding-bottom: 30px;
+  /* padding-bottom: 30px; */
 
   @media (max-width: 768px) {
     width: ${({ $isChatListOpen }) => ($isChatListOpen ? "0px" : "75%")};

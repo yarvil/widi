@@ -8,7 +8,7 @@ import React, {
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setActiveConversation,
+  setActiveConversationId,
   deleteConversation,
 } from "@/app/store/chat/slices/chatSlice";
 
@@ -49,15 +49,23 @@ import {
   loadThreads,
 } from "@/app/store/chat/chatThunks";
 
+import {
+  selectThreads,
+  selectActiveConversationId,
+  selectCurrentUser,
+} from "@/app/store/chat/selectors";
+
 const ConversationListComponent = ({
   handleChatList,
   isChatListOpen,
   users,
 }) => {
   const dispatch = useDispatch();
-  const { threads, activeConversationId } = useSelector((state) => state.chat);
 
-  const currentUser = useSelector((state) => state.auth.user);
+  const threads = useSelector(selectThreads);
+  const activeConversationId = useSelector(selectActiveConversationId);
+  const currentUser = useSelector(selectCurrentUser);
+
   const otherUsers = useMemo(
     () => users.filter((user) => user.id !== currentUser.id),
     [users, currentUser.id],
@@ -116,7 +124,7 @@ const ConversationListComponent = ({
     (id) => {
       console.log(id);
       if (window.innerWidth < 768) handleChatList();
-      dispatch(setActiveConversation(id));
+      dispatch(setActiveConversationId(id));
     },
     [dispatch, handleChatList],
   );

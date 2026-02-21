@@ -52,6 +52,7 @@ function Actions({ post, withBorder }) {
       label: "reply",
       icon: <ReplyIcon />,
       onClick: handleReplyClick,
+      hasCounter: true,
       counter: commentsCount,
     },
     {
@@ -59,6 +60,7 @@ function Actions({ post, withBorder }) {
       active: liked,
       icon: <LikeIcon />,
       onClick: handleLikeClick,
+      hasCounter: true,
       counter: likesCount,
     },
     {
@@ -66,6 +68,7 @@ function Actions({ post, withBorder }) {
       active: saved,
       icon: <SaveIcon />,
       onClick: handleSaveClick,
+      hasCounter: false,
     },
   ];
 
@@ -80,7 +83,11 @@ function Actions({ post, withBorder }) {
           onClick={item.onClick}
         >
           <IconWrapper>{item.icon}</IconWrapper>
-          {item.counter && <Count $show={item.counter}>{item.counter}</Count>}
+          {item.hasCounter && (
+            <Count $show={item.counter > 0}>
+              {item.counter > 0 ? item.counter : ""}
+            </Count>
+          )}
         </ActionButton>
       ))}
     </ActionsWrapper>

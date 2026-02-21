@@ -20,8 +20,8 @@ export default function SortMenu({
   const menuRef = useRef(null);
 
   const sortOptions = [
-    { id: "latest", label: "Recent" },
-    { id: "top", label: "Popular" },
+    { id: "latest", label: "Нові" },
+    { id: "top", label: "Популярні" },
   ];
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function SortMenu({
       {isOpen && (
         <DropdownMenu>
           <DropDownMenuHeader onClick={(e) => e.stopPropagation()}>
-            <span>Sort by</span>
+            <span>Сортування</span>
           </DropDownMenuHeader>
           {sortOptions.map((option) => (
             <MenuItem key={option.id} onClick={() => handleSelect(option.id)}>

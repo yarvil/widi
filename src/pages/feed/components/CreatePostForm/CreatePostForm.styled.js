@@ -57,26 +57,6 @@ export const Actions = styled.div`
     props.$isReply ? "flex-end" : "space-between"};
 `;
 
-export const Button = styled.button`
-  border-radius: 36px;
-  padding: 9px 16px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  border: transparent;
-  background-color: rgb(239, 243, 244);
-  transition: 0.2s;
-
-  &:disabled {
-    color: #000;
-    opacity: 0.5;
-    cursor: auto;
-  }
-  &:not(:disabled):hover {
-    background-color: rgb(215, 219, 220);
-  }
-`;
-
 export const ReplyingText = styled.p`
   font-size: 16px;
   color: rgb(113, 118, 123);

@@ -64,8 +64,8 @@ function FullPost({ post }) {
               </Link>
               {user && (
                 <>
-                  <AuthorCounts>Followers: {user.followersCount}</AuthorCounts>
-                  <AuthorCounts>Posts: {user.postsCount}</AuthorCounts>
+                  <AuthorCounts>Підписники: {user.followersCount}</AuthorCounts>
+                  <AuthorCounts>Пости: {user.postsCount}</AuthorCounts>
                 </>
               )}
             </PostAuthor>
@@ -96,6 +96,7 @@ function FullPost({ post }) {
 FullPost.propTypes = {
   post: PropTypes.shape({
     postId: PropTypes.string,
+    // username: PropTypes.string,
     avatar: PropTypes.string,
     name: PropTypes.string,
     authorId: PropTypes.string,

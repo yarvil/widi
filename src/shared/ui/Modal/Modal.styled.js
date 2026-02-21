@@ -33,9 +33,16 @@ export const CloseButton = styled.button`
   position: absolute;
   border: none;
   background-color: inherit;
-  top: 10px;
+  top: 5px;
   right: 5px;
+  padding: 8px;
   cursor: pointer;
+  display: flex;
+
+  &:hover {
+    border-radius: 50%;
+    background-color: #8282822e;
+  }
 `;
 
 export const Title = styled.h2`
@@ -60,35 +67,35 @@ export const LogoWrapper = styled.div`
   justify-content: center;
 `;
 
-export const PrimaryButton = styled.div`
-  border-radius: 9999px;
-  color: ${(props) =>
-    props.$danger ? "rgb(255, 255, 255)" : "rgb(15, 20, 25)"};
-  background-color: ${(props) =>
-    props.$danger ? "rgb(244, 33, 46)" : "rgb(239, 243, 244)"};
-  border-color: transparent;
-  padding: 16px 24px;
-  cursor: pointer;
-  margin-block: 0;
-  font-size: 16px;
-  font-weight: 600;
+// export const PrimaryButton = styled.div`
+//   border-radius: 9999px;
+//   color: ${(props) =>
+//     props.$danger ? "rgb(255, 255, 255)" : "rgb(15, 20, 25)"};
+//   background-color: ${(props) =>
+//     props.$danger ? "rgb(244, 33, 46)" : "rgb(239, 243, 244)"};
+//   border-color: transparent;
+//   padding: 16px 24px;
+//   cursor: pointer;
+//   margin-block: 0;
+//   font-size: 16px;
+//   font-weight: 600;
 
-  &:hover {
-    background-color: ${(props) =>
-      props.$danger ? "rgb(220, 30, 41)" : "rgb(239, 243, 244)"};
-  }
-`;
-export const SecondaryButton = styled(PrimaryButton)`
-  color: rgb(239, 243, 244);
-  background-color: transparent;
-  border: 1px solid rgb(83, 100, 113);
-  margin-top: 0;
-  margin-bottom: 0;
+//   &:hover {
+//     background-color: ${(props) =>
+//       props.$danger ? "rgb(220, 30, 41)" : "rgb(239, 243, 244)"};
+//   }
+// `;
+// export const SecondaryButton = styled(PrimaryButton)`
+//   color: rgb(239, 243, 244);
+//   background-color: transparent;
+//   border: 1px solid rgb(83, 100, 113);
+//   margin-top: 0;
+//   margin-bottom: 0;
 
-  &:hover {
-    background-color: rgba(239, 243, 244, 0.1);
-  }
-`;
+//   &:hover {
+//     background-color: rgba(239, 243, 244, 0.1);
+//   }
+// `;
 
 export const ActionsWrapper = styled.div`
   display: flex;
