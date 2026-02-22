@@ -28,7 +28,7 @@ function useNotificationsSocket() {
             debug: (str) => {
                 console.log(str);
             },
-            connectHeaders: { Authorization: `Bearer ${token}` },
+            // connectHeaders: { Authorization: `Bearer ${token}` },
             onConnect: () => {
                 console.log("Connected to WebSocket");
 
