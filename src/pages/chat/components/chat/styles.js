@@ -37,6 +37,7 @@ export const BackToListButton = styled.button`
   width: 0;
   transition: 0.5s ease;
   display: none;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     display: flex;
