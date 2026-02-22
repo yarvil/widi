@@ -11,12 +11,11 @@ import {
   Title,
   LogoType,
   LogoWrapper,
-  PrimaryButton,
-  SecondaryButton,
   ModalTitle,
   ModalDesc,
   ActionsWrapper,
 } from "./Modal.styled";
+import Button from "@/shared/ui/Button/Button";
 
 export default function ModalWindow(props) {
   const {
@@ -52,12 +51,28 @@ export default function ModalWindow(props) {
             <ModalDesc>{desc}</ModalDesc>
             {children}
             <ActionsWrapper>
-              <PrimaryButton $danger={dangerBtn} onClick={primaryClick}>
+              <Button
+                type="button"
+                variant={dangerBtn ? "danger" : "primary"}
+                size="large"
+                onClick={primaryClick}
+              >
+                {primaryText}
+              </Button>
+              {/* <PrimaryButton $danger={dangerBtn} onClick={primaryClick}>
                 {primaryText}
               </PrimaryButton>
               <SecondaryButton onClick={secondaryClick}>
                 {secondaryText}
-              </SecondaryButton>
+              </SecondaryButton> */}
+              <Button
+                type="button"
+                variant="secondary"
+                size="large"
+                onClick={secondaryClick}
+              >
+                {secondaryText}
+              </Button>
             </ActionsWrapper>
           </ModalContent>
         </Modal>

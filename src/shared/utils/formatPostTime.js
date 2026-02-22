@@ -1,6 +1,6 @@
 export function formatPostTime(time) {
   if (!time) {
-    return " · Now";
+    return " · Зараз";
   }
   const options = {
     day: "numeric",
@@ -12,19 +12,19 @@ export function formatPostTime(time) {
   const sec = Math.floor((Date.now() - timestamp) / 1000);
 
   if (sec < 60) {
-    return " · <1m";
+    return " · <1 хв";
   }
 
   const min = Math.floor(sec / 60);
   if (min < 60) {
-    return ` · ${min}m`;
+    return ` · ${min} хв`;
   }
 
   const hours = Math.floor(min / 60);
   if (hours < 24) {
-    return ` · ${hours}h`;
+    return ` · ${hours} год`;
   }
 
   const date = new Date(utcTime);
-  return ` · ${date.toLocaleDateString("en-UA", options)}`;
+  return ` · ${date.toLocaleDateString("uk-UA", options)}`;
 }

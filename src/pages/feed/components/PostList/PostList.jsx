@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -15,11 +15,21 @@ import { selectorSearch } from "@/app/store/search/searchSelectors";
 import Loader from "@/app/store/authentication/Loader";
 import PostCard from "@/shared/components/post/PostCard/PostCard";
 import { PostCardWrapper } from "@/shared/components/post/PostCard/PostCard.styled";
-import { LoadMoreButton, NewPostsButton } from "./PostList.styled";
+import {
+  EmptyPostsDesc,
+  EmptyPostsTitle,
+  EmptyPostsWrapper,
+  GoToFollowButton,
+  LoadingIndicator,
+  NewPostsButton,
+} from "./PostList.styled";
 
 export default function PostList({ variant = "following", sortBy = "latest" }) {
   const [hasNewPosts, setHasNewPosts] = useState(false);
   const dispatch = useDispatch();
+
+  const observerRef = useRef(null);
+  const loadMoreRef = useRef(null);
 
   const loading = useSelector(selectLoading);
   const searchValue = useSelector(selectorSearch);
@@ -57,9 +67,40 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
       }
     };
 
-    const interval = setInterval(checkNewPosts, 30000);
+    const interval = setInterval(checkNewPosts, 60000);
     return () => clearInterval(interval);
   }, [posts, fetchApi]);
+
+  const handleObserver = useCallback(
+    (entries) => {
+      const [target] = entries;
+      if (target.isIntersecting && pagination.hasMore && !loading) {
+        dispatch(fetchThunk(pagination.page + 1));
+      }
+    },
+    [pagination.hasMore, pagination.page, loading, dispatch, fetchThunk],
+  );
+
+  useEffect(() => {
+    const element = loadMoreRef.current;
+    const option = {
+      root: null,
+      rootMargin: "100px",
+      threshold: 0,
+    };
+
+    observerRef.current = new IntersectionObserver(handleObserver, option);
+
+    if (element) {
+      observerRef.current.observe(element);
+    }
+
+    return () => {
+      if (observerRef.current && element) {
+        observerRef.current.unobserve(element);
+      }
+    };
+  }, [handleObserver]);
 
   const handleShowNewPosts = () => {
     dispatch(fetchThunk(0));
@@ -67,15 +108,14 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleLoadMore = () => {
-    dispatch(fetchThunk(pagination.page + 1));
-  };
-
   const filteredPosts = posts
     .filter((post) =>
       post.text.toLowerCase().includes(searchValue.toLowerCase()),
     )
     .sort((a, b) => {
+      if (a.isJustCreated && !b.isJustCreated) return -1;
+      if (!a.isJustCreated && b.isJustCreated) return 1;
+
       if (sortBy === "top") {
         return b.likesCount - a.likesCount;
       }
@@ -86,6 +126,32 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
     return <Loader full={false} />;
   }
 
+  if (!loading && posts.length === 0) {
+    const emptyStateConfig = {
+      following: {
+        title: "Ой лишенько, у Вас тут зовсім пусто!",
+        desc: "Підпишіться на когось, щоб побачити про що вони теревенять.",
+        showButton: true,
+      },
+      foryou: {
+        title: "Отакої, куди це всі поділися?!",
+        desc: "Схоже Ви підписались на усіх користувачів. Ніхто не втече від Вашого пильного погляду.",
+        showButton: false,
+      },
+    };
+
+    const config = emptyStateConfig[variant];
+
+    return (
+      <EmptyPostsWrapper>
+        <EmptyPostsTitle>{config.title}</EmptyPostsTitle>
+        <EmptyPostsDesc>{config.desc}</EmptyPostsDesc>
+        {config.showButton && (
+          <GoToFollowButton to="/follow">Поїхали!</GoToFollowButton>
+        )}
+      </EmptyPostsWrapper>
+    );
+  }
   return (
     <>
       {hasNewPosts && (
@@ -99,9 +165,13 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
         </PostCardWrapper>
       ))}
       {pagination.hasMore && (
-        <LoadMoreButton onClick={handleLoadMore} disabled={loading}>
-          {loading ? "Loading..." : "Load more"}
-        </LoadMoreButton>
+        <div ref={loadMoreRef}>
+          {loading && (
+            <LoadingIndicator>
+              <Loader full={false} />
+            </LoadingIndicator>
+          )}
+        </div>
       )}
     </>
   );

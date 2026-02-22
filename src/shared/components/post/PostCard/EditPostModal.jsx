@@ -18,10 +18,11 @@ import {
   MediaWrapper,
   Modal,
   Overlay,
-  SaveButton,
   TextArea,
   Title,
+  TitleWrapper,
 } from "./EditPostModal.styled";
+import Button from "@/shared/ui/Button/Button";
 
 function EditPostModal({ post, onClose }) {
   const [text, setText] = useState(post.text);
@@ -34,8 +35,12 @@ function EditPostModal({ post, onClose }) {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    textAreaRef.current?.focus();
-  }, []);
+    if (textAreaRef.current) {
+      const length = text.length;
+      textAreaRef.current.focus();
+      textAreaRef.current.setSelectionRange(length, length);
+    }
+  }, [text.length]);
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -98,16 +103,20 @@ function EditPostModal({ post, onClose }) {
     <Overlay onClick={handleOverlayClick}>
       <Modal>
         <Header>
-          <CloseButton onClick={onClose}>
-            <RemoveIcon />
-          </CloseButton>
-          <Title>Edit post</Title>
-          <SaveButton
+          <TitleWrapper>
+            <CloseButton onClick={onClose}>
+              <RemoveIcon />
+            </CloseButton>
+            <Title>Редагувати пост</Title>
+          </TitleWrapper>
+          <Button
+            type="button"
+            variant="blue"
             onClick={handleSave}
             disabled={!text.trim() || !hasChanges() || saving}
           >
-            {saving ? "Saving..." : "Save"}
-          </SaveButton>
+            {saving ? "Збереження..." : "Зберегти"}
+          </Button>
         </Header>
         <Content>
           <input

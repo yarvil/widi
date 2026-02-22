@@ -6,14 +6,16 @@ const SpanText = styled.span`
   font-size: 15px;
 `;
 function PostDate({ time }) {
+  const utcTime = time.endsWith("Z") ? time : time + "Z";
+
   const options = {
     day: "numeric",
     month: "short",
     year: "numeric",
   };
-  const date = new Date(time);
+  const date = new Date(utcTime);
 
-  const fullDate = date.toLocaleDateString("en-UA", options);
+  const fullDate = date.toLocaleDateString("uk-UA", options);
   const timeDate = date.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
