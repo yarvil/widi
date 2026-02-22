@@ -5,7 +5,7 @@ export const EmptyState = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #65676b;
+  color: #ffffff;
   font-size: 16px;
 `;
 
@@ -15,6 +15,7 @@ export const ChatArea = styled.div`
   display: flex;
   flex-direction: column;
   background: white;
+  background-color: black;
   /* padding-bottom: 30px; */
 
   @media (max-width: 768px) {
@@ -28,8 +29,8 @@ export const ChatHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  border-bottom: 1px solid #e4e6eb;
-  background: white;
+  border-bottom: 1px solid #2f3336;
+  background: black;
 `;
 
 export const BackToListButton = styled.button`
@@ -54,7 +55,7 @@ export const BackToListButton = styled.button`
 
 export const ChatHeaderInfo = styled.div`
   margin-left: 12px;
-  color: black;
+  color: white;
 
   h3 {
     margin: 0;
@@ -73,7 +74,7 @@ export const MessagesContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-  background: #f0f2f5;
+  background: #000000;
 `;
 
 export const MessageWrapper = styled.div`
@@ -105,8 +106,8 @@ export const InputArea = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 20px;
-  border-top: 1px solid #e4e6eb;
-  background: white;
+  border-top: 1px solid #2f3336;
+  background: black;
   gap: 10px;
 `;
 

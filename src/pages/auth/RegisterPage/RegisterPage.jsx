@@ -54,7 +54,13 @@ function RegisterPage() {
     validationSchema: registerSchema,
     onSubmit: async (values) => {
       try {
-        const { ...user } = values;
+        const user = {
+          firstName: values.firstName.trim(),
+          lastName: values.lastName.trim(),
+          email: values.email,
+          birthDate: values.birthDate,
+          password: values.password,
+        };
 
         const response = await fetchPost(user, "api/auth/register");
 

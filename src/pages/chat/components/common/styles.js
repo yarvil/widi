@@ -10,5 +10,6 @@ export const AppContainer = styled.div`
   background: #f0f2f5;
   margin: auto;
   overflow: hidden;
+  border-inline: 1px solid #2f3336;
   /* text-align: initial; */
 `;

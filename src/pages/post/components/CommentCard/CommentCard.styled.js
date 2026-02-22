@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
@@ -13,14 +14,26 @@ export const Header = styled.div`
   margin-bottom: 4px;
 `;
 
-export const AuthorName = styled.span`
-  color: #e7e7e7;
-  font-weight: 700;
+export const AuthorName = styled(Link)`
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(231, 233, 234);
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const AuthorNickname = styled.span`
+  color: #6e767d;
   font-size: 15px;
 `;
 
 export const Text = styled.p`
-  color: #e7e7e7;
+  color: rgb(231, 233, 234);
   margin: 0;
   font-size: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 `;

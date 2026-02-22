@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig({
   plugins: [react(), svgr()],
   define: {
-    global: "window", 
+    global: "window",
   },
   resolve: {
     alias: {

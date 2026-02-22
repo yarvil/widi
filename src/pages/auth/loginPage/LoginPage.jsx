@@ -62,10 +62,8 @@ function LoginPage() {
 
         if (values.remember === true) {
           localStorage.setItem("userEmail", values.email);
-          localStorage.setItem("remember", "true");
         } else {
           localStorage.removeItem("userEmail");
-          localStorage.removeItem("remember");
         }
 
         await dispatch(checkAuth());

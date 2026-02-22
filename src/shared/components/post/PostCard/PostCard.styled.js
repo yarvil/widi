@@ -36,51 +36,8 @@ export const Content = styled.div`
   min-width: 0;
 `;
 
-export const Header = styled.div`
-  position: relative;
-  padding-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-`;
-
-export const UserInfo = styled.div`
-  display: flex;
-  gap: 5px;
-`;
-
-export const AuthorName = styled.h3`
-  margin: 0;
-  font-size: 15px;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-export const AuthorCounts = styled.p`
-  color: #6e767d;
-  font-size: 15px;
-  margin: 0;
-`;
-
-export const Text = styled.p`
-  margin-block: 0 5px;
-  font-size: 16px;
-  color: #d9d9d9;
-  white-space: pre-wrap;
-`;
-
-export const MediaWrapper = styled.div`
-  margin-block: 0 6px;
-  overflow: hidden;
-  max-height: 350px;
-  border-radius: 15px;
-  border: 1px solid #2f3336;
-  display: flex;
-`;
-
-export const Media = styled.img`
-  width: 100%;
-  object-fit: contain;
-`;
+// export const AuthorCounts = styled.p`
+//   color: #6e767d;
+//   font-size: 15px;
+//   margin: 0;
+// `;

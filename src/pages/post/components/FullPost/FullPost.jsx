@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useUser from "@/hooks/useUser";
@@ -8,22 +8,21 @@ import Actions from "@/shared/components/post/Actions/Actions";
 import EditPostModal from "@/shared/components/post/PostCard/EditPostModal";
 import PostMenu from "@/shared/components/post/PostMenu/PostMenu";
 import Avatar from "@/shared/ui/Avatar/Avatar";
+import { FullPostWrapper } from "./FullPost.styled";
 import {
+  AuthorInfo,
   AuthorName,
-  Text,
+  AuthorNickname,
+  AuthorWrapper,
   Media,
   MediaWrapper,
-  AuthorCounts,
-} from "@/shared/components/post/PostCard/PostCard.styled";
-import {
-  FullPostWrapper,
+  PostContent,
   PostHeader,
-  PostAuthor,
-  UserInfo,
-} from "./FullPost.styled";
+} from "@/shared/components/post/shared.styled";
 
 function FullPost({ post }) {
-  const { avatar, name, authorId, text, media, createdTime, postId } = post;
+  const { avatar, name, authorId, text, media, createdTime, postId, nickName } =
+    post;
   const navigate = useNavigate();
   const { user } = useUser(authorId);
 
@@ -49,36 +48,29 @@ function FullPost({ post }) {
   return (
     <>
       <FullPostWrapper>
-        <PostHeader>
-          <Avatar
-            src={avatar}
-            alt={name}
-            initials={initials}
-            size={50}
-            linkTo={`/users/${authorId}`}
-          />
-          <UserInfo>
-            <PostAuthor>
-              <Link to={`/users/${authorId}`}>
-                <AuthorName>{name}</AuthorName>
-              </Link>
-              {user && (
-                <>
-                  <AuthorCounts>Підписники: {user.followersCount}</AuthorCounts>
-                  <AuthorCounts>Пости: {user.postsCount}</AuthorCounts>
-                </>
-              )}
-            </PostAuthor>
-            <PostMenu
-              variant={menuVariant}
-              isFollowing={isFollowing}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onFollow={handleFollow}
+        <PostHeader $fullPost>
+          <AuthorWrapper>
+            <Avatar
+              src={avatar}
+              alt={name}
+              initials={initials}
+              size={50}
+              linkTo={`/users/${authorId}`}
             />
-          </UserInfo>
+            <AuthorInfo $fullPost>
+              <AuthorName to={`/users/${authorId}`}>{name}</AuthorName>
+              <AuthorNickname>@{nickName}</AuthorNickname>
+            </AuthorInfo>
+          </AuthorWrapper>
+          <PostMenu
+            variant={menuVariant}
+            isFollowing={isFollowing}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onFollow={handleFollow}
+          />
         </PostHeader>
-        <Text>{text}</Text>
+        <PostContent>{text}</PostContent>
         {media && (
           <MediaWrapper>
             <Media src={media} />
@@ -96,7 +88,7 @@ function FullPost({ post }) {
 FullPost.propTypes = {
   post: PropTypes.shape({
     postId: PropTypes.string,
-    // username: PropTypes.string,
+    nickName: PropTypes.string,
     avatar: PropTypes.string,
     name: PropTypes.string,
     authorId: PropTypes.string,

@@ -10,6 +10,8 @@ export const selectActiveConversationId = (state) =>
 export const selectCurrentUser = (state) => state.chat.currentUser;
 // export const selectOtherUsers = (state) => state.chat.otherUsers;
 
+export const selectOtherUsers = (state) => state.chat.otherUsers;
+
 export const selectActiveThread = createSelector(
   [selectThreads, selectActiveConversationId],
   (threads, activeId) => {

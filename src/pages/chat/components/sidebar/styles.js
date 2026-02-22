@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Sidebar = styled.div`
   width: clamp(290px, 22vw, 360px);
-  background: white;
-  border-right: 1px solid #e4e6eb;
+  background: black;
+  border-right: 1px solid #2f3336;
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -18,8 +18,8 @@ export const Sidebar = styled.div`
 
 export const SidebarHeader = styled.div`
   padding: 20px;
-  border-bottom: 1px solid #e4e6eb;
-  color: black;
+  border-bottom: 1px solid #2f3336;
+  color: white;
 
   h2 {
     margin: 0;
@@ -49,7 +49,7 @@ export const SearchBar = styled.input`
   width: 100%;
   padding: 10px 12px 10px 36px;
   border-radius: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #2f3336;
 
   &:focus {
     outline: #1877f2;
@@ -67,7 +67,7 @@ export const ConversationItem = styled.div`
   align-items: center;
   padding: 12px 20px;
   cursor: pointer;
-  background: ${(props) => (props.active ? "#e7f3ff" : "white")};
+  background: ${(props) => (props.active ? "#e7f3ff" : "black")};
   border-right: ${(props) => (props.active ? "2px solid #3d9effff" : "white")};
   transition: background 0.2s;
   max-height: 81px;
@@ -90,6 +90,12 @@ export const Avatar = styled.div`
   position: relative;
 `;
 
+export const AvatarImg = styled.img`
+  object-fit: contain;
+  overflow: hidden;
+  border-radius: 50%;
+`;
+
 export const OnlineIndicator = styled.div`
   width: 14px;
   height: 14px;
@@ -108,7 +114,7 @@ export const ConversationInfo = styled.div`
 
 export const ConversationName = styled.div`
   font-weight: 600;
-  color: black;
+  color: ${(props) => (props.active ? "#000000" : "#ffffff")};
   font-size: 15px;
   margin-bottom: 4px;
   display: flex;
@@ -155,7 +161,7 @@ export const Timestamp = styled.span`
 
 export const LastMessage = styled.div`
   font-size: 13px;
-  color: #65676b;
+  color: ${(props) => (props.active ? "#000000" : "#ffffff")};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
