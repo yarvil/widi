@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -8,8 +7,9 @@ import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   UserCardWrapper,
   UserFullName,
-  Counters,
   UserInformation,
+  Nickname,
+  UserName,
 } from "./UserCard.styled";
 import Button from "@/shared/ui/Button/Button";
 
@@ -18,8 +18,7 @@ export default function UserCard({
   id,
   firstName,
   lastName,
-  followersCount,
-  postsCount,
+  nickName,
   following: initialIsFollowing,
 }) {
   const dispatch = useDispatch();
@@ -44,15 +43,12 @@ export default function UserCard({
         linkTo={`/users/${id}`}
       />
       <UserInformation>
-        <div>
-          <Link to={`/users/${id}`}>
-            <UserFullName>
-              {firstName} {lastName}
-            </UserFullName>
-          </Link>
-          <Counters>Підписники: {followersCount}</Counters>
-          <Counters>Пости: {postsCount}</Counters>
-        </div>
+        <UserName>
+          <UserFullName to={`/users/${id}`}>
+            {firstName} {lastName}
+          </UserFullName>
+          <Nickname>@{nickName}</Nickname>
+        </UserName>
         <div>
           <Button
             variant={isFollowing ? "secondaryDanger" : "primary"}
@@ -75,7 +71,7 @@ export default function UserCard({
 
 UserCard.propTypes = {
   id: PropTypes.string,
-  // username: PropTypes.string,
+  nickName: PropTypes.string,
   avatarUrl: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,

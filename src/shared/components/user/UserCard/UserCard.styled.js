@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const UserCardWrapper = styled.div`
@@ -15,14 +16,27 @@ export const UserInformation = styled.div`
   flex: 1;
 `;
 
-export const UserFullName = styled.p`
+export const UserName = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const UserFullName = styled(Link)`
   font-size: 16px;
   font-weight: 600;
   margin-block: 0 5px;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const Counters = styled.p`
   color: #6e767d;
   font-size: 15px;
   margin: 0;
+`;
+
+export const Nickname = styled.span`
+  color: #6e767d;
+  font-size: 15px;
 `;

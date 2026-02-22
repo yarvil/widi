@@ -5,6 +5,7 @@ const SpanText = styled.span`
   color: #6e767d;
   font-size: 15px;
 `;
+
 function PostDate({ time }) {
   const utcTime = time.endsWith("Z") ? time : time + "Z";
 

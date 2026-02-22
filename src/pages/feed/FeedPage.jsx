@@ -5,15 +5,12 @@ import PostList from "@/pages/feed/components/PostList/PostList";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 import PageWrapper from "shared/ui/PageWrapper";
 
-const ACTIVE_TAB_KEY = "feed_active_tab";
-const SORT_BY_KEY = "feed_sort_by";
-
 export default function FeedPage() {
   const [activeTab, setActiveTab] = useState(() => {
-    return localStorage.getItem(ACTIVE_TAB_KEY) || "foryou";
+    return localStorage.getItem("feed_active_tab") || "foryou";
   });
   const [sortBy, setSortBy] = useState(() => {
-    return localStorage.getItem(SORT_BY_KEY) || "latest";
+    return localStorage.getItem("feed_sort_by") || "newest";
   });
   const [showSortMenu, setShowSortMenu] = useState(false);
 
@@ -24,12 +21,12 @@ export default function FeedPage() {
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
-    localStorage.setItem(ACTIVE_TAB_KEY, tabId);
+    localStorage.setItem("feed_active_tab", tabId);
   };
 
   const handleSortChange = (sort) => {
     setSortBy(sort);
-    localStorage.setItem(SORT_BY_KEY, sort);
+    localStorage.setItem("feed_sort_by", sort);
   };
 
   return (

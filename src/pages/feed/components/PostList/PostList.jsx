@@ -24,7 +24,7 @@ import {
   NewPostsButton,
 } from "./PostList.styled";
 
-export default function PostList({ variant = "following", sortBy = "latest" }) {
+export default function PostList({ variant = "following", sortBy = "newest" }) {
   const [hasNewPosts, setHasNewPosts] = useState(false);
   const dispatch = useDispatch();
 
@@ -44,14 +44,35 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
   const fetchThunk =
     variant === "following" ? fetchMyFeedThunk : fetchFeedThunk;
 
+  // const mapSortToBackend = (sort) => {
+  //   switch (sort) {
+  //     case "newest":
+  //       return "newest";
+
+  //     case "oldest":
+  //       return "oldest";
+
+  //     case "comments":
+  //       return "comments-desc";
+
+  //     case "top":
+  //       return "likes-desc";
+
+  //     default:
+  //       return "newest";
+  //   }
+  // };
+
+  // const backendSort = mapSortToBackend(sortBy);
+
   useEffect(() => {
-    dispatch(fetchThunk(0));
-  }, [dispatch, fetchThunk]);
+    dispatch(fetchThunk({ sort: sortBy }));
+  }, [dispatch, fetchThunk, sortBy]);
 
   useEffect(() => {
     const checkNewPosts = async () => {
       try {
-        const response = await fetchApi(0);
+        const response = await fetchApi(0, 20, sortBy);
         const latestPostId = response.content[0]?.id;
         const currentFirstPostId = posts[0]?.postId;
 
@@ -69,31 +90,31 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
 
     const interval = setInterval(checkNewPosts, 60000);
     return () => clearInterval(interval);
-  }, [posts, fetchApi]);
+  }, [posts, fetchApi, sortBy]);
 
   const handleObserver = useCallback(
     (entries) => {
       const [target] = entries;
       if (target.isIntersecting && pagination.hasMore && !loading) {
-        dispatch(fetchThunk(pagination.page + 1));
+        dispatch(fetchThunk({ page: pagination.page + 1, sort: sortBy }));
       }
     },
-    [pagination.hasMore, pagination.page, loading, dispatch, fetchThunk],
+    [
+      pagination.hasMore,
+      pagination.page,
+      loading,
+      dispatch,
+      fetchThunk,
+      sortBy,
+    ],
   );
 
   useEffect(() => {
     const element = loadMoreRef.current;
-    const option = {
-      root: null,
-      rootMargin: "100px",
-      threshold: 0,
-    };
+    const option = { root: null, rootMargin: "100px", threshold: 0 };
 
     observerRef.current = new IntersectionObserver(handleObserver, option);
-
-    if (element) {
-      observerRef.current.observe(element);
-    }
+    if (element) observerRef.current.observe(element);
 
     return () => {
       if (observerRef.current && element) {
@@ -103,24 +124,20 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
   }, [handleObserver]);
 
   const handleShowNewPosts = () => {
-    dispatch(fetchThunk(0));
+    dispatch(fetchThunk({ sort: sortBy }));
     setHasNewPosts(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const filteredPosts = posts
-    .filter((post) =>
-      post.text.toLowerCase().includes(searchValue.toLowerCase()),
-    )
-    .sort((a, b) => {
-      if (a.isJustCreated && !b.isJustCreated) return -1;
-      if (!a.isJustCreated && b.isJustCreated) return 1;
+  const filteredPosts = posts.filter((post) =>
+    post.text.toLowerCase().includes(searchValue.toLowerCase()),
+  );
 
-      if (sortBy === "top") {
-        return b.likesCount - a.likesCount;
-      }
-      return new Date(b.createdTime) - new Date(a.createdTime);
-    });
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    if (a.isJustCreated && !b.isJustCreated) return -1;
+    if (!a.isJustCreated && b.isJustCreated) return 1;
+    return 0;
+  });
 
   if (loading && posts.length === 0) {
     return <Loader full={false} />;
@@ -159,7 +176,7 @@ export default function PostList({ variant = "following", sortBy = "latest" }) {
           Show new posts
         </NewPostsButton>
       )}
-      {filteredPosts.map((post) => (
+      {sortedPosts.map((post) => (
         <PostCardWrapper key={post.postId}>
           <PostCard post={post} />
         </PostCardWrapper>
