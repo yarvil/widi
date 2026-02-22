@@ -28,6 +28,15 @@ const chatSlice = createSlice({
       state.currentUser = action.payload;
     },
 
+    setOtherUsers: (state, action) => {
+      const users = action.payload;
+      const otherUserIds = state.threads
+        .map((thread) => thread.otherParticipant?.id)
+        .filter(Boolean);
+
+      state.otherUsers = users.filter((user) => otherUserIds.includes(user.id));
+    },
+
     sendMessage: (state, action) => {
       const { threadId, content } = action.payload;
 
@@ -125,5 +134,6 @@ export const {
   sendMessage,
   receiveMessage,
   deleteConversation,
+  setOtherUsers,
 } = chatSlice.actions;
 export default chatSlice.reducer;
