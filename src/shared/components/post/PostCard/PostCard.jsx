@@ -10,19 +10,23 @@ import PostMenu from "../PostMenu/PostMenu";
 import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   Content,
-  Header,
-  AuthorName,
-  Text,
-  Media,
-  MediaWrapper,
   PostContainer,
   ReplyLine,
   AvatarWrapper,
-  UserInfo,
 } from "./PostCard.styled";
+import {
+  AuthorInfo,
+  AuthorName,
+  AuthorNickname,
+  Media,
+  MediaWrapper,
+  PostContent,
+  PostHeader,
+} from "../shared.styled";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
-  const { postId, avatar, createdTime, name, authorId, text, media } = post;
+  const { postId, avatar, createdTime, name, authorId, text, media, nickName } =
+    post;
 
   const {
     menuVariant,
@@ -65,16 +69,12 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
           {withBottomLine && <ReplyLine />}
         </AvatarWrapper>
         <Content>
-          <Header>
-            <UserInfo>
-              <Link
-                style={{ display: "flex", gap: "4px" }}
-                to={`/users/${authorId}`}
-              >
-                <AuthorName>{name}</AuthorName>
-              </Link>
+          <PostHeader>
+            <AuthorInfo>
+              <AuthorName to={`/users/${authorId}`}>{name}</AuthorName>
+              <AuthorNickname>@{nickName}</AuthorNickname>
               <TimeAgo time={createdTime} />
-            </UserInfo>
+            </AuthorInfo>
             <PostMenu
               variant={menuVariant}
               isFollowing={isFollowing}
@@ -82,9 +82,9 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
               onDelete={openDeleteModal}
               onFollow={handleFollow}
             />
-          </Header>
+          </PostHeader>
           <Link to={`/post/${postId}`}>
-            <Text>{text}</Text>
+            <PostContent>{text}</PostContent>
             {media && (
               <MediaWrapper>
                 <Media src={media} loading="lazy" />
@@ -115,7 +115,7 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
 PostCard.propTypes = {
   post: PropTypes.shape({
     postId: PropTypes.string,
-    // username: PropTypes.string,
+    nickName: PropTypes.string,
     avatar: PropTypes.string,
     createdTime: PropTypes.string,
     name: PropTypes.string,

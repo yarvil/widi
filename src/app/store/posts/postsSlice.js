@@ -14,15 +14,17 @@ import { savePostApi, toggleLikeApi, unsavePostApi } from "@/api/actions";
 
 export const fetchFeedThunk = createAsyncThunk(
   "posts/fetchFeed",
-  async (page = 0) => {
-    return await fetchFeed(page);
+  async (args = {}) => {
+    const { page = 0, sort = "newest" } = args;
+    return await fetchFeed(page, 10, sort);
   },
 );
 
 export const fetchMyFeedThunk = createAsyncThunk(
   "posts/fetchMyFeed",
-  async (page = 0) => {
-    return await fetchMyFeed(page);
+  async (args = {}) => {
+    const { page = 0, sort = "newest" } = args;
+    return await fetchMyFeed(page, 10, sort);
   },
 );
 
@@ -110,7 +112,7 @@ const normalizePost = (post) => {
     postId: post.id,
     createdTime: post.createdAt,
     authorId: post.author.id,
-    // username: post.author.username,
+    nickName: post.author.nickName,
     name: `${post.author.firstName} ${post.author.lastName}`,
     avatar: post.author.avatarUrl,
     text: post.content,
@@ -159,7 +161,10 @@ const postsSlice = createSlice({
         state.loading = false;
         const newPosts = action.payload.content.map(normalizePost);
 
-        if (action.meta.arg === 0) {
+        const isFirstPage =
+          !action.meta.arg?.page || action.meta.arg?.page === 0;
+
+        if (isFirstPage) {
           state.feedPosts = newPosts;
         } else {
           state.feedPosts.push(...newPosts);
@@ -182,7 +187,10 @@ const postsSlice = createSlice({
         state.loading = false;
         const newPosts = action.payload.content.map(normalizePost);
 
-        if (action.meta.arg === 0) {
+        const isFirstPage =
+          !action.meta.arg?.page || action.meta.arg?.page === 0;
+
+        if (isFirstPage) {
           state.myFeedPosts = newPosts;
         } else {
           state.myFeedPosts.push(...newPosts);

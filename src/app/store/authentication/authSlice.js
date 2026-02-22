@@ -46,6 +46,9 @@ const authSlice = createSlice({
       localStorage.removeItem("token");
       localStorage.removeItem("userEmail");
     },
+    updateCurrentUser: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
     setUserEmail: (state, action) => {
       state.userEmail = action.payload;
     },
@@ -92,6 +95,7 @@ const authSlice = createSlice({
 
 export const {
   logout,
+  updateCurrentUser,
   setUserEmail,
   setRemember,
   setStatusMessage,
