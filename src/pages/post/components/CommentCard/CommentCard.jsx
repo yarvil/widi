@@ -3,11 +3,18 @@ import PropTypes from "prop-types";
 import useUser from "@/hooks/useUser";
 import TimeAgo from "@/shared/ui/TimeAgo";
 import Avatar from "@/shared/ui/Avatar/Avatar";
-import { AuthorName, Header, Text, Wrapper } from "./CommentCard.styled";
+import {
+  AuthorName,
+  AuthorNickname,
+  Header,
+  Text,
+  Wrapper,
+} from "./CommentCard.styled";
 
 function CommentCard({ comment }) {
-  const { content, authorId, createdAt } = comment;
+  const { content, authorId, createdAt, authorNickName } = comment;
   const { user } = useUser(authorId);
+  console.log(comment);
 
   const initials = user
     ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.trim() || "?"
@@ -23,9 +30,10 @@ function CommentCard({ comment }) {
       />
       <div>
         <Header>
-          <AuthorName>
+          <AuthorName to={`/users/${authorId}`}>
             {user ? `${user.firstName} ${user.lastName}` : "..."}
           </AuthorName>
+          <AuthorNickname>@{authorNickName}</AuthorNickname>
           <TimeAgo time={createdAt} />
         </Header>
         <Text>{content}</Text>
@@ -41,6 +49,7 @@ CommentCard.propTypes = {
     authorId: PropTypes.string.isRequired,
     postId: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    authorNickName: PropTypes.string.isRequired,
   }).isRequired,
 };
 
