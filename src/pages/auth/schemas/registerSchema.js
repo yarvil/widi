@@ -4,15 +4,23 @@ const RFC5322_EMAIL_PATTERN =
 
 const RegisterSchema = Yup.object().shape({
   firstName: Yup.string()
+    .trim()
     .required("Обов'язкове поле!")
     .min(3, "Мінімум 3 символи")
     .max(20, "Максимум 20 символів")
-    .matches(/^[A-Za-zА-Яа-яІіЇїЄєҐґ]+$/, "Тільки літери!"),
+    .matches(
+      /^\s*[A-Za-zА-Яа-яІіЇїЄєҐґ]+([ -][A-Za-zА-Яа-яІіЇїЄєҐґ]+)?\s*$/,
+      "Тільки літери!",
+    ),
   lastName: Yup.string()
+    .trim()
     .required("Обов'язкове поле!")
     .min(3, "Мінімум 3 символи")
     .max(30, "Максимум 30 символів")
-    .matches(/^[A-Za-zА-Яа-яІіЇїЄєҐґ]+$/, "Тільки літери!"),
+    .matches(
+      /^\s*[A-Za-zА-Яа-яІіЇїЄєҐґ]+([ -][A-Za-zА-Яа-яІіЇїЄєҐґ]+)?\s*$/,
+      "Тільки літери!",
+    ),
   email: Yup.string()
     .email("Невірна електронна адреса")
     .required("Обов'язкове поле!")
