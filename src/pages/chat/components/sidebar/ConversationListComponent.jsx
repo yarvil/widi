@@ -23,6 +23,7 @@ import {
   ConversationList,
   ConversationItem,
   Avatar,
+  AvatarImg,
   OnlineIndicator,
   ConversationInfo,
   ConversationName,
@@ -165,7 +166,10 @@ const ConversationListComponent = ({
             onClick={() => handleSelectThread(thread.id)}
           >
             <Avatar>
-              {thread?.otherParticipant?.nickName.slice(0, 2)}
+              <AvatarImg
+                src={thread?.otherParticipant?.avatarUrl}
+                alt="avatar"
+              />
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>

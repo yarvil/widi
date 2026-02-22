@@ -90,6 +90,12 @@ export const Avatar = styled.div`
   position: relative;
 `;
 
+export const AvatarImg = styled.img`
+  object-fit: contain;
+  overflow: hidden;
+  border-radius: 50%;
+`;
+
 export const OnlineIndicator = styled.div`
   width: 14px;
   height: 14px;

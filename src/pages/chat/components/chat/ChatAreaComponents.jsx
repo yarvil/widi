@@ -13,7 +13,7 @@ import {
   selectActiveThread,
 } from "@/app/store/chat/selectors";
 
-import { Avatar, OnlineIndicator } from "../sidebar/styles";
+import { Avatar, AvatarImg, OnlineIndicator } from "../sidebar/styles";
 import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 
 import {
@@ -84,7 +84,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          {currentThread.otherParticipant.nickName.slice(0, 2)}
+          <AvatarImg src={currentThread.otherParticipant.avatarUrl} />
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
