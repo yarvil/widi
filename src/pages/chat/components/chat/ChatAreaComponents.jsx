@@ -84,11 +84,11 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          {currentThread.otherParticipant.username.slice(0, 2)}
+          {currentThread.otherParticipant.nickName.slice(0, 2)}
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
-          <h3>{currentThread.otherParticipant.username}</h3>
+          <h3>{currentThread.otherParticipant.nickName}</h3>
           <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
         </ChatHeaderInfo>
       </ChatHeader>

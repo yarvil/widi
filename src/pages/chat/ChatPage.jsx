@@ -7,6 +7,7 @@ import {
   selectThreads,
   selectActiveConversationId,
   selectCurrentUser,
+  selectOtherUsers,
 } from "@/app/store/chat/selectors";
 import { fetchUsersThunk } from "@/app/store/users/usersSlice";
 import { receiveMessage } from "@/app/store/chat/slices/chatSlice";

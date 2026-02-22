@@ -104,7 +104,7 @@ const ConversationListComponent = ({
   // Фильтруем чаты по поиску
   const filteredThreads = useMemo(() => {
     return threads.filter((conv) =>
-      conv?.otherParticipant?.username
+      conv?.otherParticipant?.nickName
         ?.toLowerCase()
         .includes(search.toLowerCase()),
     );
@@ -165,12 +165,12 @@ const ConversationListComponent = ({
             onClick={() => handleSelectThread(thread.id)}
           >
             <Avatar>
-              {thread?.otherParticipant?.username.slice(0, 2)}
+              {thread?.otherParticipant?.nickName.slice(0, 2)}
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
               <ConversationName active={thread.id === activeConversationId}>
-                {thread.otherParticipant.username.slice(0, 9)}
+                {thread.otherParticipant.nickName.slice(0, 9)}
                 <ConversationDetails>
                   <Timestamp>{formatTime(thread.updatedAt)}</Timestamp>
                   <ConversationOptions
