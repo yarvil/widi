@@ -13,7 +13,7 @@ import {
   selectActiveThread,
 } from "@/app/store/chat/selectors";
 
-import { Avatar, OnlineIndicator } from "../sidebar/styles";
+import { Avatar, AvatarImg, OnlineIndicator } from "../sidebar/styles";
 import ArrowLeftIcon from "@/shared/assets/icons/arrow-left.svg?react";
 
 import {
@@ -31,7 +31,7 @@ import {
   BackToListButton,
 } from "./styles";
 
-const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
+const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
   const dispatch = useDispatch();
 
   const activeConversationId = useSelector(selectActiveConversationId);
@@ -53,23 +53,10 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
     dispatch(loadMessagesByThreads(activeConversationId));
   }, [activeConversationId, authUser, dispatch]);
 
-  const handleSend = () => {
-    if (inputValue.trim()) {
-      dispatch(
-        sendMessage({
-          conversationId: activeConversationId,
-          content: inputValue,
-          senderUsername: "",
-        }),
-      );
-      setInputValue("");
-    }
-  };
-
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      handleSend(inputValue);
     }
   };
 
@@ -97,11 +84,11 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          {currentThread.otherParticipant.username.slice(0, 2)}
+          <AvatarImg src={currentThread.otherParticipant.avatarUrl} />
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
-          <h3>{currentThread.otherParticipant.username}</h3>
+          <h3>{currentThread.otherParticipant.nickName}</h3>
           <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
         </ChatHeaderInfo>
       </ChatHeader>
@@ -128,7 +115,19 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
         />
-        <SendButton onClick={handleSend} disabled={!inputValue.trim()}>
+        <SendButton
+          onClick={() => {
+            handleSend(inputValue);
+            dispatch(
+              sendMessage({
+                threadId: activeConversationId,
+                content: inputValue,
+              }),
+            );
+            setInputValue("");
+          }}
+          disabled={!inputValue.trim()}
+        >
           Send
         </SendButton>
       </InputArea>
@@ -139,6 +138,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen }) => {
 ChatAreaComponent.propTypes = {
   handleChatList: PropTypes.func.isRequired,
   isChatListOpen: PropTypes.bool.isRequired,
+  handleSend: PropTypes.func,
 };
 
 export default ChatAreaComponent;

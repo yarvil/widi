@@ -23,6 +23,7 @@ import {
   ConversationList,
   ConversationItem,
   Avatar,
+  AvatarImg,
   OnlineIndicator,
   ConversationInfo,
   ConversationName,
@@ -104,7 +105,7 @@ const ConversationListComponent = ({
   // Фильтруем чаты по поиску
   const filteredThreads = useMemo(() => {
     return threads.filter((conv) =>
-      conv?.otherParticipant?.username
+      conv?.otherParticipant?.nickName
         ?.toLowerCase()
         .includes(search.toLowerCase()),
     );
@@ -165,12 +166,15 @@ const ConversationListComponent = ({
             onClick={() => handleSelectThread(thread.id)}
           >
             <Avatar>
-              {thread?.otherParticipant?.username.slice(0, 2)}
+              <AvatarImg
+                src={thread?.otherParticipant?.avatarUrl}
+                alt="avatar"
+              />
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
-              <ConversationName>
-                {thread.otherParticipant.username.slice(0, 9)}
+              <ConversationName active={thread.id === activeConversationId}>
+                {thread.otherParticipant.nickName.slice(0, 9)}
                 <ConversationDetails>
                   <Timestamp>{formatTime(thread.updatedAt)}</Timestamp>
                   <ConversationOptions
@@ -180,7 +184,7 @@ const ConversationListComponent = ({
                   </ConversationOptions>
                 </ConversationDetails>
               </ConversationName>
-              <LastMessage>
+              <LastMessage active={thread.id === activeConversationId}>
                 <LastMessageText>{thread.lastMessage}</LastMessageText>
                 {thread.unreadCount > 0 && (
                   <UnreadBadge>{thread.unreadCount}</UnreadBadge>
