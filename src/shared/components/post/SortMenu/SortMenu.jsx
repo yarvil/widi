@@ -20,8 +20,10 @@ export default function SortMenu({
   const menuRef = useRef(null);
 
   const sortOptions = [
-    { id: "latest", label: "Нові" },
-    { id: "top", label: "Популярні" },
+    { id: "newest", label: "Нові" },
+    { id: "oldest", label: "Старі" },
+    { id: "comments", label: "Коментарі" },
+    { id: "likes-desc", label: "Популярні" },
   ];
 
   useEffect(() => {

@@ -5,6 +5,8 @@ import {
   fetchUserById,
   updateUserProfile,
 } from "@/api/users";
+import { updateCurrentUser } from "../authentication/authSlice";
+import { fetchGet } from "@/api/client";
 
 export const fetchUsersThunk = createAsyncThunk(
   "users/fetchUsers",
@@ -29,8 +31,16 @@ export const fetchUserByIdThunk = createAsyncThunk(
 
 export const updateUserProfileThunk = createAsyncThunk(
   "users/updateUserProfile",
-  async (data) => {
-    return await updateUserProfile(data);
+  async (data, { dispatch, getState }) => {
+    await updateUserProfile(data);
+    const fullUserData = await fetchGet("api/user/me");
+    const currentUserId = getState().auth.user?.id;
+
+    if (currentUserId === fullUserData.id) {
+      dispatch(updateCurrentUser(fullUserData));
+    }
+
+    return fullUserData;
   },
 );
 
