@@ -8,7 +8,6 @@ import StatusMessage from "./store/authentication/StatusMessage";
 import { checkAuth } from "./store/authentication/authSlice";
 
 function App() {
-  console.log("APP RENDER");
   
   const dispatch = useDispatch();
   
