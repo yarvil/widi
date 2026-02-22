@@ -44,7 +44,7 @@ const chatSlice = createSlice({
         id: `temp-${Date.now()}`, // временный id
         threadId: threadId,
         senderId: state.currentUser.id,
-        senderUsername: state.currentUser.username,
+        senderUsername: state.currentUser.nickName,
         content,
         createdAt: new Date().toISOString(),
         messageType: "TEXT",
