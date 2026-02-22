@@ -14,12 +14,25 @@ import { CloseButton } from "../Notifications/NotificationsStyled";
 import PostDate from "../post/components/PostDate";
 
 export default function Notifications({ notification }) {
-  const { id, message, createdAt, link, isRead } = notification;
+  const { id, message, createdAt, link, isRead,type } = notification;
   const dispatch = useDispatch()
-  const postId = link.split("/").pop();
+  const ID = link.split("/").pop();
+  function handleLink(){
+    switch(type){
+      case 'FOLLOW':
+       return  `/users/${ID}`
+      case 'NEW_POST':
+        return `/post/${ID}`
+      case 'COMMENT':
+        return `/post/${ID}`
+      case 'LIKE':
+        return `/post/${ID}`
+    }
+
+  }
   return (
     <>
-      <NotificationPostLink to={`/post/${postId}`} onClick={() => dispatch(readNotificationThunk(id))}>
+      <NotificationPostLink to={handleLink()} onClick={() => dispatch(readNotificationThunk(id))}>
         <NotificationsPost >
           {!isRead && <CircleNotif />}
           <UserInfoWrapper>

@@ -1,11 +1,12 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
 import MenuIcon from "@/shared/assets/icons/menu.svg?react";
 import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
 import LogOutIcon from "@/shared/assets/icons/log-out.svg?react";
 import HomeIcon from "@/shared/assets/icons/house.svg?react";
+import CircleNotif from '@/shared/assets/icons/circle.svg?react'
 import CloseIcon from '@/shared/assets/icons/x-icon.svg?react'
 import ProfileIcon from "@/shared/assets/icons/circle-user-round.svg?react";
 import NotificationIcon from "@/shared/assets/icons/bell.svg?react";
@@ -33,7 +34,7 @@ import {
   MenuOverlay
 } from "./HeaderStyled";
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
-
+import { selectAllNotificationsCount } from "@/app/store/notifications/notificationsSelector";
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logout } from "@/app/store/authentication/authSlice";
 
@@ -41,11 +42,13 @@ import { logout } from "@/app/store/authentication/authSlice";
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
   const currentUser = useSelector(selectCurrentUser);
+  const unCountNotifications = useSelector(selectAllNotificationsCount)
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isDesktop = useMediaQuery("(min-width: 769px)");
+   
   function showBurgerMenu() {
     dispatch(actionMenu());
   }
@@ -132,6 +135,7 @@ export default function AuthMenu() {
                         to={item.path}
                         onClick={() => dispatch(closeMenu())}
                       >
+                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
                         {item.icon}
                         {item.name}
                       </MenuItem>
@@ -179,8 +183,10 @@ export default function AuthMenu() {
                         onClick={(e) => {
                           handleProfileClick(e);
                           dispatch(closeMenu());
-                        }}
+                        }
+                      }
                       >
+                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
                         {item.icon}
                         {item.name}
                       </Link>
@@ -232,6 +238,7 @@ export default function AuthMenu() {
                   {item.isCustom ? (
                     <NavLink to={`/users/${currentUser.id}`} onClick={handleProfileClick}>
                       <IconWrapper >
+                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>
@@ -239,6 +246,7 @@ export default function AuthMenu() {
                   ) : (
                     <NavLink to={item.path}>
                       <IconWrapper>
+                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>

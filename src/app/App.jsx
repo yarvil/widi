@@ -14,6 +14,8 @@ function App() {
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+
   
   useNotificationsSocket();
   return (

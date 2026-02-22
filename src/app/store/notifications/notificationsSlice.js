@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMyNotifications, readNotification, deleteNotification } from "@/api/notifications";
+import { fetchMyNotifications, readNotification, deleteNotification, allNotificationsCount } from "@/api/notifications";
 
 export const fetchMyNotificationsThunk = createAsyncThunk(
   "notifications/fetchMyNotifications",
@@ -7,6 +7,13 @@ export const fetchMyNotificationsThunk = createAsyncThunk(
     return await fetchMyNotifications();
   },
 );
+
+export const fetchAllNotificationsCountThunk = createAsyncThunk(
+  'notifications/allnotificationscount',
+  async () => {
+    return await allNotificationsCount();
+  }
+)
 export const readNotificationThunk = createAsyncThunk(
   'notifications/readNotification',
   async (id) => {
@@ -38,6 +45,7 @@ const notificationSlice = createSlice({
   name: "notifications",
   initialState: {
     myFeedNotifications: [],
+    unreadCounts: 0,
     loading: false,
   },
   reducers: {
@@ -47,8 +55,8 @@ const notificationSlice = createSlice({
       );
     },
     addNotification: (state, action) => {
-      const normalized = normalizeNotifications(action.payload);
-      state.myFeedNotifications.unshift(normalized); 
+      state.myFeedNotifications.unshift(action.payload);
+      state.unreadCounts += 1;
     }
 
   },
@@ -62,15 +70,19 @@ const notificationSlice = createSlice({
         const notification = state.myFeedNotifications.find(
           n => n.id === action.payload
         );
-        if (notification) {
+        if (notification && !notification.isRead) {
           notification.isRead = true;
+          state.unreadCounts -= 1
         }
       })
       .addCase(deleteNotificationThunk.fulfilled, (state, action) => {
         state.myFeedNotifications =
           state.myFeedNotifications.filter(n => n.id !== action.payload);
       })
+      .addCase(fetchAllNotificationsCountThunk.fulfilled, (state, action) => {
+        state.unreadCounts = action.payload
+      })
   },
 })
-export const { removeNotification,addNotification } = notificationSlice.actions
+export const { removeNotification,addNotification} = notificationSlice.actions
 export default notificationSlice.reducer
