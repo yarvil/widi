@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGet } from "@/api/client";
 
 const getInitialState = () => {
-  const remember = localStorage.getItem("remember") === "true" || false;
   const userEmail = localStorage.getItem("userEmail") || "";
   const token = localStorage.getItem("token");
 
@@ -11,7 +10,6 @@ const getInitialState = () => {
     token: token || null,
     user: null,
     userEmail,
-    remember,
     statusMessage: null,
     messageType: null,
     loading: true,
@@ -47,7 +45,6 @@ const authSlice = createSlice({
       state.remember = false;
       localStorage.removeItem("token");
       localStorage.removeItem("userEmail");
-      localStorage.removeItem("remember");
     },
     setUserEmail: (state, action) => {
       state.userEmail = action.payload;
