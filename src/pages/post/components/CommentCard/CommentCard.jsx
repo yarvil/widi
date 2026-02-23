@@ -14,7 +14,6 @@ import {
 function CommentCard({ comment }) {
   const { content, authorId, createdAt, authorNickName } = comment;
   const { user } = useUser(authorId);
-  console.log(comment);
 
   const initials = user
     ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.trim() || "?"
