@@ -28,12 +28,12 @@ export default function FavoriteList() {
   return (
     <>
       <PageWrapper>
-        <PageHeader title="Bookmarks" />
+        <PageHeader title="Збережені" />
         {savePost.length === 0 && (
           <SaveWrapper>
-            <TitleSave>Save posts for later</TitleSave>
+            <TitleSave>Збережіть публікації на потім</TitleSave>
             <TextSave>
-              Bookmark posts to easily find them again in the future
+              Додайте публікації до збережених, щоб легко знаходити їх у майбутньому
             </TextSave>
           </SaveWrapper>
         )}
