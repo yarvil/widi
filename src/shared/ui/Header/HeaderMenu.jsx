@@ -36,7 +36,7 @@ import {
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 import { selectAllNotificationsCount } from "@/app/store/notifications/notificationsSelector";
 import { setSearchValue } from "@/app/store/search/searchSlice";
-import { logout } from "@/app/store/authentication/authSlice";
+import { logoutThunk } from "@/app/store/authentication/authSlice";
 
 
 export default function AuthMenu() {
@@ -81,8 +81,9 @@ export default function AuthMenu() {
   function closeModal() {
     setModal(!modal);
   }
-  function logOut() {
-    dispatch(logout());
+  async function logOut() {
+    await dispatch(logoutThunk()).unwrap();
+    navigate("/auth");
   }
   return (
     <>
