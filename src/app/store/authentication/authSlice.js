@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGet } from "@/api/client";
-import { showStatusMessage } from "./authThunk";
 
 const getInitialState = () => {
   const userEmail = localStorage.getItem("userEmail") || "";
+  const token = localStorage.getItem("token");
 
   return {
     isAuthenticated: false,
+    token: token || null,
     user: null,
     userEmail,
     statusMessage: null,
@@ -17,24 +18,12 @@ const getInitialState = () => {
 
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
-  async (_, { rejectWithValue, dispatch }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await fetchGet("api/user/me");
 
       return { isAuthenticated: true, user: response };
     } catch (error) {
-      const token = localStorage.getItem("token");
-
-      if (error.response?.status === 401 && token) {
-        localStorage.removeItem("token");
-
-        dispatch(
-          showStatusMessage({
-            message: "Термін сесії закінчився. Увійдіть знову.",
-            type: "error",
-          }),
-        );
-      }
       return rejectWithValue({
         statusMessage: `${error.response.status} ${error.response.data.message}`,
         messageType: "error",
@@ -90,10 +79,16 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.userEmail = action.payload.user.email;
       })
-      .addCase(checkAuth.rejected, (state) => {
+      .addCase(checkAuth.rejected, (state, action) => {
         state.loading = false;
-        state.isAuthenticated = false;
-        state.user = null;
+        if (!state.token) {
+          state.isAuthenticated = false;
+          state.user = null;
+        }
+        if (action.payload) {
+          state.statusMessage = action.payload.statusMessage;
+          state.messageType = action.payload.messageType;
+        }
       });
   },
 });
