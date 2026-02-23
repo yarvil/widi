@@ -13,6 +13,8 @@ function useNotificationsSocket() {
    
     const dispatch = useDispatch()
     const isAuth = useSelector(selectIsAuthenticated);
+    const token = localStorage.getItem('token')
+    console.log(token)
 
     const stompClientRef = useRef(null);
     useEffect(() => {
@@ -28,7 +30,7 @@ function useNotificationsSocket() {
             debug: (str) => {
                 console.log(str);
             },
-            // connectHeaders: { Authorization: `Bearer ${token}` },
+            connectHeaders: { Authorization: `Bearer ${token}` },
             onConnect: () => {
                 console.log("Connected to WebSocket");
 
@@ -56,6 +58,6 @@ function useNotificationsSocket() {
                 console.log("WebSocket disconnected");
             }
         };
-    }, [isAuth, currentUser?.id, dispatch]);
+    }, [isAuth, currentUser?.id,token, dispatch]);
 }
 export default useNotificationsSocket
