@@ -14,7 +14,7 @@ function useNotificationsSocket() {
     const dispatch = useDispatch()
     const isAuth = useSelector(selectIsAuthenticated);
     const token = localStorage.getItem('token')
-    console.log(token)
+   
 
     const stompClientRef = useRef(null);
     useEffect(() => {
