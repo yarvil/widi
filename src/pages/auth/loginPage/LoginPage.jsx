@@ -64,7 +64,12 @@ function LoginPage() {
           localStorage.removeItem("userEmail");
         }
 
+        localStorage.setItem("token", response.token);
+        console.log("TOKEN AFTER LOGIN:", localStorage.getItem("token"));
+
         await dispatch(checkAuth());
+
+        console.log("TOKEN AFTER checkAuth:", localStorage.getItem("token"));
 
         dispatch(
           showStatusMessage({
