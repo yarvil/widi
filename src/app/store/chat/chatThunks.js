@@ -19,7 +19,6 @@ export const loadMessagesByThreads = createAsyncThunk(
   "chat/loadMessagesByConversation",
   async (conversationId) => {
     const messages = await fetchMessages(conversationId);
-    // console.log(messages);
     return { conversationId, messages };
   },
 );

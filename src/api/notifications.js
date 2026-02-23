@@ -23,3 +23,7 @@ export async function readNotification(notificationId) {
 export async function deleteNotification(notificationId) {
   return await apiRequest("DELETE", `api/notifications/${notificationId}`);
 }
+export async function allNotificationsCount() {
+  return await apiRequest('GET', 'api/notifications/unread-count');
+  
+}
