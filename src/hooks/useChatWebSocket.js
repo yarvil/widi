@@ -8,7 +8,6 @@ export function useWebSocket() {
   const [connected, setConnected] = useState(false);
 
   const jwtToken = localStorage.getItem("token");
-  console.log(jwtToken);
 
   useEffect(() => {
     const socket = new SockJS("https://step-project-api.onrender.com/ws");
