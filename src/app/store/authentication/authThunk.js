@@ -19,12 +19,13 @@ const showStatusMessage =
     if (error !== null) {
       if (error?.response) {
         const errorStatus = error?.response?.status;
-        const errorMessage = error?.response?.message;
+        const errorMessage = error?.response?.data?.message;
+
         messageContent = `Відбулася помилка №${errorStatus}, ${errorMessage}`;
         typeMessage = "error";
       } else if (error?.message) {
         console.error("status", error.message);
-        messageContent = `Відбулася помилка: №${error.message}`;
+        messageContent = `Відбулася помилка: ${error.message}`;
         typeMessage = "error";
       } else {
         messageContent = "Невідома помилка";
