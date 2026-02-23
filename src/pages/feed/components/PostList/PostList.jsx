@@ -44,27 +44,6 @@ export default function PostList({ variant = "following", sortBy = "newest" }) {
   const fetchThunk =
     variant === "following" ? fetchMyFeedThunk : fetchFeedThunk;
 
-  // const mapSortToBackend = (sort) => {
-  //   switch (sort) {
-  //     case "newest":
-  //       return "newest";
-
-  //     case "oldest":
-  //       return "oldest";
-
-  //     case "comments":
-  //       return "comments-desc";
-
-  //     case "top":
-  //       return "likes-desc";
-
-  //     default:
-  //       return "newest";
-  //   }
-  // };
-
-  // const backendSort = mapSortToBackend(sortBy);
-
   useEffect(() => {
     dispatch(fetchThunk({ sort: sortBy }));
   }, [dispatch, fetchThunk, sortBy]);
