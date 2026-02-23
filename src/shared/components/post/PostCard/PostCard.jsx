@@ -20,8 +20,10 @@ import {
   AuthorNickname,
   Media,
   MediaWrapper,
+  NameWrapper,
   PostContent,
   PostHeader,
+  SecondaryInfo,
 } from "../shared.styled";
 
 function PostCard({ post, withTopLine = false, withBottomLine = false }) {
@@ -71,9 +73,13 @@ function PostCard({ post, withTopLine = false, withBottomLine = false }) {
         <Content>
           <PostHeader>
             <AuthorInfo>
-              <AuthorName to={`/users/${authorId}`}>{name}</AuthorName>
-              <AuthorNickname>@{nickName}</AuthorNickname>
-              <TimeAgo time={createdTime} />
+              <NameWrapper>
+                <AuthorName to={`/users/${authorId}`}>{name}</AuthorName>
+              </NameWrapper>
+              <SecondaryInfo>
+                <AuthorNickname>@{nickName}</AuthorNickname>
+                <TimeAgo time={createdTime} />
+              </SecondaryInfo>
             </AuthorInfo>
             <PostMenu
               variant={menuVariant}
