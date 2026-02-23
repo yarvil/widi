@@ -1,7 +1,7 @@
 import { setStatusMessage, clearStatusMessage } from "./authSlice";
 
 const showStatusMessage =
-  ({ message, type }) =>
+  ({ message, type, error = null }) =>
   (dispatch) => {
     let messageContent = message;
     let typeMessage = type;
@@ -16,22 +16,22 @@ const showStatusMessage =
       return;
     }
 
-    // if (error !== null) {
-    //   if (error?.response) {
-    //     const errorStatus = error?.response?.status;
-    //     const errorMessage = error?.response?.data?.message;
+    if (error !== null) {
+      if (error?.response) {
+        const errorStatus = error?.response?.status;
+        const errorMessage = error?.response?.data?.message;
 
-    //     messageContent = `Відбулася помилка №${errorStatus}, ${errorMessage}`;
-    //     typeMessage = "error";
-    //   } else if (error?.message) {
-    //     console.error("status", error.message);
-    //     messageContent = `Відбулася помилка: ${error.message}`;
-    //     typeMessage = "error";
-    //   } else {
-    //     messageContent = "Невідома помилка";
-    //     typeMessage = "error";
-    //   }
-    // }
+        messageContent = `Відбулася помилка №${errorStatus}, ${errorMessage}`;
+        typeMessage = "error";
+      } else if (error?.message) {
+        console.error("status", error.message);
+        messageContent = `Відбулася помилка: ${error.message}`;
+        typeMessage = "error";
+      } else {
+        messageContent = "Невідома помилка";
+        typeMessage = "error";
+      }
+    }
 
     dispatch(setStatusMessage({ message: messageContent, type: typeMessage }));
     setTimeout(() => dispatch(clearStatusMessage()), 4000);
