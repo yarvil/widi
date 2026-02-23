@@ -22,7 +22,7 @@ export default function SortMenu({
   const sortOptions = [
     { id: "newest", label: "Нові" },
     { id: "oldest", label: "Старі" },
-    { id: "comments", label: "Коментарі" },
+    { id: "comments-desc", label: "Коментарі" },
     { id: "likes-desc", label: "Популярні" },
   ];
 
