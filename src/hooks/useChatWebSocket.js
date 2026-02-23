@@ -16,6 +16,9 @@ export function useWebSocket() {
 
     const stompClient = new Client({
       webSocketFactory: () => socket,
+      // connectHeaders: {
+      //   Authorization: `Bearer ${jwtToken}`,
+      // },
       reconnectDelay: 5000,
       debug: (str) => console.log("STOMP DEBUG:", str),
 
