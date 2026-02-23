@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Logotype from "@/shared/assets/logo/logotype.svg?react";
 
 import {
@@ -19,6 +19,14 @@ function AuthPage() {
     window.location.href =
       "https://step-project-api.onrender.com/oauth2/authorization/google";
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+  }, []);
 
   return (
     <PageWrapper>

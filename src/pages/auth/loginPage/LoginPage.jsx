@@ -26,10 +26,7 @@ import {
   setUserEmail,
   checkAuth,
 } from "@/app/store/authentication/authSlice";
-import {
-  selectUserEmail,
-  selectRemember,
-} from "@/app/store/authentication/authSelectors";
+import { selectUserEmail } from "@/app/store/authentication/authSelectors";
 import { showStatusMessage } from "@/app/store/authentication/authThunk";
 
 function LoginPage() {
@@ -37,7 +34,6 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const email = useSelector(selectUserEmail);
-  const remember = useSelector(selectRemember);
 
   const {
     errors,
@@ -50,12 +46,14 @@ function LoginPage() {
     initialValues: {
       email: email || "",
       password: "",
-      remember: remember || false,
+      remember: false,
     },
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       try {
-        await fetchPost(values, "api/auth/login");
+        const response = await fetchPost(values, "api/auth/login");
+
+        localStorage.setItem("token", response.token);
 
         dispatch(setUserEmail(values.email));
         dispatch(setRemember(values.remember));
