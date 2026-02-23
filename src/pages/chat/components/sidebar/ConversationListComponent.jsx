@@ -147,11 +147,11 @@ const ConversationListComponent = ({
   return (
     <Sidebar $isChatListOpen={isChatListOpen}>
       <SidebarHeader>
-        <h2>Messages</h2>
+        <h2>Повідомлення</h2>
         <SearchWrapper>
           <SearchIcon src={SearchIconSvg} />
           <SearchBar
-            placeholder="Search Direct Messages"
+            placeholder="Знайти чат"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -200,7 +200,7 @@ const ConversationListComponent = ({
                     dispatch(deleteConversation(thread.id));
                   }}
                 >
-                  Delete Chat
+                  Видалити чат
                 </button>
               </ConversationOptionsMenu>
             )}
@@ -209,11 +209,11 @@ const ConversationListComponent = ({
 
         {!isConversation && (
           <CreateChatConatainer>
-            <CreateChatTitle>Create a new chat</CreateChatTitle>
+            <CreateChatTitle>Створити новий чат</CreateChatTitle>
             <CreateChatSearch
               value={searchNewParticipants}
               onChange={(e) => setSearchNewParticipants(e.target.value)}
-              placeholder="Search users..."
+              placeholder="Знайти користувача..."
             />
             <CreateChatList>
               {filteredNewParticipants.map((participant) => (
