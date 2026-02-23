@@ -1,21 +1,15 @@
 const BASE_URL = "https://step-project-api.onrender.com";
 
 export async function apiRequest(method, url, body = null) {
-  const token = localStorage.getItem("token");
-
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
   };
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
   const options = {
     method,
     headers,
-    credentials: token ? "omit" : "include",
+    credentials: "include",
   };
 
   if (body) {

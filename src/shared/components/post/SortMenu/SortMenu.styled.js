@@ -19,7 +19,7 @@ export const ChevronWrapper = styled.span`
 export const DropdownMenu = styled.div`
   position: absolute;
   top: 100%;
-  right: 0;
+  left: -65px;
   background: #000;
   border: 1px solid #2f3336;
   border-radius: 12px;

@@ -7,6 +7,8 @@ import { formatPostTime } from "@/shared/utils/formatPostTime";
 const SpanText = styled.span`
   color: #6e767d;
   font-size: 15px;
+  white-space: nowrap;
+  flex-shrink: 0;
 `;
 
 function TimeAgo({ time }) {

@@ -6,7 +6,9 @@ import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   AuthorName,
   AuthorNickname,
+  Content,
   Header,
+  SecondaryInfo,
   Text,
   Wrapper,
 } from "./CommentCard.styled";
@@ -14,7 +16,6 @@ import {
 function CommentCard({ comment }) {
   const { content, authorId, createdAt, authorNickName } = comment;
   const { user } = useUser(authorId);
-  console.log(comment);
 
   const initials = user
     ? `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}`.trim() || "?"
@@ -28,16 +29,18 @@ function CommentCard({ comment }) {
         size={40}
         linkTo={`/users/${authorId}`}
       />
-      <div>
+      <Content>
         <Header>
           <AuthorName to={`/users/${authorId}`}>
             {user ? `${user.firstName} ${user.lastName}` : "..."}
           </AuthorName>
-          <AuthorNickname>@{authorNickName}</AuthorNickname>
-          <TimeAgo time={createdAt} />
+          <SecondaryInfo>
+            <AuthorNickname>@{authorNickName}</AuthorNickname>
+            <TimeAgo time={createdAt} />
+          </SecondaryInfo>
         </Header>
         <Text>{content}</Text>
-      </div>
+      </Content>
     </Wrapper>
   );
 }
