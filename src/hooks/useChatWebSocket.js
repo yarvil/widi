@@ -7,18 +7,17 @@ export function useWebSocket() {
   const subscriptionsRef = useRef({});
   const [connected, setConnected] = useState(false);
 
+  const jwtToken = localStorage.getItem("token");
+  console.log(jwtToken);
+
   useEffect(() => {
-    const socket = new SockJS(
-      "https://step-project-api.onrender.com/ws",
-      null,
-      { withCredentials: true },
-    );
+    const socket = new SockJS("https://step-project-api.onrender.com/ws");
 
     const stompClient = new Client({
       webSocketFactory: () => socket,
-      // connectHeaders: {
-      //   Authorization: `Bearer ${jwtToken}`,
-      // },
+      connectHeaders: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
       reconnectDelay: 5000,
       debug: (str) => console.log("STOMP DEBUG:", str),
 
