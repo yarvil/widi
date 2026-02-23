@@ -73,6 +73,8 @@ function RegisterPage() {
           );
         }
 
+        localStorage.setItem("token", response.token);
+
         await dispatch(checkAuth());
 
         dispatch(setUserEmail(values.email));
