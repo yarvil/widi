@@ -74,10 +74,11 @@ function LoginPage() {
         );
 
         navigate("/");
-      } catch (error) {
+      } catch {
         dispatch(
           showStatusMessage({
-            error: error,
+            message: "Невірна електронна пошта або пароль",
+            type: "error",
           }),
         );
       }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import registerSchema from "../schemas/registerSchema";
 import {
@@ -28,6 +28,7 @@ import { DAYS, MONTHS, YEARS } from "./dateConstants";
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [isNickName, setIsNickName] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -43,6 +44,7 @@ function RegisterPage() {
     initialValues: {
       firstName: "",
       lastName: "",
+      nickName: "",
       email: "",
       birthDay: "",
       birthMonth: "",
@@ -57,6 +59,7 @@ function RegisterPage() {
         const user = {
           firstName: values.firstName.trim(),
           lastName: values.lastName.trim(),
+          nickName: values.nickName,
           email: values.email,
           birthDate: values.birthDate,
           password: values.password,
@@ -75,24 +78,33 @@ function RegisterPage() {
 
         localStorage.setItem("token", response.token);
 
-        console.log("TOKEN AFTER LOGIN:", localStorage.getItem("token"));
-
         await dispatch(checkAuth());
 
-        console.log("TOKEN AFTER checkAuth:", localStorage.getItem("token"));
-
         dispatch(setUserEmail(values.email));
+
         navigate("/");
       } catch (error) {
         dispatch(
           showStatusMessage({
-            error: error || "Помилка реєстрації",
+            error: error.response?.data || "Помилка під час реєстрації",
             type: "error",
           }),
         );
       }
     },
   });
+
+  useEffect(() => {
+    if (
+      !values.nickName &&
+      values.email &&
+      values.email.includes("@") &&
+      !isNickName
+    ) {
+      const nickName = values.email.split("@")[0];
+      setFieldValue("nickName", nickName);
+    }
+  }, [values.email, values.nickName, isNickName, setFieldValue]);
 
   useEffect(() => {
     if (values.birthDay && values.birthMonth && values.birthYear) {
@@ -169,6 +181,21 @@ function RegisterPage() {
                 {...getFieldProps("email")}
               />
               {touched.email && <InputError>{errors.email}</InputError>}
+            </Label>
+
+            <Label htmlFor="nickName">
+              <InputName>Нікнейм</InputName>
+              <Input
+                type="nickName"
+                name="nickName"
+                id="nickName"
+                autoComplete="nickName"
+                value={values.nickName}
+                onChange={(e) => {
+                  setFieldValue("nickName", e.target.value);
+                  setIsNickName(true);
+                }}
+              />
             </Label>
 
             <DateWrapper>
