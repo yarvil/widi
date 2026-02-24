@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFormik } from "formik";
 import registerSchema from "../schemas/registerSchema";
 import {
@@ -28,7 +28,6 @@ import { DAYS, MONTHS, YEARS } from "./dateConstants";
 
 function RegisterPage() {
   const navigate = useNavigate();
-  const [isNickName, setIsNickName] = useState(false);
   const dispatch = useDispatch();
 
   const {
@@ -95,16 +94,11 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    if (
-      !values.nickName &&
-      values.email &&
-      values.email.includes("@") &&
-      !isNickName
-    ) {
+    if (!values.nickName && values.email && values.email.includes("@")) {
       const nickName = values.email.split("@")[0];
       setFieldValue("nickName", nickName);
     }
-  }, [values.email, values.nickName, isNickName, setFieldValue]);
+  }, [values.email, values.nickName, setFieldValue]);
 
   useEffect(() => {
     if (values.birthDay && values.birthMonth && values.birthYear) {
@@ -170,6 +164,23 @@ function RegisterPage() {
               {touched.lastName && <InputError>{errors.lastName}</InputError>}
             </Label>
 
+            <Label
+              htmlFor="nickName"
+              $isError={touched.nickName && errors.nickName}
+            >
+              <InputName>Нікнейм</InputName>
+              <Input
+                type="text"
+                name="nickName"
+                id="nickName"
+                autoComplete="nickName"
+                value={values.nickName}
+                $isError={touched.nickName && errors.nickName}
+                {...getFieldProps("nickName")}
+              />
+              {touched.nickName && <InputError>{errors.nickName}</InputError>}
+            </Label>
+
             <Label htmlFor="email" $isError={touched.email && errors.email}>
               <InputName>Електронна пошта</InputName>
               <Input
@@ -181,21 +192,6 @@ function RegisterPage() {
                 {...getFieldProps("email")}
               />
               {touched.email && <InputError>{errors.email}</InputError>}
-            </Label>
-
-            <Label htmlFor="nickName">
-              <InputName>Нікнейм</InputName>
-              <Input
-                type="nickName"
-                name="nickName"
-                id="nickName"
-                autoComplete="nickName"
-                value={values.nickName}
-                onChange={(e) => {
-                  setFieldValue("nickName", e.target.value);
-                  setIsNickName(true);
-                }}
-              />
             </Label>
 
             <DateWrapper>
