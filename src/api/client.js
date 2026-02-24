@@ -20,10 +20,23 @@ export async function apiRequest(method, url, body = null) {
     const response = await fetch(`${BASE_URL}/${url}`, options);
 
     if (!response.ok) {
-      const error = new Error(response.statusText);
+      let errorData = null;
+
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = null;
+      }
+
+      const error = new Error(
+        errorData?.message || response.statusText || "Невідома помилка",
+      );
+
       error.response = {
         status: response.status,
-        message: response.statusText,
+        data: errorData,
+        message:
+          errorData?.message || response.statusText || "Невідома помилка",
       };
       throw error;
     }
@@ -46,7 +59,7 @@ export async function apiRequest(method, url, body = null) {
   } catch (error) {
     if (!error.response) {
       error.response = {
-        status: 0,
+        status: 500,
         message:
           "Сервіс тимчасово недоступний, або перевірте інтернет підключення",
       };

@@ -21,6 +21,13 @@ const RegisterSchema = Yup.object().shape({
       /^\s*[A-Za-zА-Яа-яІіЇїЄєҐґ]+([ -][A-Za-zА-Яа-яІіЇїЄєҐґ]+)?\s*$/,
       "Тільки літери!",
     ),
+  nickName: Yup.string()
+    .trim()
+    .notRequired()
+    .matches(
+      /^[A-Za-z0-9._-]*$/,
+      "Нікнейм може містити лише латинські літери, цифри та символи . - _",
+    ),
   email: Yup.string()
     .email("Невірна електронна адреса")
     .required("Обов'язкове поле!")

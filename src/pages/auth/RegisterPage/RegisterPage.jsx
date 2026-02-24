@@ -43,6 +43,7 @@ function RegisterPage() {
     initialValues: {
       firstName: "",
       lastName: "",
+      nickName: "",
       email: "",
       birthDay: "",
       birthMonth: "",
@@ -57,6 +58,7 @@ function RegisterPage() {
         const user = {
           firstName: values.firstName.trim(),
           lastName: values.lastName.trim(),
+          nickName: values.nickName,
           email: values.email,
           birthDate: values.birthDate,
           password: values.password,
@@ -75,24 +77,28 @@ function RegisterPage() {
 
         localStorage.setItem("token", response.token);
 
-        console.log("TOKEN AFTER LOGIN:", localStorage.getItem("token"));
-
         await dispatch(checkAuth());
 
-        console.log("TOKEN AFTER checkAuth:", localStorage.getItem("token"));
-
         dispatch(setUserEmail(values.email));
+
         navigate("/");
       } catch (error) {
         dispatch(
           showStatusMessage({
-            error: error || "Помилка реєстрації",
+            error: error.response?.data || "Помилка під час реєстрації",
             type: "error",
           }),
         );
       }
     },
   });
+
+  useEffect(() => {
+    if (!values.nickName && values.email && values.email.includes("@")) {
+      const nickName = values.email.split("@")[0];
+      setFieldValue("nickName", nickName);
+    }
+  }, [values.email, values.nickName, setFieldValue]);
 
   useEffect(() => {
     if (values.birthDay && values.birthMonth && values.birthYear) {
@@ -156,6 +162,23 @@ function RegisterPage() {
                 {...getFieldProps("lastName")}
               />
               {touched.lastName && <InputError>{errors.lastName}</InputError>}
+            </Label>
+
+            <Label
+              htmlFor="nickName"
+              $isError={touched.nickName && errors.nickName}
+            >
+              <InputName>Нікнейм</InputName>
+              <Input
+                type="text"
+                name="nickName"
+                id="nickName"
+                autoComplete="nickName"
+                value={values.nickName}
+                $isError={touched.nickName && errors.nickName}
+                {...getFieldProps("nickName")}
+              />
+              {touched.nickName && <InputError>{errors.nickName}</InputError>}
             </Label>
 
             <Label htmlFor="email" $isError={touched.email && errors.email}>

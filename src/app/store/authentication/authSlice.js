@@ -43,7 +43,7 @@ export const checkAuth = createAsyncThunk(
         );
       }
       return rejectWithValue({
-        statusMessage: `${error.response.status} ${error.response.data.message}`,
+        statusMessage: `${error.response.status} ${error.response.message}`,
         messageType: "error",
       });
     }
