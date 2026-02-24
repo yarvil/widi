@@ -84,12 +84,23 @@ export const HeaderWrapper = styled.div`
 export const MenuSideWrapper = styled.div`
   display: flex;
   gap: 5px;
-
   .active {
     color: ${(props) =>
       props.$logOut ? "rgb(244, 33, 46)" : "rgb(29, 155, 240)"};
   }
+  
 `;
+
+export const MenuOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0,0,0,0.4); 
+  z-index: 90;
+`;
+
 export const HeaderSearch = styled.input`
   width: 180px;
   padding: 8px 35px 8px 12px;
@@ -118,15 +129,43 @@ export const HeaderSearch = styled.input`
     width: 150px;
     font-size: 12px;
     background-size: 16px 16px;
-    &:placeholder {
-      color: #aaa;
-      font-size: 12px;
-    }
+    
   }
 `;
+
+export const CloseButton = styled.button`
+position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(90deg);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    stroke-width: 2;
+  }
+`;
+
+
 export const MenuMiddleWrapper = styled.div`
  display: flex;
   flex-direction: column;
+  position:relative;
 
   @media (max-width: 768px) {
     position: fixed;
@@ -138,6 +177,7 @@ export const MenuMiddleWrapper = styled.div`
     padding: 80px 20px 20px;
     gap: 8px;
     border-left: 1px solid #2f3336;
+    z-index:100;
   }
 
   @media (min-width: 769px) {
@@ -191,7 +231,15 @@ export const Title = styled.h1`
   font-size: 32px;
   font-family: "Style Script", cursive;
   margin-block: 0;
+  @media(max-width:500px){
+  display:none;
+  }
 `;
+export const TitleMob = styled.h1`
+font-size: 32px;
+  font-family: "Style Script", cursive;
+  margin-block: 0;
+`
 
 export const ModalText = styled.p`
   color: rgb(231, 233, 234);

@@ -7,6 +7,10 @@ const SpanText = styled.span`
 `;
 
 function PostDate({ time }) {
+  if (time === null) {
+    return <SpanText>Щойно</SpanText>;
+  }
+
   const utcTime = time.endsWith("Z") ? time : time + "Z";
 
   const options = {
