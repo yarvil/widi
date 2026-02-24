@@ -11,3 +11,7 @@ export async function createThread(otherUserId) {
 export async function fetchMessages(threadId) {
   return await apiRequest("GET", `api/chat/thread/${threadId}/messages`);
 }
+
+export async function deleteThread(threadId) {
+  return await apiRequest("DELETE", `/api/chat/thread/${threadId}`);
+}
