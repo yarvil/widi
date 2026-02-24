@@ -30,6 +30,7 @@ import {
   ConversationDetails,
   ConversationOptions,
   ConversationOptionsMenu,
+  ConversationOptionsButton,
   Timestamp,
   LastMessage,
   LastMessageText,
@@ -166,10 +167,19 @@ const ConversationListComponent = ({
             onClick={() => handleSelectThread(thread.id)}
           >
             <Avatar>
-              <AvatarImg
-                src={thread?.otherParticipant?.avatarUrl}
-                alt="avatar"
-              />
+              {thread?.otherParticipant?.avatarUrl ? (
+                <AvatarImg
+                  src={thread.otherParticipant.avatarUrl}
+                  alt="avatar"
+                  className="avatar"
+                />
+              ) : (
+                <div className="avatar-fallback">
+                  {thread?.otherParticipant?.nickName
+                    ?.slice(0, 2)
+                    .toUpperCase()}
+                </div>
+              )}
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
@@ -194,14 +204,14 @@ const ConversationListComponent = ({
 
             {openMenuId === thread.id && (
               <ConversationOptionsMenu ref={chatMenuRef}>
-                <button
+                <ConversationOptionsButton
                   onClick={(event) => {
                     event.stopPropagation();
                     dispatch(deleteConversation(thread.id));
                   }}
                 >
                   Видалити чат
-                </button>
+                </ConversationOptionsButton>
               </ConversationOptionsMenu>
             )}
           </ConversationItem>

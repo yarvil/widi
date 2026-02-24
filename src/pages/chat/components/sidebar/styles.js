@@ -63,6 +63,7 @@ export const ConversationList = styled.div`
 `;
 
 export const ConversationItem = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 12px 20px;
@@ -73,7 +74,7 @@ export const ConversationItem = styled.div`
   max-height: 81px;
 
   &:hover {
-    background: ${(props) => (props.active ? "#e7f3ff" : "#f5f5f5")};
+    background: ${(props) => (props.active ? "#e7f3ff" : "#9f9f9f")};
   }
 `;
 
@@ -137,6 +138,7 @@ export const ConversationOptions = styled.button`
   width: 15px;
   cursor: pointer;
   border: 1px solid rgba(24, 119, 242, 0);
+  color: ${(props) => (props.active ? "#000000" : "#000000")};
   padding: 0;
 
   &:hover {
@@ -148,9 +150,16 @@ export const ConversationOptions = styled.button`
 export const ConversationOptionsMenu = styled.div`
   margin-top: 40px;
   position: absolute;
-  margin-left: 148px;
-  border: 2px solid black;
-  border-radius: 10px;
+  right: 20px;
+`;
+
+export const ConversationOptionsButton = styled.button`
+  border: 2px solid #ffffff;
+  background-color: #000000;
+  color: red;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
 `;
 
 export const Timestamp = styled.span`
