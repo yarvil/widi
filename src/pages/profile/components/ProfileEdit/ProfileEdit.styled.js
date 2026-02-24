@@ -178,10 +178,16 @@ export const BioTextarea = styled.textarea`
   border-radius: 5px;
   padding: 12px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   font-family: inherit;
   font-size: 15px;
   resize: vertical;
   transition: all 0.3s ease;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
 
   &:focus {
     border: 2px solid rgb(29, 155, 240);

@@ -23,6 +23,8 @@ import {
   SubscribeButton,
   UserName,
   UserHandle,
+  UserBioSection,
+  UserBioLabel,
   UserBio,
   UserDetails,
   DetailItem,
@@ -123,7 +125,7 @@ export default function ProfileView({
 
   return (
     <>
-      <PageHeader variant="back" title={profile.firstName || "Profile"} />
+      <PageHeader variant="back" title={profile.firstName || "Профіль"} />
       <ProfileContainer>
         <HeaderImage
           $hasImage={!!profile.backgroundImg}
@@ -143,11 +145,11 @@ export default function ProfileView({
         <ProfileInfo>
           <ProfileActions>
             {isOwnProfile ? (
-              <EditButton onClick={onEdit}>Edit profile</EditButton>
+              <EditButton onClick={onEdit}>Редагувати профіль</EditButton>
             ) : (
               <>
                 <MessageButton onClick={handleMessage} disabled={loading}>
-                  Message
+                  Повідомлення
                 </MessageButton>
                 <FollowButton
                   $following={isFollowing}
@@ -156,11 +158,11 @@ export default function ProfileView({
                 >
                   {isFollowing ? (
                     <>
-                      <span className="default-text">Following</span>
-                      <span className="hover-text">Unfollow</span>
+                      <span className="default-text">Відстежую</span>
+                      <span className="hover-text">Відписатися</span>
                     </>
                   ) : (
-                    "Follow"
+                    "Підписатися"
                   )}
                 </FollowButton>
               </>
@@ -170,9 +172,16 @@ export default function ProfileView({
           <UserName>
             {profile.firstName} {profile.lastName}
           </UserName>
-          <UserHandle>@{profile.email?.split("@")[0] || "user"}</UserHandle>
+          <UserHandle>
+            @{profile.nickName || profile.email?.split("@")[0] || "користувач"}
+          </UserHandle>
 
-          {profile.bio && <UserBio>{profile.bio}</UserBio>}
+          <UserBioSection>
+            <UserBioLabel>Біо</UserBioLabel>
+            <UserBio $empty={!(profile.aboutMe || profile.bio)}>
+              {profile.aboutMe || profile.bio || "Ще немає біо"}
+            </UserBio>
+          </UserBioSection>
 
           <UserDetails>
             {profile.email && (
@@ -185,15 +194,15 @@ export default function ProfileView({
           <FollowStats>
             <StatItem onClick={onShowFollowing} $clickable={true}>
               <StatValue>{profile.followingCount || 0}</StatValue>
-              <StatLabel>Following</StatLabel>
+              <StatLabel>Підписки</StatLabel>
             </StatItem>
             <StatItem onClick={onShowFollowers} $clickable={true}>
               <StatValue>{profile.followersCount || 0}</StatValue>
-              <StatLabel>Followers</StatLabel>
+              <StatLabel>Підписники</StatLabel>
             </StatItem>
             <StatItem>
               <StatValue>{profile.postsCount || 0}</StatValue>
-              <StatLabel>Posts</StatLabel>
+              <StatLabel>Пости</StatLabel>
             </StatItem>
           </FollowStats>
 
@@ -211,8 +220,8 @@ export default function ProfileView({
                 disabled={loading}
               >
                 {isSubscribed
-                  ? "Unsubscribe from notifications"
-                  : "Subscribe to notifications"}
+                  ? "Відмовитися від сповіщень"
+                  : "Підписатися на сповіщення"}
               </SubscribeButton>
             </div>
           )}
@@ -234,7 +243,7 @@ export default function ProfileView({
           <div
             style={{ padding: "40px", textAlign: "center", color: "#6e767d" }}
           >
-            No posts yet
+            Ще немає постів
           </div>
         ) : (
           userPosts.map((post) => (
@@ -250,7 +259,7 @@ export default function ProfileView({
           <ModalOverlay onClick={onCloseFollowingModal} />
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <ModalHeader>
-              <h2 style={{ color: "#fff", margin: 0 }}>Following</h2>
+              <h2 style={{ color: "#fff", margin: 0 }}>Підписки</h2>
               <ModalCloseButton onClick={onCloseFollowingModal}>
                 ×
               </ModalCloseButton>
@@ -263,7 +272,9 @@ export default function ProfileView({
                   padding: "20px",
                 }}
               >
-                You haven't followed anyone yet
+                {isOwnProfile
+                  ? "Ви ще нікого не відстежуєте"
+                  : "Цей користувач ще нікого не відстежує"}
               </p>
             ) : (
               <div>
@@ -306,7 +317,7 @@ export default function ProfileView({
                               fontSize: "14px",
                             }}
                           >
-                            @{user.email?.split("@")[0] || "user"}
+                            @{user.nickName || user.email?.split("@")[0] || "користувач"}
                           </p>
                         </ModalUserInfo>
                       </ModalUserItem>
@@ -324,7 +335,7 @@ export default function ProfileView({
           <ModalOverlay onClick={onCloseFollowersModal} />
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <ModalHeader>
-              <h2 style={{ color: "#fff", margin: 0 }}>Followers</h2>
+              <h2 style={{ color: "#fff", margin: 0 }}>Підписники</h2>
               <ModalCloseButton onClick={onCloseFollowersModal}>
                 ×
               </ModalCloseButton>
@@ -337,7 +348,9 @@ export default function ProfileView({
                   padding: "20px",
                 }}
               >
-                No followers yet
+                {isOwnProfile
+                  ? "У вас ще немає підписників"
+                  : "У цього користувача ще немає підписників"}
               </p>
             ) : (
               <div>
@@ -380,7 +393,7 @@ export default function ProfileView({
                               fontSize: "14px",
                             }}
                           >
-                            @{user.email?.split("@")[0] || "user"}
+                            @{user.nickName || user.email?.split("@")[0] || "користувач"}
                           </p>
                         </ModalUserInfo>
                       </ModalUserItem>
