@@ -23,7 +23,9 @@ const RegisterSchema = Yup.object().shape({
     ),
   nickName: Yup.string()
     .trim()
-    .notRequired()
+    .required("Обов'язкове поле!")
+    .min(3, "Мінімум 3 символи")
+    .max(20, "Максимум 20 символів")
     .matches(
       /^[A-Za-z0-9._-]*$/,
       "Нікнейм може містити лише латинські літери, цифри та символи . - _",

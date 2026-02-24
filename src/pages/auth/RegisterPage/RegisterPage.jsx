@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFormik } from "formik";
 import registerSchema from "../schemas/registerSchema";
 import {
@@ -29,6 +29,7 @@ import { DAYS, MONTHS, YEARS } from "./dateConstants";
 function RegisterPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isNickName = useRef(null);
 
   const {
     errors,
@@ -94,7 +95,13 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    if (!values.nickName && values.email && values.email.includes("@")) {
+    if (
+      !values.nickName &&
+      values.email &&
+      values.email.includes("@") &&
+      !isNickName.current
+    ) {
+      isNickName.current = true;
       const nickName = values.email.split("@")[0];
       setFieldValue("nickName", nickName);
     }
