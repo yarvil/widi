@@ -152,6 +152,7 @@ export const MessageButton = styled.button`
   background-color: transparent;
   color: rgb(239, 243, 244);
   transition: background-color 0.2s;
+  white-space: nowrap;
 
   &:hover {
     background-color: rgba(239, 243, 244, 0.1);
@@ -160,6 +161,13 @@ export const MessageButton = styled.button`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 480px) {
+    white-space: normal;
+    font-size: 13px;
+    padding: 8px 12px;
+    line-height: 1.2;
   }
 `;
 

@@ -149,7 +149,7 @@ export default function ProfileView({
             ) : (
               <>
                 <MessageButton onClick={handleMessage} disabled={loading}>
-                  Повідомлення
+                  Надіслати повідомлення
                 </MessageButton>
                 <FollowButton
                   $following={isFollowing}
@@ -317,7 +317,10 @@ export default function ProfileView({
                               fontSize: "14px",
                             }}
                           >
-                            @{user.nickName || user.email?.split("@")[0] || "користувач"}
+                            @
+                            {user.nickName ||
+                              user.email?.split("@")[0] ||
+                              "користувач"}
                           </p>
                         </ModalUserInfo>
                       </ModalUserItem>
@@ -393,7 +396,10 @@ export default function ProfileView({
                               fontSize: "14px",
                             }}
                           >
-                            @{user.nickName || user.email?.split("@")[0] || "користувач"}
+                            @
+                            {user.nickName ||
+                              user.email?.split("@")[0] ||
+                              "користувач"}
                           </p>
                         </ModalUserInfo>
                       </ModalUserItem>
