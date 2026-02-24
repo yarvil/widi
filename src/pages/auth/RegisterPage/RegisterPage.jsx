@@ -94,13 +94,6 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    if (!values.nickName && values.email && values.email.includes("@")) {
-      const nickName = values.email.split("@")[0];
-      setFieldValue("nickName", nickName);
-    }
-  }, [values.email, values.nickName, setFieldValue]);
-
-  useEffect(() => {
     if (values.birthDay && values.birthMonth && values.birthYear) {
       const day = values.birthDay.padStart(2, "0");
       const month = values.birthMonth.padStart(2, "0");
