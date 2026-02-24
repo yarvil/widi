@@ -6,7 +6,6 @@ import {
   fetchPostThunk,
   fetchCommentsThunk,
   clearComments,
-  setCurrentPost,
 } from "@/app/store/posts/postsSlice";
 import {
   selectCurrentPost,
@@ -36,7 +35,6 @@ export default function PostPage() {
   );
 
   useEffect(() => {
-    dispatch(setCurrentPost(null));
     dispatch(clearComments());
 
     dispatch(fetchPostThunk(postId));
@@ -46,9 +44,9 @@ export default function PostPage() {
   return (
     <PageWrapper>
       <PageHeader variant="back" />
-      {loading && !post ? (
+      {loading || !post ? (
         <Loader full={false} />
-      ) : post ? (
+      ) : (
         <>
           <FullPost post={post} />
           <CreatePostForm
@@ -62,7 +60,7 @@ export default function PostPage() {
             </PostCardWrapper>
           ))}
         </>
-      ) : null}
+      )}
     </PageWrapper>
   );
 }

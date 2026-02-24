@@ -208,11 +208,27 @@ const postsSlice = createSlice({
       // --- Single post ---
       .addCase(fetchPostThunk.pending, (state) => {
         state.loading = true;
+        state.currentPost = null;
         state.error = null;
       })
       .addCase(fetchPostThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentPost = normalizePost(action.payload);
+        const freshPost = normalizePost(action.payload);
+        state.currentPost = freshPost;
+
+        const indexInFeed = state.feedPosts.findIndex(
+          (p) => p.postId === freshPost.postId,
+        );
+        if (indexInFeed !== -1) {
+          state.feedPosts[indexInFeed] = freshPost;
+        }
+
+        const indexInMyFeed = state.myFeedPosts.findIndex(
+          (p) => p.postId === freshPost.postId,
+        );
+        if (indexInMyFeed !== -1) {
+          state.myFeedPosts[indexInMyFeed] = freshPost;
+        }
       })
       .addCase(fetchPostThunk.rejected, (state) => {
         state.loading = false;
