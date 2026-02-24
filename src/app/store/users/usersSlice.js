@@ -4,6 +4,7 @@ import {
   searchUsers,
   fetchUserById,
   updateUserProfile,
+  updateUserNickName,
 } from "@/api/users";
 import { updateCurrentUser } from "../authentication/authSlice";
 import { fetchGet } from "@/api/client";
@@ -34,6 +35,20 @@ export const updateUserProfileThunk = createAsyncThunk(
   async (data, { dispatch, getState }) => {
     await updateUserProfile(data);
     const fullUserData = await fetchGet("api/user/me");
+    const currentUserId = getState().auth.user?.id;
+
+    if (currentUserId === fullUserData.id) {
+      dispatch(updateCurrentUser(fullUserData));
+    }
+
+    return fullUserData;
+  },
+);
+
+export const updateNickNameThunk = createAsyncThunk(
+  "users/updateNickName",
+  async (nickName, { dispatch, getState }) => {
+    const fullUserData = await updateUserNickName(nickName);
     const currentUserId = getState().auth.user?.id;
 
     if (currentUserId === fullUserData.id) {
@@ -104,6 +119,18 @@ const usersSlice = createSlice({
         state.currentProfile = action.payload;
       })
       .addCase(updateUserProfileThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateNickNameThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateNickNameThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentProfile = action.payload;
+      })
+      .addCase(updateNickNameThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

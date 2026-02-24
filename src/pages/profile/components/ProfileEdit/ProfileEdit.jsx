@@ -4,7 +4,10 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 
-import { updateUserProfileThunk } from "@/app/store/users/usersSlice";
+import {
+  updateUserProfileThunk,
+  updateNickNameThunk,
+} from "@/app/store/users/usersSlice";
 import { uploadAvatar, uploadBackground } from "@/api/users";
 
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
@@ -31,22 +34,32 @@ import {
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
-    .min(2, "First name must be at least 2 characters")
-    .max(50, "First name must be at most 50 characters")
-    .required("First name is required")
+    .min(2, "Ім'я має містити щонайменше 2 символи")
+    .max(50, "Ім'я має містити не більше 50 символів")
+    .required("Ім'я обов'язкове")
     .matches(
       /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ\s'-]+$/,
-      "First name can only contain letters, spaces, hyphens, and apostrophes",
+      "Ім'я може містити лише літери, пробіли, дефіс та апостроф",
     ),
   lastName: Yup.string()
-    .min(2, "Last name must be at least 2 characters")
-    .max(50, "Last name must be at most 50 characters")
-    .required("Last name is required")
+    .min(2, "Прізвище має містити щонайменше 2 символи")
+    .max(50, "Прізвище має містити не більше 50 символів")
+    .required("Прізвище обов'язкове")
     .matches(
       /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ\s'-]+$/,
-      "Last name can only contain letters, spaces, hyphens, and apostrophes",
+      "Прізвище може містити лише літери, пробіли, дефіс та апостроф",
     ),
-  bio: Yup.string().max(160, "Bio must be at most 160 characters").nullable(),
+  nickName: Yup.string()
+    .min(3, "Нікнейм має містити від 3 до 20 символів")
+    .max(20, "Нікнейм має містити від 3 до 20 символів")
+    .required("Нікнейм обов'язковий")
+    .matches(
+      /^[a-zA-Z0-9_]+$/,
+      "Лише латинські літери (a-z, A-Z), цифри та _",
+    ),
+  aboutMe: Yup.string()
+    .max(160, "Про себе — не більше 160 символів")
+    .nullable(),
 });
 
 export default function ProfileEdit({ profile, onCancel, onSave }) {
@@ -82,6 +95,27 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
   const handleSubmit = async (values, { setFieldError }) => {
     setLoading(true);
     try {
+      const newNickName = values.nickName?.trim();
+      if (newNickName && newNickName !== (profile.nickName || "").trim()) {
+        try {
+          await dispatch(updateNickNameThunk(newNickName)).unwrap();
+        } catch (err) {
+          if (err?.response?.status === 400) {
+            setFieldError(
+              "nickName",
+              "Цей нікнейм вже зайнятий. Оберіть інший.",
+            );
+          } else {
+            setFieldError(
+              "nickName",
+              "Не вдалося змінити нікнейм. Спробуйте ще раз.",
+            );
+          }
+          setLoading(false);
+          return;
+        }
+      }
+
       let avatarUrl = profile.avatarUrl;
       let backgroundImgUrl = profile.backgroundImg;
 
@@ -89,7 +123,7 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
         try {
           avatarUrl = await uploadAvatar(avatarInputRef.current.files[0]);
         } catch (error) {
-          setFieldError("avatar", "Failed to upload avatar");
+          setFieldError("avatar", "Не вдалося завантажити аватар");
           setLoading(false);
           return;
         }
@@ -101,7 +135,7 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
             headerInputRef.current.files[0],
           );
         } catch (error) {
-          setFieldError("header", "Failed to upload header image");
+          setFieldError("header", "Не вдалося завантажити зображення обкладинки");
           setLoading(false);
           return;
         }
@@ -114,15 +148,17 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
         backgroundImgUrl,
       };
 
-      if (values.bio && values.bio.trim()) {
-        updatedData.bio = values.bio.trim();
+      if (values.aboutMe?.trim()) {
+        updatedData.aboutMe = values.aboutMe.trim();
+      } else {
+        updatedData.aboutMe = values.aboutMe?.trim() ?? "";
       }
 
       await dispatch(updateUserProfileThunk(updatedData)).unwrap();
       onSave();
     } catch (error) {
       console.error("Failed to update profile", error);
-      setFieldError("general", "Failed to update profile. Please try again.");
+      setFieldError("general", "Не вдалося оновити профіль. Спробуйте ще раз.");
     } finally {
       setLoading(false);
     }
@@ -130,13 +166,14 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
 
   return (
     <>
-      <PageHeader variant="back" title="Edit profile" />
+      <PageHeader variant="back" title="Редагувати профіль" />
       <EditContainer>
         <Formik
           initialValues={{
             firstName: profile.firstName || "",
             lastName: profile.lastName || "",
-            bio: profile.bio || "",
+            nickName: profile.nickName || "",
+            aboutMe: profile.aboutMe ?? profile.bio ?? "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
@@ -157,7 +194,7 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
                     id="header-input"
                   />
                   <Label htmlFor="header-input" as="label">
-                    Change header photo
+                    Змінити фото обкладинки
                   </Label>
                 </HeaderImageOverlay>
               </HeaderImageWrapper>
@@ -180,52 +217,54 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
                     id="avatar-input"
                   />
                   <Label htmlFor="avatar-input" as="label">
-                    Change profile photo
+                    Змінити фото
                   </Label>
                 </AvatarOverlay>
               </AvatarWrapper>
 
               <FormContainer>
                 <FormGroup>
-                  <Label>First name</Label>
+                  <Label>Ім'я</Label>
                   <InputWrapper>
                     <Input
                       name="firstName"
                       value={values.firstName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isError={touched.firstName && !!errors.firstName}
+                      $isError={touched.firstName && !!errors.firstName}
                       errorMessage={errors.firstName}
                     />
                   </InputWrapper>
                 </FormGroup>
 
                 <FormGroup>
-                  <Label>Last name</Label>
+                  <Label>Прізвище</Label>
                   <InputWrapper>
                     <Input
                       name="lastName"
                       value={values.lastName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      isError={touched.lastName && !!errors.lastName}
+                      $isError={touched.lastName && !!errors.lastName}
                       errorMessage={errors.lastName}
                     />
                   </InputWrapper>
                 </FormGroup>
 
                 <FormGroup>
-                  <Label>Bio</Label>
+                  <Label>Нікнейм</Label>
                   <InputWrapper>
-                    <BioTextarea
-                      name="bio"
-                      value={values.bio}
+                    <Input
+                      name="nickName"
+                      value={values.nickName}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      rows="4"
-                      $isError={touched.bio && !!errors.bio}
+                      $isError={
+                        (touched.nickName && !!errors.nickName) || !!errors.nickName
+                      }
+                      placeholder="Літери, цифри, _ (3–20 символів)"
                     />
-                    {touched.bio && errors.bio && (
+                    {(touched.nickName && errors.nickName) || errors.nickName ? (
                       <div
                         style={{
                           color: "red",
@@ -233,7 +272,33 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
                           marginTop: "4px",
                         }}
                       >
-                        {errors.bio}
+                        {errors.nickName}
+                      </div>
+                    ) : null}
+                  </InputWrapper>
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Про себе</Label>
+                  <InputWrapper>
+                    <BioTextarea
+                      name="aboutMe"
+                      value={values.aboutMe}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      rows="4"
+                      $isError={touched.aboutMe && !!errors.aboutMe}
+                      placeholder="Коротка біографія (необов'язково)"
+                    />
+                    {touched.aboutMe && errors.aboutMe && (
+                      <div
+                        style={{
+                          color: "red",
+                          fontSize: "14px",
+                          marginTop: "4px",
+                        }}
+                      >
+                        {errors.aboutMe}
                       </div>
                     )}
                   </InputWrapper>
@@ -247,10 +312,10 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
 
                 <ButtonGroup>
                   <CancelButton type="button" onClick={onCancel}>
-                    Cancel
+                    Скасувати
                   </CancelButton>
                   <SaveButton type="submit" disabled={loading} $primary>
-                    {loading ? "Saving..." : "Save"}
+                    {loading ? "Збереження..." : "Зберегти"}
                   </SaveButton>
                 </ButtonGroup>
               </FormContainer>
