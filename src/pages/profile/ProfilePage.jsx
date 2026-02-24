@@ -121,7 +121,7 @@ export default function ProfilePage() {
   }, [profile, currentUser?.id, id]);
 
   useEffect(() => {
-    if (profile) {
+    if (profile?.id) {
       const loadUserPosts = async () => {
         setPostsLoading(true);
         try {
@@ -199,7 +199,7 @@ export default function ProfilePage() {
     return (
       <PageWrapper>
         <div style={{ padding: "20px", color: "#fff", textAlign: "center" }}>
-          Profile not found
+          Профіль не знайдено
         </div>
       </PageWrapper>
     );

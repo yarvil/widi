@@ -199,11 +199,33 @@ export const UserHandle = styled.p`
   margin: 0 0 12px 0;
 `;
 
+export const UserBioSection = styled.div`
+  margin-bottom: 16px;
+  max-width: 100%;
+  min-width: 0;
+`;
+
+export const UserBioLabel = styled.span`
+  display: block;
+  color: rgb(113, 118, 123);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+`;
+
 export const UserBio = styled.p`
-  color: rgb(231, 233, 234);
+  color: ${(props) =>
+    props.$empty ? "rgb(113, 118, 123)" : "rgb(231, 233, 234)"};
   font-size: 15px;
-  margin: 0 0 12px 0;
+  margin: 0;
   line-height: 1.5;
+  font-style: ${(props) => (props.$empty ? "italic" : "normal")};
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 `;
 
 export const UserDetails = styled.div`

@@ -15,6 +15,10 @@ export async function searchUsers(query) {
 export async function updateUserProfile(data) {
   return await fetchPatch(data, "api/user/update");
 }
+
+export async function updateUserNickName(nickName) {
+  return await fetchPatch({ nickName }, "api/user/nickName");
+}
 export async function uploadAvatar(file) {
   const params = await fetchGet("api/upload/signature/avatar");
 
