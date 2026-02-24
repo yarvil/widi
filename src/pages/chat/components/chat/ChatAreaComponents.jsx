@@ -98,10 +98,10 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           <MessageWrapper $isOwn={msg.senderId === currentUser.id} key={msg.id}>
             <div>
               <MessageBubble $isOwn={msg.senderId === currentUser.id}>
-                {msg.content}
+                {msg?.content}
               </MessageBubble>
               <MessageTime $isOwn={msg.senderId === currentUser.id}>
-                {msg.createdAt.slice(11, 16)}
+                {/* {msg?.createdAt?.slice(11, 16)} */}
               </MessageTime>
             </div>
           </MessageWrapper>
