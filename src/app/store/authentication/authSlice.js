@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchGet } from "@/api/client";
 import { showStatusMessage } from "./authThunk";
 import { logoutApi } from "@/api/auth";
-import { useEffect } from "react";
 
 const getInitialState = () => {
   const userEmail = localStorage.getItem("userEmail") || "";
@@ -20,15 +19,13 @@ const getInitialState = () => {
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
   async (_, { rejectWithValue, dispatch }) => {
-    try {
-      useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const token = params.get("token");
-        if (token) {
-          localStorage.setItem("token", token);
-        }
-      }, []);
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+    }
 
+    try {
       const response = await fetchGet("api/user/me");
 
       return { isAuthenticated: true, user: response };
