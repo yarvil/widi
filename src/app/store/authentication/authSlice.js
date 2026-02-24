@@ -19,6 +19,12 @@ const getInitialState = () => {
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
   async (_, { rejectWithValue, dispatch }) => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+
     try {
       const response = await fetchGet("api/user/me");
 
