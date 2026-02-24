@@ -1,13 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SmsIcon from "@/shared/assets/icons/mail.svg?react";
 import MenuIcon from "@/shared/assets/icons/menu.svg?react";
 import BookMarkIcon from "@/shared/assets/icons/bookmark.svg?react";
 import LogOutIcon from "@/shared/assets/icons/log-out.svg?react";
 import HomeIcon from "@/shared/assets/icons/house.svg?react";
-import CircleNotif from '@/shared/assets/icons/circle.svg?react'
-import CloseIcon from '@/shared/assets/icons/x-icon.svg?react'
+import CircleNotif from "@/shared/assets/icons/circle.svg?react";
+import CloseIcon from "@/shared/assets/icons/x-icon.svg?react";
 import ProfileIcon from "@/shared/assets/icons/circle-user-round.svg?react";
 import NotificationIcon from "@/shared/assets/icons/bell.svg?react";
 import FollowIcon from "@/shared/assets/icons/user-round-plus.svg?react";
@@ -31,24 +31,24 @@ import {
   LogOutButton,
   TitleMob,
   CloseButton,
-  MenuOverlay
+  MenuOverlay,
 } from "./HeaderStyled";
 import MobileLogo from "@/shared/assets/logo/logotype.svg?react";
 import { selectAllNotificationsCount } from "@/app/store/notifications/notificationsSelector";
 import { setSearchValue } from "@/app/store/search/searchSlice";
 import { logoutThunk } from "@/app/store/authentication/authSlice";
-
+import { fetchFeedThunk, fetchMyFeedThunk } from "@/app/store/posts/postsSlice";
 
 export default function AuthMenu() {
   const isShow = useSelector(selectorIsShow);
   const currentUser = useSelector(selectCurrentUser);
-  const unCountNotifications = useSelector(selectAllNotificationsCount)
+  const unCountNotifications = useSelector(selectAllNotificationsCount);
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isDesktop = useMediaQuery("(min-width: 769px)");
-   
+
   function showBurgerMenu() {
     dispatch(actionMenu());
   }
@@ -61,6 +61,26 @@ export default function AuthMenu() {
     }
     dispatch(closeMenu());
   };
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      const activeTab = localStorage.getItem("feed_active_tab") || "foryou";
+      const sortBy = localStorage.getItem("feed_sort_by") || "newest";
+
+      if (activeTab === "following") {
+        dispatch(fetchMyFeedThunk({ page: 0, sort: sortBy }));
+      } else {
+        dispatch(fetchFeedThunk({ page: 0, sort: sortBy }));
+      }
+    } else {
+      navigate("/");
+    }
+  };
+
   const menuItems = [
     { path: "/", name: "Головна", icon: <HomeIcon /> },
     { path: "/favorite", name: "Збережені", icon: <BookMarkIcon /> },
@@ -103,7 +123,7 @@ export default function AuthMenu() {
       {isMobile && (
         <Heder>
           <HeaderWrapper>
-            <Link to="/">
+            <Link onClick={handleHomeClick}>
               <LogoWrapper>
                 <LogoType>
                   <MobileLogo />
@@ -121,7 +141,9 @@ export default function AuthMenu() {
               <>
                 <MenuOverlay onClick={() => dispatch(closeMenu())} />
                 <MenuMiddleWrapper>
-                  <CloseButton onClick={() => dispatch(closeMenu())}><CloseIcon /></CloseButton>
+                  <CloseButton onClick={() => dispatch(closeMenu())}>
+                    <CloseIcon />
+                  </CloseButton>
                   <Link to="/" onClick={() => dispatch(closeMenu())}>
                     <LogoWrapper>
                       <LogoType>
@@ -136,7 +158,8 @@ export default function AuthMenu() {
                         to={item.path}
                         onClick={() => dispatch(closeMenu())}
                       >
-                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
+                        {item.path === "/notifications" &&
+                          unCountNotifications > 0 && <CircleNotif />}
                         {item.icon}
                         {item.name}
                       </MenuItem>
@@ -160,7 +183,7 @@ export default function AuthMenu() {
       {isDesktop && (
         <Heder>
           <HeaderWrapper>
-            <Link to="/">
+            <Link onClick={handleHomeClick}>
               <LogoWrapper>
                 <LogoType>
                   <MobileLogo />
@@ -184,10 +207,10 @@ export default function AuthMenu() {
                         onClick={(e) => {
                           handleProfileClick(e);
                           dispatch(closeMenu());
-                        }
-                      }
+                        }}
                       >
-                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
+                        {item.path === "/notifications" &&
+                          unCountNotifications > 0 && <CircleNotif />}
                         {item.icon}
                         {item.name}
                       </Link>
@@ -237,9 +260,13 @@ export default function AuthMenu() {
               {menuItems.slice(3, 6).map((item) => (
                 <div key={item.path}>
                   {item.isCustom ? (
-                    <NavLink to={`/users/${currentUser.id}`} onClick={handleProfileClick}>
-                      <IconWrapper >
-                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
+                    <NavLink
+                      to={`/users/${currentUser.id}`}
+                      onClick={handleProfileClick}
+                    >
+                      <IconWrapper>
+                        {item.path === "/notifications" &&
+                          unCountNotifications > 0 && <CircleNotif />}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>
@@ -247,7 +274,8 @@ export default function AuthMenu() {
                   ) : (
                     <NavLink to={item.path}>
                       <IconWrapper>
-                        {item.path === '/notifications' && unCountNotifications>0 && <CircleNotif/>}
+                        {item.path === "/notifications" &&
+                          unCountNotifications > 0 && <CircleNotif />}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>
