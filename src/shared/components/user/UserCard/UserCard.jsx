@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
 import { selectIsFollowing } from "@/app/store/follows/followsSelectors";
 import Avatar from "@/shared/ui/Avatar/Avatar";
+import Button from "@/shared/ui/Button/Button";
 import {
   UserCardWrapper,
   UserFullName,
@@ -11,7 +12,6 @@ import {
   Nickname,
   UserName,
 } from "./UserCard.styled";
-import Button from "@/shared/ui/Button/Button";
 
 export default function UserCard({
   avatarUrl,
@@ -57,10 +57,10 @@ export default function UserCard({
             {isFollowing ? (
               <>
                 <span className="default-text">Підписки</span>
-                <span className="hover-text">Відписатись</span>
+                <span className="hover-text">Не читати</span>
               </>
             ) : (
-              "Підписатись"
+              "Читати"
             )}
           </Button>
         </div>
