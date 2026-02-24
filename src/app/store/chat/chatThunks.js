@@ -1,5 +1,5 @@
 import { fetchMessages } from "@/api/threads";
-import { fetchThreads, createThread } from "@/api/threads";
+import { fetchThreads, createThread, deleteThread } from "@/api/threads";
 import { fetchUsers } from "@/api/users";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -27,3 +27,7 @@ export const loadUsers = createAsyncThunk("chat/loadUsers", async () => {
   const users = await fetchUsers();
   return users;
 });
+
+// export const deleteThreadById = createAsyncThunk("chat/deleteThread", async (threadId) => {
+
+// })
