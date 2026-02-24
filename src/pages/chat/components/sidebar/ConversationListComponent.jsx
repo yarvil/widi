@@ -30,6 +30,7 @@ import {
   ConversationDetails,
   ConversationOptions,
   ConversationOptionsMenu,
+  ConversationOptionsButton,
   Timestamp,
   LastMessage,
   LastMessageText,
@@ -147,11 +148,11 @@ const ConversationListComponent = ({
   return (
     <Sidebar $isChatListOpen={isChatListOpen}>
       <SidebarHeader>
-        <h2>Messages</h2>
+        <h2>Повідомлення</h2>
         <SearchWrapper>
           <SearchIcon src={SearchIconSvg} />
           <SearchBar
-            placeholder="Search Direct Messages"
+            placeholder="Знайти чат"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -166,10 +167,19 @@ const ConversationListComponent = ({
             onClick={() => handleSelectThread(thread.id)}
           >
             <Avatar>
-              <AvatarImg
-                src={thread?.otherParticipant?.avatarUrl}
-                alt="avatar"
-              />
+              {thread?.otherParticipant?.avatarUrl ? (
+                <AvatarImg
+                  src={thread.otherParticipant.avatarUrl}
+                  alt="avatar"
+                  className="avatar"
+                />
+              ) : (
+                <div className="avatar-fallback">
+                  {thread?.otherParticipant?.nickName
+                    ?.slice(0, 2)
+                    .toUpperCase()}
+                </div>
+              )}
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
@@ -194,14 +204,14 @@ const ConversationListComponent = ({
 
             {openMenuId === thread.id && (
               <ConversationOptionsMenu ref={chatMenuRef}>
-                <button
+                <ConversationOptionsButton
                   onClick={(event) => {
                     event.stopPropagation();
                     dispatch(deleteConversation(thread.id));
                   }}
                 >
-                  Delete Chat
-                </button>
+                  Видалити чат
+                </ConversationOptionsButton>
               </ConversationOptionsMenu>
             )}
           </ConversationItem>
@@ -209,11 +219,11 @@ const ConversationListComponent = ({
 
         {!isConversation && (
           <CreateChatConatainer>
-            <CreateChatTitle>Create a new chat</CreateChatTitle>
+            <CreateChatTitle>Створити новий чат</CreateChatTitle>
             <CreateChatSearch
               value={searchNewParticipants}
               onChange={(e) => setSearchNewParticipants(e.target.value)}
-              placeholder="Search users..."
+              placeholder="Знайти користувача..."
             />
             <CreateChatList>
               {filteredNewParticipants.map((participant) => (

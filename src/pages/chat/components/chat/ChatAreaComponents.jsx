@@ -68,7 +68,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           onClick={handleChatList}
           alt="Back to chat list"
         />
-        <EmptyState>Choose a chat</EmptyState>
+        <EmptyState>Виберіть чат</EmptyState>
       </ChatArea>
     );
   }
@@ -89,7 +89,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
         </Avatar>
         <ChatHeaderInfo>
           <h3>{currentThread.otherParticipant.nickName}</h3>
-          <p>{activeConversation.isOnline ? "В сети" : "Не в сети"}</p>
+          <p>{activeConversation.isOnline ? "Онлайн" : "Не в мережі"}</p>
         </ChatHeaderInfo>
       </ChatHeader>
 
@@ -98,10 +98,10 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           <MessageWrapper $isOwn={msg.senderId === currentUser.id} key={msg.id}>
             <div>
               <MessageBubble $isOwn={msg.senderId === currentUser.id}>
-                {msg.content}
+                {msg?.content}
               </MessageBubble>
               <MessageTime $isOwn={msg.senderId === currentUser.id}>
-                {msg.createdAt.slice(11, 16)}
+                {/* {msg?.createdAt?.slice(11, 16)} */}
               </MessageTime>
             </div>
           </MessageWrapper>
@@ -110,7 +110,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
 
       <InputArea>
         <MessageInput
-          placeholder="Enter a message..."
+          placeholder="Введіть повідомлення..."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -128,7 +128,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           }}
           disabled={!inputValue.trim()}
         >
-          Send
+          Надіслати
         </SendButton>
       </InputArea>
     </ChatArea>

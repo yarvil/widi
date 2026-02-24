@@ -75,6 +75,9 @@ export function useWebSocket() {
 
     clientRef.current.publish({
       destination: "/app/chat/send",
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
       body: JSON.stringify({ threadId, recipientUserId, content }),
     });
   };

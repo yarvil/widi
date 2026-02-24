@@ -14,6 +14,7 @@ export const UserInformation = styled.div`
   justify-content: space-between;
   align-items: center;
   flex: 1;
+  gap: 10px;
 `;
 
 export const UserName = styled.div`
