@@ -18,7 +18,7 @@ export const Title = styled.h3`
   margin-left: 8px;
   font-size: 20px;
   font-weight: 700;
-  padding: 12px 0;
+  padding: 15px 0;
 `;
 
 export const TabsWrapper = styled.div`
