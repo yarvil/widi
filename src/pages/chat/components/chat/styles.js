@@ -116,10 +116,12 @@ export const InputArea = styled.div`
 export const MessageInput = styled.input`
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #e4e6eb;
+  border: 1px solid #2f3336;
   border-radius: 20px;
   font-size: 14px;
   outline: none;
+  background-color: transparent;
+  color: white;
 
   &:focus {
     border-color: #1877f2;
@@ -142,7 +144,7 @@ export const SendButton = styled.button`
   }
 
   &:disabled {
-    background: #e4e6eb;
+    background: #2e2e2e;
     cursor: not-allowed;
   }
 `;
