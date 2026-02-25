@@ -159,7 +159,7 @@ export default function AuthMenu() {
                         onClick={() => dispatch(closeMenu())}
                       >
                         {item.path === "/notifications" &&
-                          unCountNotifications > 0 && <CircleNotif />}
+                          unCountNotifications > 0 && <div style={{position:'absolute',top:'0px',right:'0px'}}><CircleNotif /></div>}
                         {item.icon}
                         {item.name}
                       </MenuItem>
@@ -209,8 +209,6 @@ export default function AuthMenu() {
                           dispatch(closeMenu());
                         }}
                       >
-                        {item.path === "/notifications" &&
-                          unCountNotifications > 0 && <CircleNotif />}
                         {item.icon}
                         {item.name}
                       </Link>
@@ -266,7 +264,7 @@ export default function AuthMenu() {
                     >
                       <IconWrapper>
                         {item.path === "/notifications" &&
-                          unCountNotifications > 0 && <CircleNotif />}
+                          unCountNotifications > 0 && <div style={{position:'absolute',top:'0px',right:'0px'}}><CircleNotif /></div>}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>
@@ -275,7 +273,7 @@ export default function AuthMenu() {
                     <NavLink to={item.path}>
                       <IconWrapper>
                         {item.path === "/notifications" &&
-                          unCountNotifications > 0 && <CircleNotif />}
+                          unCountNotifications > 0 && <div style={{position:'absolute',top:'0px',right:'0px'}}><CircleNotif /></div>}
                         {item.icon}
                         <Name>{item.name}</Name>
                       </IconWrapper>

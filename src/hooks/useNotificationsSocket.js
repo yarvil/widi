@@ -27,20 +27,14 @@ function useNotificationsSocket() {
         const stompClient = new Client({
             webSocketFactory: () => socket,
             reconnectDelay: 5000,
-            debug: (str) => {
-                console.log(str);
-            },
             connectHeaders: { Authorization: `Bearer ${token}` },
             onConnect: () => {
-                console.log("Connected to WebSocket");
 
                 stompClient.subscribe(
                     `/topic/notifications/${currentUser?.id}`,
                     (message) => {
                         const notification = JSON.parse(message.body);
                         dispatch(addNotification(notification))
-
-                        console.log(notification)
 
                     }
                 );
@@ -55,7 +49,6 @@ function useNotificationsSocket() {
         return () => {
             if (stompClientRef.current) {
                 stompClientRef.current.deactivate();
-                console.log("WebSocket disconnected");
             }
         };
     }, [isAuth, currentUser?.id,token, dispatch]);

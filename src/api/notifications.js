@@ -15,7 +15,7 @@ export async function unsubscribeToUser(targetUserId) {
   );
 }
 export async function readAllNotifications() {
-  ("POST", "api/notifications/read-all");
+  apiRequest("POST", "api/notifications/read-all");
 }
 export async function readNotification(notificationId) {
   return await apiRequest("POST", `api/notifications/${notificationId}/read`);
@@ -25,5 +25,5 @@ export async function deleteNotification(notificationId) {
 }
 export async function allNotificationsCount() {
   return await apiRequest('GET', 'api/notifications/unread-count');
-  
 }
+

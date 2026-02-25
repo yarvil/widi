@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMyNotifications, readNotification, deleteNotification, allNotificationsCount } from "@/api/notifications";
+import { fetchMyNotifications, readNotification, deleteNotification, allNotificationsCount, readAllNotifications } from "@/api/notifications";
 
 export const fetchMyNotificationsThunk = createAsyncThunk(
   "notifications/fetchMyNotifications",
@@ -29,6 +29,12 @@ export const deleteNotificationThunk = createAsyncThunk(
   }
 
 )
+export const readAllThunk = createAsyncThunk(
+  'notifications/readAll',
+  async () => {
+    return await readAllNotifications();
+  }
+)
 
 const normalizeNotifications = (notification) => {
   if (!notification) return null;
@@ -57,14 +63,14 @@ const notificationSlice = createSlice({
     addNotification: (state, action) => {
       state.myFeedNotifications.unshift(action.payload);
       state.unreadCounts += 1;
-    }
+    },
+
 
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMyNotificationsThunk.fulfilled, (state, action) => {
         state.myFeedNotifications = action.payload.notifications.map(normalizeNotifications);
-        console.log(action.payload)
       })
       .addCase(readNotificationThunk.fulfilled, (state, action) => {
         const notification = state.myFeedNotifications.find(
@@ -82,7 +88,15 @@ const notificationSlice = createSlice({
       .addCase(fetchAllNotificationsCountThunk.fulfilled, (state, action) => {
         state.unreadCounts = action.payload
       })
+      .addCase(readAllThunk.fulfilled, (state) => {
+        state.myFeedNotifications = state.myFeedNotifications.map(notification=>({
+          ...notification,
+          isRead:true,
+        }))
+      })
+      
+
   },
 })
-export const { removeNotification,addNotification} = notificationSlice.actions
+export const { removeNotification, addNotification } = notificationSlice.actions
 export default notificationSlice.reducer
