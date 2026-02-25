@@ -33,6 +33,7 @@ export const SearchWrapper = styled.div`
   position: relative;
   display: inline-block;
   width: 80%;
+  color: white;
 `;
 
 export const SearchIcon = styled.img`
@@ -46,10 +47,12 @@ export const SearchIcon = styled.img`
 `;
 
 export const SearchBar = styled.input`
+  background-color: transparent;
   width: 100%;
   padding: 10px 12px 10px 36px;
   border-radius: 20px;
   border: 1px solid #2f3336;
+  color: white;
 
   &:focus {
     outline: #1877f2;
@@ -68,13 +71,15 @@ export const ConversationItem = styled.div`
   align-items: center;
   padding: 12px 20px;
   cursor: pointer;
-  background: ${(props) => (props.active ? "#e7f3ff" : "black")};
+  background: transparent;
   border-right: ${(props) => (props.active ? "2px solid #3d9effff" : "white")};
   transition: background 0.2s;
   max-height: 81px;
+  color: white;
+  border-bottom: 1px solid #2f3336;
 
   &:hover {
-    background: ${(props) => (props.active ? "#e7f3ff" : "#9f9f9f")};
+    background: #2f3336;
   }
 `;
 
@@ -120,7 +125,7 @@ export const ConversationInfo = styled.div`
 
 export const ConversationName = styled.div`
   font-weight: 600;
-  color: ${(props) => (props.active ? "#000000" : "#ffffff")};
+  color: white;
   font-size: 15px;
   margin-bottom: 4px;
   display: flex;
@@ -132,6 +137,7 @@ export const ConversationName = styled.div`
 export const ConversationDetails = styled.div`
   display: flex;
   align-items: center;
+  color: white;
 `;
 
 export const ConversationOptions = styled.button`
@@ -142,13 +148,12 @@ export const ConversationOptions = styled.button`
   border: none;
   width: 15px;
   cursor: pointer;
-  border: 1px solid rgba(24, 119, 242, 0);
-  color: ${(props) => (props.active ? "#000000" : "#000000")};
   padding: 0;
+  color: white;
 
   &:hover {
-    border: 1px solid black;
     border-radius: 20px;
+    background-color: #000000;
   }
 `;
 
@@ -160,7 +165,6 @@ export const ConversationOptionsMenu = styled.div`
 
 export const ConversationOptionsButton = styled.button`
   border: 2px solid #ffffff;
-  background-color: #000000;
   color: red;
   cursor: pointer;
   border-radius: 5px;
@@ -187,6 +191,7 @@ export const LastMessage = styled.div`
 export const LastMessageText = styled.span`
   max-width: 170px;
   overflow: hidden;
+  color: white;
 `;
 
 export const UnreadBadge = styled.span`
@@ -203,24 +208,27 @@ export const CreateChatConatainer = styled.div`
   margin: 24px;
   padding: 16px;
   border-radius: 16px;
-  background: #f9fafb;
+  background: transparent;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  border: 1px solid #2f3336;
 `;
 export const CreateChatTitle = styled.h3`
-  margin-bottom: 12px;
+  text-align: center;
+  margin-block: 0 12px;
   font-size: 18px;
   font-weight: 600;
-  color: #111827;
+  color: white;
 `;
 
 export const CreateChatSearch = styled.input`
+  color: white;
   width: 100%;
   padding: 10px 14px;
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #2f3336;
   font-size: 14px;
   outline: none;
-  background: #ffffff;
+  background: transparent;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -230,7 +238,7 @@ export const CreateChatSearch = styled.input`
   }
 
   &:focus {
-    border-color: #6366f1;
+    border-color: #3d9effff;
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
   }
 `;
@@ -259,25 +267,24 @@ export const CreateChatElement = styled.li`
   padding: 10px 14px;
   border-radius: 12px;
   cursor: pointer;
-  background: #ffffff;
+  background: #1c1c1c;
   list-style: none;
-  border: 1px solid transparent;
+  border: 1px solid #2f3336;
   transition:
     background 0.15s ease,
     border-color 0.15s ease;
 
   &:hover {
-    background: #f3f4f6;
-    border-color: #e5e7eb;
+    background: #2b2b2b;
   }
 
   &:active {
-    background: #e5e7eb;
+    background: #030303;
   }
 `;
 
 export const CreateChatText = styled.p`
   font-size: 14px;
   font-weight: 500;
-  color: #111827;
+  color: white;
 `;
