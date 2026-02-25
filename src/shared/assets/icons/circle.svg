@@ -4,5 +4,5 @@
   height="10"
   viewBox="0 0 24 24"
 >
-  <circle cx="12" cy="12" r="12" fill="#7c3aed" />
+  <circle cx="12" cy="12" r="12" fill="red" />
 </svg>

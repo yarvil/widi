@@ -1,16 +1,39 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
-export const NotificationsWrapper = styled.div`
-display:flex;
-align-items:center;`
+
 
 export const NotificationPostLink = styled(Link)`
   text-decoration: none;
   color: inherit; 
-  
+  padding:10px;
 `;
+export const IconWrapper = styled.div`
+ position: relative;
+ display:flex;
+ justify-content:flex-end;
+  cursor: pointer;
+  padding:10px;
+  svg{
+  display:flex;
+  justify-content:flex-end;
+  }
+  `
+export const ReadAllText = styled.div`
+ position: absolute;
+  background: #1f1f1f;
+  color: white;
+  right:50px;
+  z-index:99;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  ${IconWrapper}:hover & {
+    opacity: 1;
+  }
 
-
+`
 
 export const NotificationsPost = styled.div`
   position: relative;
@@ -23,7 +46,6 @@ export const NotificationsPost = styled.div`
   border-radius: 16px;
 
   padding: 16px;
-  margin-bottom: 15px;
 
   color: #f5f5f5;
 
@@ -42,7 +64,7 @@ export const UserInfoWrapper = styled.div`
   align-items: center;
   gap: 10px;
 
-  color: #9ca3af; /* secondary text */
+  color: #9ca3af;
   font-size: 13px;
 `;
 
