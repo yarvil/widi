@@ -165,7 +165,7 @@ const ConversationListComponent = ({
   return (
     <Sidebar $isChatListOpen={isChatListOpen}>
       <SidebarHeader>
-        <h2>Повідомлення</h2>
+        <h2>Чат</h2>
         <SearchWrapper>
           <SearchIcon src={SearchIconSvg} />
           <SearchBar

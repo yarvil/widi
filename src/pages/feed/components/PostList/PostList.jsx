@@ -63,7 +63,7 @@ export default function PostList({ variant = "following", sortBy = "newest" }) {
       }
     };
 
-    const interval = setInterval(checkNewPosts, 60000);
+    const interval = setInterval(checkNewPosts, 30000);
     return () => clearInterval(interval);
   }, [posts, fetchApi, sortBy]);
 
