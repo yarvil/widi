@@ -7,26 +7,28 @@ export const NotificationPostLink = styled(Link)`
   color: inherit; 
   padding:10px;
 `;
-export const IconWrapper = styled.div`
+export const IconWrapper = styled.button`
  position: relative;
- display:flex;
- justify-content:flex-end;
+  border:none;
+  background: transparent;
   cursor: pointer;
-  padding:10px;
-  svg{
-  display:flex;
-  justify-content:flex-end;
-  }
-  `
+  padding: 10px;
+
+  width: fit-content;
+  align-self: flex-end;
+`
 export const ReadAllText = styled.div`
  position: absolute;
+  top: 50%;
+  right: 120%;
+  transform: translateY(-50%);
   background: #1f1f1f;
   color: white;
-  right:50px;
-  z-index:99;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 6px;
   font-size: 13px;
+  white-space: nowrap;   
+  pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s ease;
   ${IconWrapper}:hover & {
