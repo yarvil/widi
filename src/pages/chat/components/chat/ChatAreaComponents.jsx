@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +41,9 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
   const currentThread = useSelector(selectActiveThread);
 
   const authUser = useSelector(selectCurrentUser);
+
   const [inputValue, setInputValue] = useState("");
+  const messagesEndRef = useRef(null);
 
   const activeConversation = threads.find(
     (thread) => thread.id === activeConversationId,
@@ -53,10 +55,17 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
     dispatch(loadMessagesByThreads(activeConversationId));
   }, [activeConversationId, authUser, dispatch]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }
+  }, [currentMessages]);
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend(inputValue);
+      setInputValue("");
     }
   };
 
@@ -84,7 +93,19 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
           <ArrowLeftIcon />
         </BackToListButton>
         <Avatar>
-          <AvatarImg src={currentThread.otherParticipant.avatarUrl} />
+          {currentThread?.otherParticipant?.avatarUrl ? (
+            <AvatarImg
+              src={currentThread.otherParticipant.avatarUrl}
+              alt="avatar"
+              className="avatar"
+            />
+          ) : (
+            <div className="avatar-fallback">
+              {currentThread?.otherParticipant?.nickName
+                ?.slice(0, 2)
+                .toUpperCase()}
+            </div>
+          )}
           <OnlineIndicator online={activeConversation.isOnline} />
         </Avatar>
         <ChatHeaderInfo>
@@ -93,7 +114,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
         </ChatHeaderInfo>
       </ChatHeader>
 
-      <MessagesContainer>
+      <MessagesContainer ref={messagesEndRef}>
         {currentMessages.map((msg) => (
           <MessageWrapper $isOwn={msg.senderId === currentUser.id} key={msg.id}>
             <div>
@@ -101,7 +122,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
                 {msg?.content}
               </MessageBubble>
               <MessageTime $isOwn={msg.senderId === currentUser.id}>
-                {/* {msg?.createdAt?.slice(11, 16)} */}
+                {msg?.createdAt?.slice(11, 16)}
               </MessageTime>
             </div>
           </MessageWrapper>
@@ -118,12 +139,6 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
         <SendButton
           onClick={() => {
             handleSend(inputValue);
-            dispatch(
-              sendMessage({
-                threadId: activeConversationId,
-                content: inputValue,
-              }),
-            );
             setInputValue("");
           }}
           disabled={!inputValue.trim()}

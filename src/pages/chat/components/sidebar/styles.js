@@ -97,6 +97,11 @@ export const AvatarImg = styled.img`
   border-radius: 50%;
 `;
 
+export const AvatarImgNull = styled.div`
+  width: 50px;
+  text-align: center;
+`;
+
 export const OnlineIndicator = styled.div`
   width: 14px;
   height: 14px;

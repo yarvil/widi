@@ -76,6 +76,7 @@ export const MessagesContainer = styled.div`
   overflow-y: auto;
   padding: 20px;
   background: #000000;
+  scrollbar-width: thin;
 `;
 
 export const MessageWrapper = styled.div`

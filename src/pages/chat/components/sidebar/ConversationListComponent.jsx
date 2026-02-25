@@ -7,10 +7,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setActiveConversationId,
-  deleteConversation,
-} from "@/app/store/chat/slices/chatSlice";
+import { setActiveConversationId } from "@/app/store/chat/slices/chatSlice";
 
 import { formatTime } from "../../utils/chatHelper";
 
@@ -24,6 +21,7 @@ import {
   ConversationItem,
   Avatar,
   AvatarImg,
+  AvatarImgNull,
   OnlineIndicator,
   ConversationInfo,
   ConversationName,
@@ -49,6 +47,7 @@ import {
   createNewThread,
   loadUsers,
   loadThreads,
+  deleteThreadById,
 } from "@/app/store/chat/chatThunks";
 
 import {
@@ -145,6 +144,10 @@ const ConversationListComponent = ({
     setOpenMenuId((prev) => (prev === convId ? null : convId));
   }, []);
 
+  const handleDeleteThread = (threadId) => {
+    dispatch(deleteThreadById(threadId));
+  };
+
   return (
     <Sidebar $isChatListOpen={isChatListOpen}>
       <SidebarHeader>
@@ -174,17 +177,17 @@ const ConversationListComponent = ({
                   className="avatar"
                 />
               ) : (
-                <div className="avatar-fallback">
+                <AvatarImgNull className="avatar-fallback">
                   {thread?.otherParticipant?.nickName
                     ?.slice(0, 2)
                     .toUpperCase()}
-                </div>
+                </AvatarImgNull>
               )}
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
             <ConversationInfo>
               <ConversationName active={thread.id === activeConversationId}>
-                {thread.otherParticipant.nickName.slice(0, 9)}
+                {thread.otherParticipant.nickName}
                 <ConversationDetails>
                   <Timestamp>{formatTime(thread.updatedAt)}</Timestamp>
                   <ConversationOptions
@@ -196,9 +199,9 @@ const ConversationListComponent = ({
               </ConversationName>
               <LastMessage active={thread.id === activeConversationId}>
                 <LastMessageText>{thread.lastMessage}</LastMessageText>
-                {thread.unreadCount > 0 && (
+                {/* {thread.unreadCount > 0 && (
                   <UnreadBadge>{thread.unreadCount}</UnreadBadge>
-                )}
+                )} */}
               </LastMessage>
             </ConversationInfo>
 
@@ -207,7 +210,7 @@ const ConversationListComponent = ({
                 <ConversationOptionsButton
                   onClick={(event) => {
                     event.stopPropagation();
-                    dispatch(deleteConversation(thread.id));
+                    handleDeleteThread(thread.id);
                   }}
                 >
                   Видалити чат
