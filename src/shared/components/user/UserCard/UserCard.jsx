@@ -11,6 +11,7 @@ import {
   UserInformation,
   Nickname,
   UserName,
+  UserWrapper,
 } from "./UserCard.styled";
 
 export default function UserCard({
@@ -19,6 +20,7 @@ export default function UserCard({
   firstName,
   lastName,
   nickName,
+  aboutMe,
   following: initialIsFollowing,
 }) {
   const dispatch = useDispatch();
@@ -42,14 +44,14 @@ export default function UserCard({
         size={50}
         linkTo={`/users/${id}`}
       />
-      <UserInformation>
-        <UserName>
-          <UserFullName to={`/users/${id}`}>
-            {firstName} {lastName}
-          </UserFullName>
-          <Nickname>@{nickName}</Nickname>
-        </UserName>
-        <div>
+      <UserWrapper>
+        <UserInformation>
+          <UserName>
+            <UserFullName to={`/users/${id}`}>
+              {firstName} {lastName}
+            </UserFullName>
+            <Nickname>@{nickName}</Nickname>
+          </UserName>
           <Button
             variant={isFollowing ? "secondaryDanger" : "primary"}
             onClick={handleFollowClick}
@@ -63,8 +65,9 @@ export default function UserCard({
               "Читати"
             )}
           </Button>
-        </div>
-      </UserInformation>
+        </UserInformation>
+        <span>{aboutMe}</span>
+      </UserWrapper>
     </UserCardWrapper>
   );
 }
@@ -75,6 +78,7 @@ UserCard.propTypes = {
   avatarUrl: PropTypes.string,
   firstName: PropTypes.string,
   lastName: PropTypes.string,
+  aboutMe: PropTypes.string,
   following: PropTypes.bool,
   followersCount: PropTypes.number,
   postsCount: PropTypes.number,
