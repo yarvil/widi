@@ -123,7 +123,6 @@ const ConversationListComponent = ({
 
   const handleSelectThread = useCallback(
     (id) => {
-      console.log(id);
       if (window.innerWidth < 768) handleChatList();
       dispatch(setActiveConversationId(id));
     },
