@@ -113,6 +113,19 @@ export const Label = styled.label`
   cursor: pointer;
 `;
 
+export const LabelRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+export const CharCounter = styled.span`
+  font-size: 13px;
+  color: rgb(113, 118, 123);
+  font-weight: 400;
+`;
+
 export const InputWrapper = styled.div`
   width: 100%;
 `;
@@ -182,7 +195,7 @@ export const BioTextarea = styled.textarea`
   box-sizing: border-box;
   font-family: inherit;
   font-size: 15px;
-  resize: vertical;
+  resize: none;
   transition: all 0.3s ease;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -203,4 +216,8 @@ export const BioTextarea = styled.textarea`
       border: 2px solid red;
     }
   `};
+
+  @media (max-width: 768px) {
+    min-height: 160px;
+  }
 `;
