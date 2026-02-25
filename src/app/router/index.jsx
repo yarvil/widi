@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Loader from "../store/authentication/Loader";
+import Loader from "../../shared/components/Loader";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
 

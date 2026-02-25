@@ -20,7 +20,7 @@ import { fetchUserPosts } from "@/api/posts";
 import PageWrapper from "@/shared/ui/PageWrapper";
 import ProfileView from "./components/ProfileView/ProfileView";
 import ProfileEdit from "./components/ProfileEdit/ProfileEdit";
-import Loader from "@/app/store/authentication/Loader";
+import Loader from "@/shared/components/Loader";
 
 export default function ProfilePage() {
   const { id } = useParams();
