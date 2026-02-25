@@ -28,6 +28,14 @@ export const loadUsers = createAsyncThunk("chat/loadUsers", async () => {
   return users;
 });
 
-// export const deleteThreadById = createAsyncThunk("chat/deleteThread", async (threadId) => {
-
-// })
+export const deleteThreadById = createAsyncThunk(
+  "chat/deleteThread",
+  async (threadId, { rejectWithValue }) => {
+    try {
+      await deleteThread(threadId); // API DELETE
+      return threadId; // возвращаем id для редьюсера
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Delete failed");
+    }
+  },
+);
