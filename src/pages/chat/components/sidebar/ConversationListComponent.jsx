@@ -112,13 +112,28 @@ const ConversationListComponent = ({
   }, [threads, search]);
 
   // Фильтруем новых участников для создания чата
+  // const filteredNewParticipants = useMemo(() => {
+  //   if (!searchNewParticipants.trim()) return [];
+  //   return otherUsers.filter((participant) =>
+  //     participant.firstName
+  //       .toLowerCase()
+  //       .includes(searchNewParticipants.toLowerCase()),
+  //   );
+  // }, [otherUsers, searchNewParticipants]);
+
   const filteredNewParticipants = useMemo(() => {
-    if (!searchNewParticipants.trim()) return [];
-    return otherUsers.filter((participant) =>
-      participant.firstName
-        .toLowerCase()
-        .includes(searchNewParticipants.toLowerCase()),
-    );
+    const search = searchNewParticipants.trim().toLowerCase();
+    if (!search) return [];
+
+    return otherUsers.filter((participant) => {
+      const first = participant.firstName?.toLowerCase() || "";
+      const last = participant.lastName?.toLowerCase() || "";
+      const full = `${first} ${last}`;
+
+      return (
+        first.includes(search) || last.includes(search) || full.includes(search)
+      );
+    });
   }, [otherUsers, searchNewParticipants]);
 
   const handleSelectThread = useCallback(
@@ -233,7 +248,9 @@ const ConversationListComponent = ({
                   key={participant.id}
                   onClick={() => handleSelectUser(participant.id)}
                 >
-                  <CreateChatText>{participant.firstName}</CreateChatText>
+                  <CreateChatText>
+                    {participant.firstName} {participant.lastName}
+                  </CreateChatText>
                 </CreateChatElement>
               ))}
             </CreateChatList>
