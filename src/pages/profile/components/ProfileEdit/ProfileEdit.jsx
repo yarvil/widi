@@ -23,6 +23,8 @@ import {
   FormContainer,
   FormGroup,
   Label,
+  LabelRow,
+  CharCounter,
   InputWrapper,
   ButtonGroup,
   CancelButton,
@@ -279,7 +281,12 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
                 </FormGroup>
 
                 <FormGroup>
-                  <Label>Про себе</Label>
+                  <LabelRow>
+                    <Label as="span">Про себе</Label>
+                    <CharCounter>
+                      {(values.aboutMe?.length ?? 0)}/160
+                    </CharCounter>
+                  </LabelRow>
                   <InputWrapper>
                     <BioTextarea
                       name="aboutMe"
@@ -287,6 +294,7 @@ export default function ProfileEdit({ profile, onCancel, onSave }) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       rows="4"
+                      maxLength={160}
                       $isError={touched.aboutMe && !!errors.aboutMe}
                       placeholder="Коротка біографія (необов'язково)"
                     />
