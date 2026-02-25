@@ -55,11 +55,7 @@ export default function PostList({ variant = "following", sortBy = "newest" }) {
         const latestPostId = response.content[0]?.id;
         const currentFirstPostId = posts[0]?.postId;
 
-        if (
-          latestPostId &&
-          currentFirstPostId &&
-          latestPostId !== currentFirstPostId
-        ) {
+        if (currentFirstPostId && latestPostId !== currentFirstPostId) {
           setHasNewPosts(true);
         }
       } catch (error) {
@@ -152,7 +148,7 @@ export default function PostList({ variant = "following", sortBy = "newest" }) {
     <>
       {hasNewPosts && (
         <NewPostsButton onClick={handleShowNewPosts}>
-          Show new posts
+          Показати нові пости
         </NewPostsButton>
       )}
       {sortedPosts.map((post) => (
