@@ -11,6 +11,7 @@ import { uploadPostImage } from "@/api/upload";
 import Avatar from "@/shared/ui/Avatar/Avatar";
 import RemoveIcon from "shared/assets/icons/x-icon.svg?react";
 import MediaIcon from "shared/assets/icons/media-icon.svg?react";
+import Button from "@/shared/ui/Button/Button";
 import {
   ActionButton,
   IconWrapper,
@@ -26,7 +27,6 @@ import {
   CharCounter,
   MediaWrapper,
 } from "./CreatePostForm.styled";
-import Button from "@/shared/ui/Button/Button";
 
 function CreatePostForm({ parentId = null, isReply = false, username }) {
   const [text, setText] = useState("");

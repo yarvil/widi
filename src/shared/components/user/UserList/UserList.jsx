@@ -12,7 +12,7 @@ import {
 import { selectCurrentUser } from "@/app/store/authentication/authSelectors";
 import { selectFollowingStatus } from "@/app/store/follows/followsSelectors";
 import UserCard from "../UserCard/UserCard";
-import Loader from "@/app/store/authentication/Loader";
+import Loader from "@/shared/components/Loader";
 
 export const EmptyMessage = styled.div`
   padding: 32px 16px;
