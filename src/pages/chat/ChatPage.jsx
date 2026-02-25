@@ -40,7 +40,6 @@ const ChatPage = () => {
     if (!connected || !activeConversationId) return;
 
     subscribeToThread(activeConversationId, (message) => {
-      console.log("WebSocket callback fired!", message);
       dispatch(receiveMessage({ threadId: message.threadId, message }));
     });
 
@@ -77,7 +76,7 @@ const ChatPage = () => {
     setIsMobileChatOpen((prev) => !prev);
   };
 
-  // Отправка сообщения через WebSocket + локально для мгновенного UI
+  // Отправка сообщения через WebSocket
   const handleSendMessage = async (content) => {
     if (!activeConversationId) return;
     const activeThread = threads.find(
@@ -88,9 +87,6 @@ const ChatPage = () => {
 
     // Отправляем через WebSocket
     sendMessage(activeConversationId, recipientUserId, content);
-
-    const messages = await fetchMessages(activeConversationId);
-    console.log("Fetch messages after send:", messages);
   };
 
   return (
