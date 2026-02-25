@@ -21,6 +21,7 @@ import {
   ConversationItem,
   Avatar,
   AvatarImg,
+  AvatarImgNull,
   OnlineIndicator,
   ConversationInfo,
   ConversationName,
@@ -176,11 +177,11 @@ const ConversationListComponent = ({
                   className="avatar"
                 />
               ) : (
-                <div className="avatar-fallback">
+                <AvatarImgNull className="avatar-fallback">
                   {thread?.otherParticipant?.nickName
                     ?.slice(0, 2)
                     .toUpperCase()}
-                </div>
+                </AvatarImgNull>
               )}
               <OnlineIndicator online={thread.isOnline} />
             </Avatar>
