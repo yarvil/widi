@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const UserCardWrapper = styled.div`
   display: flex;
   gap: 10px;
-  align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid #2f3336;
 `;
@@ -15,6 +14,12 @@ export const UserInformation = styled.div`
   align-items: center;
   flex: 1;
   gap: 10px;
+`;
+export const UserWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 5px;
 `;
 
 export const UserName = styled.div`
