@@ -65,6 +65,7 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend(inputValue);
+      setInputValue("");
     }
   };
 
@@ -138,12 +139,6 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
         <SendButton
           onClick={() => {
             handleSend(inputValue);
-            // dispatch(
-            //   sendMessage({
-            //     threadId: activeConversationId,
-            //     content: inputValue,
-            //   }),
-            // );
             setInputValue("");
           }}
           disabled={!inputValue.trim()}
