@@ -4,6 +4,7 @@ import {
   loadThreads,
   loadMessagesByThreads,
   createNewThread,
+  deleteThreadById,
 } from "../chatThunks";
 
 const initialState = {
@@ -64,6 +65,9 @@ const chatSlice = createSlice({
 
     receiveMessage: (state, action) => {
       const { threadId, message } = action.payload;
+
+      // Если чат удалён — игнорируем
+      if (!state.threads.some((t) => t.id === threadId)) return;
 
       if (!state.messages[threadId]) state.messages[threadId] = [];
 
@@ -127,6 +131,31 @@ const chatSlice = createSlice({
           state.messages[conversationId],
           "Messages in redux after fetch",
         );
+      })
+      .addCase(deleteThreadById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteThreadById.fulfilled, (state, action) => {
+        state.loading = false;
+        const threadId = action.payload;
+
+        // 1) Удаляем чат из списка
+        state.threads = state.threads.filter(
+          (thread) => thread.id !== threadId,
+        );
+
+        // 2) Удаляем сообщения
+        delete state.messages[threadId];
+
+        // 3) Если был активный чат
+        if (state.activeConversationId === threadId) {
+          state.activeConversationId = state.threads[0]?.id || null;
+        }
+      })
+      .addCase(deleteThreadById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Delete failed";
       });
   },
 });
