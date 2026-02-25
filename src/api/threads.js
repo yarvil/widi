@@ -13,5 +13,5 @@ export async function fetchMessages(threadId) {
 }
 
 export async function deleteThread(threadId) {
-  return await apiRequest("DELETE", `/api/chat/thread/${threadId}`);
+  return await apiRequest("DELETE", `api/chat/thread/${threadId}`);
 }
