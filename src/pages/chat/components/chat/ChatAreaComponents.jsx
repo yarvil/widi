@@ -72,11 +72,10 @@ const ChatAreaComponent = ({ handleChatList, isChatListOpen, handleSend }) => {
   if (!activeConversation) {
     return (
       <ChatArea>
-        <BackToListButton
-          src={ArrowLeftIcon}
-          onClick={handleChatList}
-          alt="Back to chat list"
-        />
+        <div src={ArrowLeftIcon}>
+          <BackToListButton onClick={handleChatList} alt="Back to chat list" />
+        </div>
+
         <EmptyState>Виберіть чат</EmptyState>
       </ChatArea>
     );
