@@ -127,10 +127,6 @@ const chatSlice = createSlice({
       .addCase(loadMessagesByThreads.fulfilled, (state, action) => {
         const { conversationId, messages } = action.payload;
         state.messages[conversationId] = messages;
-        console.log(
-          state.messages[conversationId],
-          "Messages in redux after fetch",
-        );
       })
       .addCase(deleteThreadById.pending, (state) => {
         state.loading = true;

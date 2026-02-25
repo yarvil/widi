@@ -18,14 +18,14 @@ export function useWebSocket() {
         Authorization: `Bearer ${jwtToken}`,
       },
       reconnectDelay: 5000,
-      debug: (str) => console.log("STOMP DEBUG:", str),
+      // debug: (str) => console.log("STOMP DEBUG:", str),
 
       onConnect: () => {
-        console.log("WebSocket connected");
+        // console.log("WebSocket connected");
         setConnected(true);
       },
 
-      onStompError: (frame) => console.error("STOMP error", frame),
+      // onStompError: (frame) => console.error("STOMP error", frame),
       onWebSocketClose: () => setConnected(false),
     });
 
@@ -54,7 +54,7 @@ export function useWebSocket() {
       (msg) => {
         const data = JSON.parse(msg.body);
         onMessage(data);
-        console.log("RAW MESSAGE:", msg.body);
+        // console.log("RAW MESSAGE:", msg.body);
       },
     );
 
