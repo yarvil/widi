@@ -12,7 +12,7 @@ import {
   selectFeedPagination,
 } from "@/app/store/posts/postsSelectors";
 import { selectorSearch } from "@/app/store/search/searchSelectors";
-import Loader from "@/app/store/authentication/Loader";
+import Loader from "@/shared/components/Loader";
 import PostCard from "@/shared/components/post/PostCard/PostCard";
 import { PostCardWrapper } from "@/shared/components/post/PostCard/PostCard.styled";
 import {

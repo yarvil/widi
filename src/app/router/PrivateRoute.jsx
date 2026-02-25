@@ -4,7 +4,7 @@ import {
   selectAuthLoading,
   selectIsAuthenticated,
 } from "../store/authentication/authSelectors";
-import Loader from "../store/authentication/Loader";
+import Loader from "../../shared/components/Loader";
 
 const PrivateRoute = ({ children }) => {
   const isAuth = useSelector(selectIsAuthenticated);

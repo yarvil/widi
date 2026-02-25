@@ -15,7 +15,7 @@ import {
 import { selectorSearch } from "@/app/store/search/searchSelectors";
 import PageWrapper from "shared/ui/PageWrapper";
 import FullPost from "./components/FullPost/FullPost";
-import Loader from "@/app/store/authentication/Loader";
+import Loader from "@/shared/components/Loader";
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 import CommentCard from "./components/CommentCard/CommentCard";
 import CreatePostForm from "@/pages/feed/components/CreatePostForm/CreatePostForm";

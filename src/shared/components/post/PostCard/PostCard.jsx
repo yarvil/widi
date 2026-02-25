@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import usePostActions from "@/hooks/usePostActions";
-import TimeAgo from "@/shared/ui/TimeAgo";
+import TimeAgo from "@/shared/components/TimeAgo";
 import Actions from "@/shared/components/post/Actions/Actions";
 import ModalWindow from "@/shared/ui/Modal/Modal";
 import EditPostModal from "./EditPostModal";

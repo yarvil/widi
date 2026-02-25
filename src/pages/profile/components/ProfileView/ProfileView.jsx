@@ -7,7 +7,7 @@ import { toggleFollowThunk } from "@/app/store/follows/followsSlice";
 import { subscribeToUser, unsubscribeToUser } from "@/api/notifications";
 import { createNewThread } from "@/app/store/chat/chatThunks";
 import PostCard from "@/shared/components/post/PostCard/PostCard";
-import Loader from "@/app/store/authentication/Loader";
+import Loader from "@/shared/components/Loader";
 
 import PageHeader from "@/shared/ui/PageHeader/PageHeader";
 import {

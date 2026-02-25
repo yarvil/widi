@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import useUser from "@/hooks/useUser";
-import TimeAgo from "@/shared/ui/TimeAgo";
+import TimeAgo from "@/shared/components/TimeAgo";
 import Avatar from "@/shared/ui/Avatar/Avatar";
 import {
   AuthorName,
